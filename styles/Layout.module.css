@@ -1,0 +1,259 @@
+.header {
+  background-color: #800000;
+  color: white;
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.headerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #FFD700;
+  text-decoration: none;
+  font-family: 'Brush Script MT', cursive;
+}
+
+.logoImage {
+  height: 40px;
+  width: auto;
+}
+
+.nav {
+  display: flex;
+  gap: 2rem;
+}
+
+a.navLink {
+  color: white !important;
+  text-decoration: none;
+  transition: color 0.3s;
+  font-family: 'Brush Script MT', cursive;
+  font-size: 1.5rem;
+}
+
+a.navLink:hover {
+  color: #FFD700 !important;
+}
+
+a.navLink:visited {
+  color: white !important;
+}
+
+a.navLink:active {
+  color: #FFD700 !important;
+}
+
+.activeLink {
+  color: #FFD700;
+  font-weight: 600;
+}
+
+.mobileMenuButton {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.mobileMenu {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.95);
+  z-index: 101;
+  padding: 2rem;
+}
+
+.mobileMenuHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.mobileMenuClose {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.mobileNav {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.mobileNavLink {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  padding: 0.5rem 0;
+}
+
+.mobileNavLink:hover {
+  color: #FFD700;
+}
+
+.cartIcon {
+  position: relative;
+  cursor: pointer;
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.cartIcon:hover {
+  background-color: rgba(255, 215, 0, 0.2);
+  color: #FFD700;
+}
+
+.cartIcon:before {
+  content: "🛒";
+  font-size: 1.1rem;
+}
+
+.cartCount {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #FFD700;
+  color: black;
+  border-radius: 50%;
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 0 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.footer {
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 3rem 0 2rem;
+}
+
+.footerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+.footerColumn h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #FFD700;
+}
+
+a.footerLink {
+  display: block;
+  color: white !important;
+  margin-bottom: 0.8rem;
+  text-decoration: none;
+  transition: color 0.3s;
+  font-family: 'Brush Script MT', cursive;
+}
+
+a.footerLink:hover {
+  color: #FFD700 !important;
+}
+
+a.footerLink:visited {
+  color: white !important;
+}
+
+.footerBottom {
+  text-align: center;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ccc;
+}
+
+.socialIcons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.socialIcon {
+  color: white;
+  font-size: 1.5rem;
+  transition: color 0.3s;
+}
+
+.socialIcon:hover {
+  color: #FFD700;
+}
+
+.newsletterForm {
+  display: flex;
+  max-width: 100%;
+}
+
+.newsletterInput {
+  padding: 0.8rem;
+  flex-grow: 1;
+  border: none;
+  border-radius: 4px 0 0 4px;
+}
+
+.newsletterButton {
+  background-color: #FFD700;
+  color: black;
+  border: none;
+  padding: 0 1rem;
+  font-weight: 600;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.newsletterButton:hover {
+  background-color: #f0c800;
+}
+
+@media (max-width: 768px) {
+  .nav {
+    display: none;
+  }
+
+  .mobileMenuButton {
+    display: block;
+  }
+
+  .mobileMenu.open {
+    display: block;
+  }
+} 

@@ -1,0 +1,378 @@
+.container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.main {
+  min-height: 100vh;
+  padding: 2rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.heroSection {
+  width: 100%;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('/images/backgrounds/tire-background.jpg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  overflow: hidden;
+}
+
+.heroSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+}
+
+.heroTitle {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.heroSubtitle {
+  font-size: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.searchSection {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin: -4rem auto 3rem;
+  max-width: 90%;
+  position: relative;
+  z-index: 3;
+}
+
+.searchTabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+}
+
+.searchTab {
+  background: none;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+}
+
+.searchTab:hover {
+  color: #800000;
+  background-color: #f9f9f9;
+}
+
+.activeTab {
+  color: #800000;
+  border-bottom: 3px solid #800000;
+  background-color: rgba(128, 0, 0, 0.05);
+}
+
+.searchForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.searchRow {
+  display: flex;
+  gap: 1rem;
+}
+
+.formGroup {
+  flex: 1;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.formGroup select,
+.formGroup input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.searchButton {
+  background-color: #800000;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.searchButton:hover {
+  background-color: #600000;
+}
+
+.brandsSection {
+  width: 100%;
+  margin-bottom: 3rem;
+}
+
+.sectionTitle {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #333;
+}
+
+.brandGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.brandCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.brandCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.brandLogo {
+  height: 80px;
+  width: auto;
+  margin-bottom: 1rem;
+  object-fit: contain;
+}
+
+.brandName {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.brandDescription {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.featuredProducts {
+  width: 100%;
+  margin-bottom: 3rem;
+}
+
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.productCard {
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.productCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.productImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.productInfo {
+  padding: 1.5rem;
+}
+
+.productName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.productBrand {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.productPrice {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #800000;
+  margin-bottom: 1rem;
+}
+
+.productButton {
+  display: inline-block;
+  background-color: #800000;
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  text-align: center;
+}
+
+.productButton:hover {
+  background-color: #600000;
+}
+
+.originalPrice {
+  text-decoration: line-through;
+  color: #777;
+  margin-right: 10px;
+  font-size: 0.9rem;
+}
+
+.discountedPrice {
+  color: #e00000;
+  font-weight: bold;
+}
+
+.priceContainer {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.quantitySelector {
+  display: flex;
+  align-items: center;
+  margin: 12px 0;
+}
+
+.quantityButton {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  user-select: none;
+}
+
+.quantityButton:hover {
+  background-color: #e0e0e0;
+}
+
+.quantityInput {
+  width: 40px;
+  height: 30px;
+  text-align: center;
+  border: 1px solid #ccc;
+  margin: 0 5px;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.viewDetailsLink {
+  display: inline-block;
+  color: #800000;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: color 0.2s;
+  text-align: center;
+  border: 1px solid #800000;
+}
+
+.viewDetailsLink:hover {
+  background-color: rgba(128, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .heroSection {
+    padding: 3rem 1rem;
+  }
+  
+  .heroTitle {
+    font-size: 2rem;
+  }
+  
+  .searchRow {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .brandGrid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+  
+  .productGrid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+} 

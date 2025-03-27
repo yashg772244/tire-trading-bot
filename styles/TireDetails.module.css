@@ -1,0 +1,147 @@
+.container {
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  min-height: 100vh;
+}
+
+.tireInfo {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.tireInfo:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px rgba(26, 26, 46, 0.15);
+}
+
+.title {
+  margin: 0 0 1rem;
+  font-size: 2rem;
+  color: #2c3e50;
+  font-weight: 700;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 0.5rem;
+}
+
+.size {
+  font-size: 1.25rem;
+  color: #34495e;
+  margin-bottom: 2rem;
+  font-weight: 500;
+}
+
+.pricing {
+  background: linear-gradient(to right, #f8f9fa, #e9f2f9);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border-left: 4px solid #3498db;
+}
+
+.priceRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 0;
+  font-size: 1.1rem;
+  color: #2c3e50;
+}
+
+.priceRow:hover {
+  background-color: rgba(233, 69, 96, 0.05);
+  border-radius: 4px;
+  padding: 0.5rem;
+  transform: translateX(5px);
+}
+
+.priceRow:not(:last-child) {
+  border-bottom: 1px solid #dee2e6;
+}
+
+.priceRow span:last-child {
+  font-weight: 600;
+  color: #2980b9;
+}
+
+.description,
+.features {
+  margin-bottom: 2rem;
+}
+
+.description h2,
+.features h2 {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+  color: #2c3e50;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.description h2:after,
+.features h2:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background-color: #3498db;
+}
+
+.description p,
+.features p {
+  margin: 0;
+  line-height: 1.7;
+  color: #34495e;
+  font-size: 1.05rem;
+}
+
+.chatSection {
+  height: 100%;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(26, 26, 46, 0.1);
+  overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
+  
+  .chatSection {
+    height: 600px;
+    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .tireInfo {
+    padding: 1.5rem;
+  }
+  
+  .title {
+    font-size: 1.75rem;
+  }
+  
+  .size {
+    font-size: 1.1rem;
+  }
+  
+  .priceRow {
+    font-size: 1rem;
+  }
+} 
