@@ -1,0 +1,143 @@
+{
+  "brand": "Michelin",
+  "products": [
+    {
+      "model": "Pilot Sport 4S",
+      "category": "Ultra High Performance Summer",
+      "sizes": [
+        {
+          "full_size": "225/40R18",
+          "width": 225,
+          "aspect_ratio": 40,
+          "rim_size": 18,
+          "load_rating": "92",
+          "speed_rating": "Y"
+        },
+        {
+          "full_size": "245/40R19",
+          "width": 245,
+          "aspect_ratio": 40,
+          "rim_size": 19,
+          "load_rating": "98",
+          "speed_rating": "Y"
+        },
+        {
+          "full_size": "275/35R20",
+          "width": 275,
+          "aspect_ratio": 35,
+          "rim_size": 20,
+          "load_rating": "102",
+          "speed_rating": "Y"
+        }
+      ],
+      "base_price": 299.99,
+      "features": {
+        "type": "Summer",
+        "run_flat": false,
+        "speed_rating": "Y (up to 186 mph)",
+        "benefits": [
+          "Maximum grip in dry conditions",
+          "Excellent braking in wet conditions",
+          "Precise steering response",
+          "40,000 mile warranty"
+        ],
+        "season": "Summer"
+      },
+      "description": "Michelin Pilot Sport 4S tires deliver maximum performance for sports cars, sports coupes, and high-performance sedans. Developed with leading automotive manufacturers, these tires provide exceptional driving experiences with outstanding grip and responsive handling.",
+      "performance_rating": 5,
+      "tread_life": 40000
+    },
+    {
+      "model": "Defender T+H",
+      "category": "Standard Touring All-Season",
+      "sizes": [
+        {
+          "full_size": "205/55R16",
+          "width": 205,
+          "aspect_ratio": 55,
+          "rim_size": 16,
+          "load_rating": "91",
+          "speed_rating": "H"
+        },
+        {
+          "full_size": "215/60R16",
+          "width": 215,
+          "aspect_ratio": 60,
+          "rim_size": 16,
+          "load_rating": "95",
+          "speed_rating": "H"
+        },
+        {
+          "full_size": "225/65R17",
+          "width": 225,
+          "aspect_ratio": 65,
+          "rim_size": 17,
+          "load_rating": "102",
+          "speed_rating": "H"
+        }
+      ],
+      "base_price": 165.99,
+      "features": {
+        "type": "All-Season",
+        "run_flat": false,
+        "speed_rating": "H (up to 130 mph)",
+        "benefits": [
+          "Longest lasting tire in the category",
+          "Great all-weather traction",
+          "Comfortable and quiet ride",
+          "80,000 mile warranty"
+        ],
+        "season": "All-Season"
+      },
+      "description": "The Michelin Defender T+H is designed for everyday heroes who want to protect what matters most. It provides excellent safety, longevity, and comfort for sedans, minivans, and CUVs with the industry's strongest longevity claims.",
+      "performance_rating": 4,
+      "tread_life": 80000
+    },
+    {
+      "model": "X-Ice Snow",
+      "category": "Studless Ice & Snow",
+      "sizes": [
+        {
+          "full_size": "185/65R15",
+          "width": 185,
+          "aspect_ratio": 65,
+          "rim_size": 15,
+          "load_rating": "88",
+          "speed_rating": "T"
+        },
+        {
+          "full_size": "205/55R16",
+          "width": 205,
+          "aspect_ratio": 55,
+          "rim_size": 16,
+          "load_rating": "94",
+          "speed_rating": "H"
+        },
+        {
+          "full_size": "235/55R18",
+          "width": 235,
+          "aspect_ratio": 55,
+          "rim_size": 18,
+          "load_rating": "104",
+          "speed_rating": "H"
+        }
+      ],
+      "base_price": 189.99,
+      "features": {
+        "type": "Winter",
+        "run_flat": false,
+        "speed_rating": "H (up to 130 mph)",
+        "benefits": [
+          "Superior ice braking",
+          "Exceptional snow traction",
+          "Confident winter handling",
+          "40,000 mile warranty"
+        ],
+        "season": "Winter"
+      },
+      "description": "The Michelin X-Ice Snow is engineered to conquer winter's harshest conditions. It provides optimal performance and safety in winter conditions, with exceptional control for winter's unpredictable weather from start to finish.",
+      "performance_rating": 5,
+      "tread_life": 40000
+    }
+  ]
+} 

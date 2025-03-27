@@ -1,0 +1,143 @@
+{
+  "brand": "Continental",
+  "products": [
+    {
+      "model": "ExtremeContact Sport",
+      "category": "Max Performance Summer",
+      "sizes": [
+        {
+          "full_size": "225/45ZR17",
+          "width": 225,
+          "aspect_ratio": 45,
+          "rim_size": 17,
+          "load_rating": "91",
+          "speed_rating": "Y"
+        },
+        {
+          "full_size": "245/40ZR18",
+          "width": 245,
+          "aspect_ratio": 40,
+          "rim_size": 18,
+          "load_rating": "97",
+          "speed_rating": "Y"
+        },
+        {
+          "full_size": "275/35ZR19",
+          "width": 275,
+          "aspect_ratio": 35,
+          "rim_size": 19,
+          "load_rating": "100",
+          "speed_rating": "Y"
+        }
+      ],
+      "base_price": 249.99,
+      "features": {
+        "type": "Summer",
+        "run_flat": false,
+        "speed_rating": "Y (up to 186 mph)",
+        "benefits": [
+          "Exceptional dry grip",
+          "Precise steering feedback",
+          "Impressive wet handling",
+          "30,000 mile warranty"
+        ],
+        "season": "Summer"
+      },
+      "description": "Continental ExtremeContact Sport tires combine track-inspired performance with street-friendly comfort. Developed with championship-winning drivers, these tires deliver the grip and handling enthusiasts demand with durability for everyday driving.",
+      "performance_rating": 4,
+      "tread_life": 30000
+    },
+    {
+      "model": "PureContact LS",
+      "category": "Grand Touring All-Season",
+      "sizes": [
+        {
+          "full_size": "205/55R16",
+          "width": 205,
+          "aspect_ratio": 55,
+          "rim_size": 16,
+          "load_rating": "91",
+          "speed_rating": "H"
+        },
+        {
+          "full_size": "225/50R17",
+          "width": 225,
+          "aspect_ratio": 50,
+          "rim_size": 17,
+          "load_rating": "94",
+          "speed_rating": "V"
+        },
+        {
+          "full_size": "235/45R18",
+          "width": 235,
+          "aspect_ratio": 45,
+          "rim_size": 18,
+          "load_rating": "98",
+          "speed_rating": "V"
+        }
+      ],
+      "base_price": 159.99,
+      "features": {
+        "type": "All-Season",
+        "run_flat": false,
+        "speed_rating": "V (up to 149 mph)",
+        "benefits": [
+          "Long tread life",
+          "Excellent all-season traction",
+          "Quiet, comfortable ride",
+          "70,000 mile warranty"
+        ],
+        "season": "All-Season"
+      },
+      "description": "Continental PureContact LS tires provide luxury sedan and coupe owners with excellent all-season traction, a smooth ride, and long tread life. Advanced technologies combine for a quiet, comfortable driving experience with confident handling in all conditions.",
+      "performance_rating": 4,
+      "tread_life": 70000
+    },
+    {
+      "model": "VikingContact 7",
+      "category": "Studless Ice & Snow",
+      "sizes": [
+        {
+          "full_size": "185/65R15",
+          "width": 185,
+          "aspect_ratio": 65,
+          "rim_size": 15,
+          "load_rating": "88",
+          "speed_rating": "T"
+        },
+        {
+          "full_size": "205/55R16",
+          "width": 205,
+          "aspect_ratio": 55,
+          "rim_size": 16,
+          "load_rating": "94",
+          "speed_rating": "T"
+        },
+        {
+          "full_size": "235/45R18",
+          "width": 235,
+          "aspect_ratio": 45,
+          "rim_size": 18,
+          "load_rating": "98",
+          "speed_rating": "T"
+        }
+      ],
+      "base_price": 169.99,
+      "features": {
+        "type": "Winter",
+        "run_flat": false,
+        "speed_rating": "T (up to 118 mph)",
+        "benefits": [
+          "Excellent snow and ice traction",
+          "Superior braking on ice",
+          "Stable handling in all winter conditions",
+          "No mileage warranty"
+        ],
+        "season": "Winter"
+      },
+      "description": "Continental VikingContact 7 tires are designed to tackle severe winter conditions. With innovative tread design and compounds, these tires provide excellent grip on snow and ice, confident braking, and stable handling for safer winter driving.",
+      "performance_rating": 5,
+      "tread_life": 40000
+    }
+  ]
+} 
