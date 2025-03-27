@@ -9,7 +9,6 @@ An innovative tire e-commerce platform featuring an AI chatbot that helps custom
 - 🔍 Smart tire search and recommendations
 - 📚 RAG-enhanced product knowledge
 - 🛒 Shopping cart and checkout
-- 👤 User authentication
 - 📱 Responsive design
 
 ## Tech Stack
@@ -19,7 +18,6 @@ An innovative tire e-commerce platform featuring an AI chatbot that helps custom
 - Tailwind CSS
 - OpenAI API
 - Prisma (Database ORM)
-- NextAuth.js (Authentication)
 - Vercel AI SDK
 - Vector database for RAG implementation
 
@@ -36,11 +34,8 @@ An innovative tire e-commerce platform featuring an AI chatbot that helps custom
 ```
 OPENAI_API_KEY=your_openai_api_key
 DATABASE_URL=your_database_url
-NEXTAUTH_SECRET=your_nextauth_secret
-NEXTAUTH_URL=http://localhost:3000
 ```
 
 ## License
 
 MIT
-tire-trading-bot
