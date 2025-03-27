@@ -1,0 +1,158 @@
+{
+  "make": "Audi",
+  "models": [
+    {
+      "model": "A3",
+      "years": [
+        {
+          "year": 2022,
+          "trims": [
+            {
+              "trim": "Premium",
+              "oem_tire_sizes": ["225/45R17", "225/40R18"],
+              "optional_tire_sizes": ["235/35R19"],
+              "recommended_brands": ["Michelin", "Continental", "Pirelli", "Bridgestone"]
+            },
+            {
+              "trim": "Premium Plus",
+              "oem_tire_sizes": ["225/40R18"],
+              "optional_tire_sizes": ["235/35R19"],
+              "recommended_brands": ["Michelin", "Continental", "Pirelli", "Bridgestone"]
+            },
+            {
+              "trim": "S Line",
+              "oem_tire_sizes": ["235/35R19"],
+              "optional_tire_sizes": ["235/30R20"],
+              "recommended_brands": ["Michelin", "Pirelli", "Continental", "Goodyear"]
+            }
+          ]
+        },
+        {
+          "year": 2021,
+          "trims": [
+            {
+              "trim": "Premium",
+              "oem_tire_sizes": ["225/45R17", "225/40R18"],
+              "optional_tire_sizes": ["235/35R19"],
+              "recommended_brands": ["Michelin", "Continental", "Pirelli", "Bridgestone"]
+            },
+            {
+              "trim": "Premium Plus",
+              "oem_tire_sizes": ["225/40R18"],
+              "optional_tire_sizes": ["235/35R19"],
+              "recommended_brands": ["Michelin", "Continental", "Pirelli", "Bridgestone"]
+            },
+            {
+              "trim": "S Line",
+              "oem_tire_sizes": ["235/35R19"],
+              "optional_tire_sizes": ["235/30R20"],
+              "recommended_brands": ["Michelin", "Pirelli", "Continental", "Goodyear"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "model": "A4",
+      "years": [
+        {
+          "year": 2022,
+          "trims": [
+            {
+              "trim": "Premium",
+              "oem_tire_sizes": ["245/40R18"],
+              "optional_tire_sizes": ["245/35R19"],
+              "recommended_brands": ["Michelin", "Continental", "Pirelli", "Bridgestone"]
+            },
+            {
+              "trim": "Premium Plus",
+              "oem_tire_sizes": ["245/40R18"],
+              "optional_tire_sizes": ["245/35R19"],
+              "recommended_brands": ["Michelin", "Continental", "Pirelli", "Bridgestone"]
+            },
+            {
+              "trim": "Prestige",
+              "oem_tire_sizes": ["245/35R19"],
+              "optional_tire_sizes": ["255/35R19"],
+              "recommended_brands": ["Michelin", "Pirelli", "Continental", "Goodyear"]
+            }
+          ]
+        },
+        {
+          "year": 2021,
+          "trims": [
+            {
+              "trim": "Premium",
+              "oem_tire_sizes": ["245/40R18"],
+              "optional_tire_sizes": ["245/35R19"],
+              "recommended_brands": ["Michelin", "Continental", "Pirelli", "Bridgestone"]
+            },
+            {
+              "trim": "Premium Plus",
+              "oem_tire_sizes": ["245/40R18"],
+              "optional_tire_sizes": ["245/35R19"],
+              "recommended_brands": ["Michelin", "Continental", "Pirelli", "Bridgestone"]
+            },
+            {
+              "trim": "Prestige",
+              "oem_tire_sizes": ["245/35R19"],
+              "optional_tire_sizes": ["255/35R19"],
+              "recommended_brands": ["Michelin", "Pirelli", "Continental", "Goodyear"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "model": "Q5",
+      "years": [
+        {
+          "year": 2022,
+          "trims": [
+            {
+              "trim": "Premium",
+              "oem_tire_sizes": ["235/60R18"],
+              "optional_tire_sizes": ["255/45R20"],
+              "recommended_brands": ["Michelin", "Continental", "Bridgestone", "Pirelli"]
+            },
+            {
+              "trim": "Premium Plus",
+              "oem_tire_sizes": ["235/60R18", "255/45R20"],
+              "optional_tire_sizes": ["255/40R21"],
+              "recommended_brands": ["Michelin", "Continental", "Bridgestone", "Pirelli"]
+            },
+            {
+              "trim": "Prestige",
+              "oem_tire_sizes": ["255/45R20"],
+              "optional_tire_sizes": ["255/40R21"],
+              "recommended_brands": ["Michelin", "Continental", "Bridgestone", "Pirelli"]
+            }
+          ]
+        },
+        {
+          "year": 2021,
+          "trims": [
+            {
+              "trim": "Premium",
+              "oem_tire_sizes": ["235/60R18"],
+              "optional_tire_sizes": ["255/45R20"],
+              "recommended_brands": ["Michelin", "Continental", "Bridgestone", "Pirelli"]
+            },
+            {
+              "trim": "Premium Plus",
+              "oem_tire_sizes": ["235/60R18", "255/45R20"],
+              "optional_tire_sizes": ["255/40R21"],
+              "recommended_brands": ["Michelin", "Continental", "Bridgestone", "Pirelli"]
+            },
+            {
+              "trim": "Prestige",
+              "oem_tire_sizes": ["255/45R20"],
+              "optional_tire_sizes": ["255/40R21"],
+              "recommended_brands": ["Michelin", "Continental", "Bridgestone", "Pirelli"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+} 

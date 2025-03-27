@@ -1,0 +1,158 @@
+{
+  "make": "Mercedes",
+  "models": [
+    {
+      "model": "C-Class",
+      "years": [
+        {
+          "year": 2022,
+          "trims": [
+            {
+              "trim": "C300",
+              "oem_tire_sizes": ["225/45R18"],
+              "optional_tire_sizes": ["225/40R19", "255/35R19"],
+              "recommended_brands": ["Michelin", "Continental", "Pirelli", "Bridgestone"]
+            },
+            {
+              "trim": "C300 4MATIC",
+              "oem_tire_sizes": ["225/45R18"],
+              "optional_tire_sizes": ["225/40R19", "255/35R19"],
+              "recommended_brands": ["Michelin", "Continental", "Pirelli", "Bridgestone"]
+            },
+            {
+              "trim": "AMG C43",
+              "oem_tire_sizes": ["225/40R19", "255/35R19"],
+              "optional_tire_sizes": ["225/35R20", "255/30R20"],
+              "recommended_brands": ["Michelin", "Pirelli", "Continental", "Goodyear"]
+            }
+          ]
+        },
+        {
+          "year": 2021,
+          "trims": [
+            {
+              "trim": "C300",
+              "oem_tire_sizes": ["225/45R18"],
+              "optional_tire_sizes": ["225/40R19", "255/35R19"],
+              "recommended_brands": ["Michelin", "Continental", "Pirelli", "Bridgestone"]
+            },
+            {
+              "trim": "C300 4MATIC",
+              "oem_tire_sizes": ["225/45R18"],
+              "optional_tire_sizes": ["225/40R19", "255/35R19"],
+              "recommended_brands": ["Michelin", "Continental", "Pirelli", "Bridgestone"]
+            },
+            {
+              "trim": "AMG C43",
+              "oem_tire_sizes": ["225/40R19", "255/35R19"],
+              "optional_tire_sizes": ["225/35R20", "255/30R20"],
+              "recommended_brands": ["Michelin", "Pirelli", "Continental", "Goodyear"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "model": "E-Class",
+      "years": [
+        {
+          "year": 2022,
+          "trims": [
+            {
+              "trim": "E350",
+              "oem_tire_sizes": ["245/45R18"],
+              "optional_tire_sizes": ["245/40R19", "275/35R19"],
+              "recommended_brands": ["Michelin", "Continental", "Pirelli", "Bridgestone"]
+            },
+            {
+              "trim": "E350 4MATIC",
+              "oem_tire_sizes": ["245/45R18"],
+              "optional_tire_sizes": ["245/40R19", "275/35R19"],
+              "recommended_brands": ["Michelin", "Continental", "Pirelli", "Bridgestone"]
+            },
+            {
+              "trim": "AMG E53",
+              "oem_tire_sizes": ["245/40R19", "275/35R19"],
+              "optional_tire_sizes": ["245/35R20", "275/30R20"],
+              "recommended_brands": ["Michelin", "Pirelli", "Continental", "Goodyear"]
+            }
+          ]
+        },
+        {
+          "year": 2021,
+          "trims": [
+            {
+              "trim": "E350",
+              "oem_tire_sizes": ["245/45R18"],
+              "optional_tire_sizes": ["245/40R19", "275/35R19"],
+              "recommended_brands": ["Michelin", "Continental", "Pirelli", "Bridgestone"]
+            },
+            {
+              "trim": "E350 4MATIC",
+              "oem_tire_sizes": ["245/45R18"],
+              "optional_tire_sizes": ["245/40R19", "275/35R19"],
+              "recommended_brands": ["Michelin", "Continental", "Pirelli", "Bridgestone"]
+            },
+            {
+              "trim": "AMG E53",
+              "oem_tire_sizes": ["245/40R19", "275/35R19"],
+              "optional_tire_sizes": ["245/35R20", "275/30R20"],
+              "recommended_brands": ["Michelin", "Pirelli", "Continental", "Goodyear"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "model": "GLE",
+      "years": [
+        {
+          "year": 2022,
+          "trims": [
+            {
+              "trim": "GLE 350",
+              "oem_tire_sizes": ["255/50R19"],
+              "optional_tire_sizes": ["275/45R20", "315/40R21"],
+              "recommended_brands": ["Michelin", "Continental", "Pirelli", "Bridgestone"]
+            },
+            {
+              "trim": "GLE 350 4MATIC",
+              "oem_tire_sizes": ["255/50R19"],
+              "optional_tire_sizes": ["275/45R20", "315/40R21"],
+              "recommended_brands": ["Michelin", "Continental", "Pirelli", "Bridgestone"]
+            },
+            {
+              "trim": "AMG GLE 53",
+              "oem_tire_sizes": ["275/45R21", "315/40R21"],
+              "optional_tire_sizes": ["275/40R22", "315/35R22"],
+              "recommended_brands": ["Michelin", "Pirelli", "Continental", "Goodyear"]
+            }
+          ]
+        },
+        {
+          "year": 2021,
+          "trims": [
+            {
+              "trim": "GLE 350",
+              "oem_tire_sizes": ["255/50R19"],
+              "optional_tire_sizes": ["275/45R20", "315/40R21"],
+              "recommended_brands": ["Michelin", "Continental", "Pirelli", "Bridgestone"]
+            },
+            {
+              "trim": "GLE 350 4MATIC",
+              "oem_tire_sizes": ["255/50R19"],
+              "optional_tire_sizes": ["275/45R20", "315/40R21"],
+              "recommended_brands": ["Michelin", "Continental", "Pirelli", "Bridgestone"]
+            },
+            {
+              "trim": "AMG GLE 53",
+              "oem_tire_sizes": ["275/45R21", "315/40R21"],
+              "optional_tire_sizes": ["275/40R22", "315/35R22"],
+              "recommended_brands": ["Michelin", "Pirelli", "Continental", "Goodyear"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+} 

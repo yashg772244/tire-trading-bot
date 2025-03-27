@@ -1,0 +1,158 @@
+{
+  "make": "BMW",
+  "models": [
+    {
+      "model": "3 Series",
+      "years": [
+        {
+          "year": 2022,
+          "trims": [
+            {
+              "trim": "330i",
+              "oem_tire_sizes": ["225/45R18"],
+              "optional_tire_sizes": ["225/40R19", "245/35R20"],
+              "recommended_brands": ["Michelin", "Bridgestone", "Continental", "Pirelli"]
+            },
+            {
+              "trim": "330i xDrive",
+              "oem_tire_sizes": ["225/45R18"],
+              "optional_tire_sizes": ["225/40R19", "245/35R20"],
+              "recommended_brands": ["Michelin", "Bridgestone", "Continental", "Pirelli"]
+            },
+            {
+              "trim": "M340i",
+              "oem_tire_sizes": ["225/40R19", "255/35R19"],
+              "optional_tire_sizes": ["225/35R20", "255/30R20"],
+              "recommended_brands": ["Michelin", "Pirelli", "Continental", "Bridgestone"]
+            }
+          ]
+        },
+        {
+          "year": 2021,
+          "trims": [
+            {
+              "trim": "330i",
+              "oem_tire_sizes": ["225/45R18"],
+              "optional_tire_sizes": ["225/40R19", "245/35R20"],
+              "recommended_brands": ["Michelin", "Bridgestone", "Continental", "Pirelli"]
+            },
+            {
+              "trim": "330i xDrive",
+              "oem_tire_sizes": ["225/45R18"],
+              "optional_tire_sizes": ["225/40R19", "245/35R20"],
+              "recommended_brands": ["Michelin", "Bridgestone", "Continental", "Pirelli"]
+            },
+            {
+              "trim": "M340i",
+              "oem_tire_sizes": ["225/40R19", "255/35R19"],
+              "optional_tire_sizes": ["225/35R20", "255/30R20"],
+              "recommended_brands": ["Michelin", "Pirelli", "Continental", "Bridgestone"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "model": "5 Series",
+      "years": [
+        {
+          "year": 2022,
+          "trims": [
+            {
+              "trim": "530i",
+              "oem_tire_sizes": ["245/45R18"],
+              "optional_tire_sizes": ["245/40R19", "275/35R19"],
+              "recommended_brands": ["Michelin", "Bridgestone", "Continental", "Pirelli"]
+            },
+            {
+              "trim": "530i xDrive",
+              "oem_tire_sizes": ["245/45R18"],
+              "optional_tire_sizes": ["245/40R19", "275/35R19"],
+              "recommended_brands": ["Michelin", "Bridgestone", "Continental", "Pirelli"]
+            },
+            {
+              "trim": "M550i",
+              "oem_tire_sizes": ["245/40R19", "275/35R19"],
+              "optional_tire_sizes": ["245/35R20", "275/30R20"],
+              "recommended_brands": ["Michelin", "Pirelli", "Continental", "Bridgestone"]
+            }
+          ]
+        },
+        {
+          "year": 2021,
+          "trims": [
+            {
+              "trim": "530i",
+              "oem_tire_sizes": ["245/45R18"],
+              "optional_tire_sizes": ["245/40R19", "275/35R19"],
+              "recommended_brands": ["Michelin", "Bridgestone", "Continental", "Pirelli"]
+            },
+            {
+              "trim": "530i xDrive",
+              "oem_tire_sizes": ["245/45R18"],
+              "optional_tire_sizes": ["245/40R19", "275/35R19"],
+              "recommended_brands": ["Michelin", "Bridgestone", "Continental", "Pirelli"]
+            },
+            {
+              "trim": "M550i",
+              "oem_tire_sizes": ["245/40R19", "275/35R19"],
+              "optional_tire_sizes": ["245/35R20", "275/30R20"],
+              "recommended_brands": ["Michelin", "Pirelli", "Continental", "Bridgestone"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "model": "X3",
+      "years": [
+        {
+          "year": 2022,
+          "trims": [
+            {
+              "trim": "X3 sDrive30i",
+              "oem_tire_sizes": ["245/50R19"],
+              "optional_tire_sizes": ["245/45R20", "275/40R20"],
+              "recommended_brands": ["Michelin", "Bridgestone", "Continental", "Pirelli"]
+            },
+            {
+              "trim": "X3 xDrive30i",
+              "oem_tire_sizes": ["245/50R19"],
+              "optional_tire_sizes": ["245/45R20", "275/40R20"],
+              "recommended_brands": ["Michelin", "Bridgestone", "Continental", "Pirelli"]
+            },
+            {
+              "trim": "X3 M40i",
+              "oem_tire_sizes": ["245/45R20", "275/40R20"],
+              "optional_tire_sizes": ["245/40R21", "275/35R21"],
+              "recommended_brands": ["Michelin", "Pirelli", "Continental", "Bridgestone"]
+            }
+          ]
+        },
+        {
+          "year": 2021,
+          "trims": [
+            {
+              "trim": "X3 sDrive30i",
+              "oem_tire_sizes": ["245/50R19"],
+              "optional_tire_sizes": ["245/45R20", "275/40R20"],
+              "recommended_brands": ["Michelin", "Bridgestone", "Continental", "Pirelli"]
+            },
+            {
+              "trim": "X3 xDrive30i",
+              "oem_tire_sizes": ["245/50R19"],
+              "optional_tire_sizes": ["245/45R20", "275/40R20"],
+              "recommended_brands": ["Michelin", "Bridgestone", "Continental", "Pirelli"]
+            },
+            {
+              "trim": "X3 M40i",
+              "oem_tire_sizes": ["245/45R20", "275/40R20"],
+              "optional_tire_sizes": ["245/40R21", "275/35R21"],
+              "recommended_brands": ["Michelin", "Pirelli", "Continental", "Bridgestone"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+} 
