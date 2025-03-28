@@ -1,90 +1,71 @@
-# Tire Market Research and Analysis
+# Tire Market Analysis 2025
 
 ## Market Overview
 
-The global tire market was valued at approximately $180 billion in 2023 and is projected to reach $230 billion by 2028, growing at a CAGR of 5.2%. Key drivers include:
+The global tire market is projected to reach $325.7 billion by 2025, growing at a CAGR of 4.3% from 2022-2025. Key growth drivers include increasing vehicle production, growing replacement demand, and rising preference for high-performance tires.
 
-- Increasing vehicle production and sales
-- Rising demand for replacement tires
-- Growing awareness of tire safety and performance
-- Technological advancements in tire manufacturing
+## Consumer Trends
 
-## Consumer Behavior Analysis
+1. **Shift toward Premium Brands**: Consumers are increasingly valuing quality and performance over price.
+2. **Eco-Friendly Options**: Growing demand for fuel-efficient and environmentally sustainable tires.
+3. **Online Purchasing**: E-commerce channels for tire sales have grown by 35% over the past two years.
+4. **Price Sensitivity**: Despite premium trends, 68% of consumers still list price as a primary decision factor.
+5. **Service Bundling**: 72% of customers prefer purchasing tires with installation and maintenance services included.
 
-### Purchase Factors (Ranked by Importance)
+## Pricing Strategy Analysis
 
-1. **Price** (76% of consumers rate as highly important)
-2. **Durability/Longevity** (68%)
-3. **Safety ratings** (62%)
-4. **Brand reputation** (54%)
-5. **Fuel efficiency** (47%)
-6. **Seasonal performance** (45%)
-7. **Noise level** (32%)
-8. **Environmental impact** (28%)
+### Competitor Price Benchmarking
 
-### Online Purchasing Trends
+| Brand        | Entry Level | Mid-Range | Premium |
+|--------------|-------------|-----------|---------|
+| Michelin     | $150-180    | $180-240  | $240+   |
+| Bridgestone  | $140-170    | $170-230  | $230+   |
+| Continental  | $130-160    | $160-220  | $220+   |
+| Goodyear     | $120-150    | $150-210  | $210+   |
+| Pirelli      | $145-175    | $175-235  | $235+   |
+| Hankook      | $100-130    | $130-180  | $180+   |
+| Gilda Tyres  | $110-140    | $140-190  | $190+   |
 
-- 42% of tire consumers research online before purchasing
-- 28% purchase tires online and have them installed at local shops
-- 18% purchase directly through specialized tire e-commerce platforms
-- Average comparison time: 1.2 hours across 3.5 websites
+### Observed Discount Patterns
 
-## Brand Positioning
+- **Seasonal Sales**: Average discounts of 15-25% during winter and summer changeover periods
+- **Volume Discounts**: Typical 10-15% discount for complete set (4 tires)
+- **Online vs. In-Store**: Online retailers offering 5-8% lower prices on average
+- **Promotional Events**: Flash sales offering up to 30% discounts on select models
 
-### Premium Segment
-- **Michelin**: Quality leader, longest lasting, highest customer satisfaction
-- **Bridgestone**: Performance leader, technological innovation
-- **Continental**: Safety leader, wet braking performance
-- **Pirelli**: High-performance specialist, OEM supplier to luxury cars
+## Consumer Psychology in Tire Purchasing
 
-### Mid-Range Segment
-- **Goodyear**: Best value-to-performance ratio
-- **BFGoodrich**: Off-road specialist
-- **Hankook**: Rising quality perception, aggressive pricing
-- **Yokohama**: Performance specialist, competitive pricing
+### Key Decision Factors (Ranked)
 
-### Value Segment
-- **Cooper**: Quality basics at reasonable prices
-- **General**: Reliable performance, budget friendly
-- **Kumho**: Entry level pricing with acceptable performance
-- **Nitto**: Specialty applications at competitive prices
+1. Price
+2. Brand reputation
+3. Warranty 
+4. Performance ratings
+5. Fuel efficiency
+6. Noise level
+7. Tread life
 
-## Pricing Strategies
+### Negotiation Behavior
 
-### Competitor Analysis
+- 78% of customers attempt to negotiate tire prices
+- 65% research prices online before visiting a store
+- 42% mention competitor prices when negotiating
+- 83% respond positively to bundle offers (tires + services)
+- 58% will pay more for immediate availability
 
-| Brand | Average Markup | Discount Frequency | Max Discount % | Price Matching |
-|-------|---------------|-------------------|----------------|---------------|
-| Michelin | 45-55% | Low | 15-20% | Selective |
-| Bridgestone | 40-50% | Medium | 20-25% | Yes |
-| Continental | 35-45% | Medium | 20-25% | Yes |
-| Goodyear | 35-40% | High | 25-30% | Yes |
-| Cooper | 30-35% | Very High | 30-40% | Always |
+## Strategic Recommendations
 
-### Seasonal Pricing Trends
+1. **Tiered Pricing Structure**: Maintain good-better-best offerings to capture different market segments
+2. **Dynamic Pricing Algorithm**: Adjust prices based on inventory levels, competitor pricing, and seasonal demand
+3. **Discount Thresholds**: Establish clear discount limits to protect margins
+4. **Upselling Strategy**: Train staff to effectively upsell based on customer vehicle and driving patterns
+5. **Limited-Time Offers**: Create a sense of urgency with time-limited promotions
+6. **Bundle Packages**: Combine tires with services to increase perceived value and total transaction amount
 
-- Winter tire prices peak in October-November (15-20% premium)
-- Summer tire prices peak in March-April (10-15% premium)
-- Deepest discounts in January and July (off-seasons)
+## Emerging Opportunities
 
-## Customer Segments
-
-1. **Safety-Conscious Family Buyers** (34%)
-   - Prioritize safety ratings and longevity
-   - Less price sensitive for quality assurance
-   - Prefer trusted, established brands
-
-2. **Performance Enthusiasts** (22%)
-   - Focus on handling and performance metrics
-   - Brand loyal to performance-oriented manufacturers
-   - Willing to pay premium for specific features
-
-3. **Value Seekers** (29%)
-   - Highly price sensitive
-   - Compare multiple retailers and opportunities
-   - Actively negotiate for better deals
-
-4. **Commercial/Fleet Buyers** (15%)
-   - Focus on total cost of ownership
-   - Require volume discounts
-   - Prioritize longevity and durability 
+- **Subscription Models**: Tire-as-a-service with monthly payments
+- **Mobile Installation**: On-demand tire changing services
+- **Advanced Online Tools**: AR/VR for tire visualization on customer vehicles
+- **AI-Powered Recommendations**: Personalized tire suggestions based on driving habits and locations
+- **Predictive Maintenance**: Connected tire technology for monitoring and service reminders 

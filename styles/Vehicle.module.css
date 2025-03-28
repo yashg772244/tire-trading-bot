@@ -1,0 +1,1489 @@
+.container {
+  min-height: 100vh;
+  background: #f8f9fa;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 2rem;
+  padding-top: 1rem;
+}
+
+.filterSection {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  height: fit-content;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 20px;
+  align-self: flex-start;
+}
+
+.filterSection h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #333;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 0.5rem;
+}
+
+.filterGroup {
+  margin-bottom: 1.5rem;
+}
+
+.filterGroup h3 {
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+  color: #555;
+  font-weight: 600;
+}
+
+.filterOption {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.3rem 0;
+}
+
+.filterOption input[type="checkbox"] {
+  accent-color: #0070f3;
+  width: 18px;
+  height: 18px;
+}
+
+.contentSection {
+  flex: 1;
+  width: 100%;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  color: #0070f3;
+  text-decoration: none;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  transition: color 0.2s;
+  padding: 0.5rem 0;
+}
+
+.backLink:hover {
+  color: #0051b3;
+  text-decoration: underline;
+}
+
+.title {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.description {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 2.5rem;
+}
+
+.searchForm {
+  max-width: 600px;
+  margin: 0 auto 4rem;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.select {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #0070f3;
+  box-shadow: 0 0 0 3px rgba(0, 112, 243, 0.1);
+}
+
+.select:disabled {
+  background-color: #e9ecef;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #dc3545;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.searchButton {
+  width: 100%;
+  padding: 1rem;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.searchButton:hover:not(:disabled) {
+  background-color: #0051b3;
+}
+
+.searchButton:disabled {
+  background-color: #9ec5fe;
+  cursor: not-allowed;
+}
+
+.infoSection {
+  margin-top: 3rem;
+}
+
+.infoSection h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.infoCard {
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.infoCard h3 {
+  margin-bottom: 0.8rem;
+  font-size: 1.3rem;
+  color: #0070f3;
+}
+
+.infoCard p {
+  color: #666;
+  line-height: 1.5;
+}
+
+.content {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  min-height: 70vh;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.noResults {
+  text-align: center;
+  padding: 3rem;
+}
+
+.noResults h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.noResults p {
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.debug {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+  font-family: monospace;
+  color: #666;
+}
+
+.tireList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  gap: 1.5rem;
+}
+
+.tireCard {
+  display: flex;
+  padding: 1.5rem;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background: white;
+  position: relative;
+  align-items: center;
+}
+
+.tireCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tireImage {
+  width: 200px;
+  height: 200px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-right: 1.5rem;
+}
+
+.tireImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.2s;
+}
+
+.tireCard:hover .tireImage img {
+  transform: scale(1.05);
+}
+
+.tireInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  flex: 1;
+}
+
+.tireHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tireHeader h2 {
+  font-size: 1.3rem;
+  color: #333;
+  margin: 0;
+}
+
+.priceContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.originalPrice {
+  font-size: 1.1rem;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.offerPrice {
+  font-size: 1.4rem;
+  color: #e53935;
+  font-weight: 600;
+}
+
+.size {
+  font-size: 1rem;
+  color: #666;
+  margin: 0;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.description {
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.specifications {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.spec {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.value {
+  color: #333;
+}
+
+.quantitySection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.quantityLabel {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.quantityInput {
+  width: 80px;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.quantityInput::-webkit-inner-spin-button,
+.quantityInput::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+.actionButtons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.addToCartButton {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.addToCartButton svg {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+
+.addToCartButton:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+.buyNowButton {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 10;
+}
+
+.buyNowButton:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+}
+
+.negotiateButton {
+  grid-column: 1 / -1;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.negotiateButton:hover {
+  background-color: #219653;
+  transform: translateY(-2px);
+}
+
+.floatingButtons {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  display: flex;
+  gap: 15px;
+  z-index: 15;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+}
+
+.chatButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #3498db;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  z-index: 10;
+  width: fit-content;
+}
+
+.chatButton:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.chatButton svg {
+  width: 20px;
+  height: 20px;
+}
+
+.buyNowFloatingButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e74c3c;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  width: fit-content;
+  min-width: 120px;
+  text-align: center;
+  z-index: 20;
+}
+
+.buyNowFloatingButton:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Style for one tire selected */
+.buyOneButton {
+  background-color: #e74c3c;
+}
+
+.buyOneButton:hover {
+  background-color: #c0392b;
+}
+
+/* Style for multiple tires selected */
+.buyMultipleButton {
+  background-color: #3498db;
+}
+
+.buyMultipleButton:hover {
+  background-color: #2980b9;
+}
+
+/* Style for no tires selected */
+.buyNoneButton {
+  background-color: #95a5a6;
+}
+
+.buyNoneButton:hover {
+  background-color: #7f8c8d;
+}
+
+.chatButton:hover, .buyNowFloatingButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 1200px) {
+  .tireList {
+    grid-template-columns: 1fr;
+  }
+  
+  .container {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .tireCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .tireImage {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .main {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .filterSection {
+    order: 1;
+    position: static;
+    margin-top: 1rem;
+  }
+  
+  .contentSection {
+    order: 0;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .searchForm {
+    padding: 1.5rem;
+  }
+  
+  .container {
+    padding: 0.5rem;
+  }
+  
+  .tireCard {
+    padding: 1rem;
+  }
+  
+  .chatButton {
+    bottom: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+  
+  .actionButtons {
+    grid-template-columns: 1fr;
+  }
+  
+  .buyNowButton,
+  .addToCartButton {
+    grid-column: 1;
+  }
+}
+
+.chatContainer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 350px;
+  height: 450px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.chatHeader {
+  padding: 15px;
+  background-color: #0070f3;
+  color: white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chatHeader button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.chatMessages {
+  flex-grow: 1;
+  padding: 15px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.message {
+  padding: 10px 15px;
+  border-radius: 18px;
+  max-width: 80%;
+  word-break: break-word;
+}
+
+.user {
+  align-self: flex-end;
+  background-color: #0070f3;
+  color: white;
+  border-bottom-right-radius: 5px;
+}
+
+.bot {
+  align-self: flex-start;
+  background-color: #f1f1f1;
+  color: #333;
+  border-bottom-left-radius: 5px;
+}
+
+.checkoutButtonContainer {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.checkoutButton {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-top: 0.5rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkoutButton:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+}
+
+.chatInput {
+  padding: 15px;
+  border-top: 1px solid #eee;
+  display: flex;
+  gap: 10px;
+}
+
+.chatInput input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+}
+
+.chatInput button {
+  padding: 10px 20px;
+  background: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.chatInput button:hover {
+  background: #34495e;
+}
+
+.compareCheckbox {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 2;
+}
+
+.compareCheckbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #0070f3;
+  cursor: pointer;
+}
+
+.compareBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 1rem;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  z-index: 9;
+  display: flex;
+  justify-content: center;
+  height: 70px;
+  overflow: hidden;
+}
+
+.compareBar.active {
+  transform: translateY(0);
+}
+
+.compareBarContent {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow-x: auto;
+  padding: 0 20px;
+}
+
+.compareBarActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: fit-content;
+}
+
+.selectedTires {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+  overflow-x: auto;
+  padding: 5px 0;
+  scrollbar-width: thin;
+  min-width: 0;
+  margin-right: 15px;
+}
+
+.selectedTires::-webkit-scrollbar {
+  height: 6px;
+}
+
+.selectedTires::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 3px;
+}
+
+.selectedTires::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+.selectedTire {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.selectedTire img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.compareButton {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.compareButton:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+.compareButton:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.compareModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
+}
+
+.compareContent {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.compareHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.compareHeader h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin: 0;
+}
+
+.compareHeader button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+}
+
+.compareGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.compareItem {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.compareImage {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.compareImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.compareDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.compareRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.compareLabel {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.compareValue {
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.cartModal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 400px;
+  background: white;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.cartModal.active {
+  transform: translateX(0);
+}
+
+.cartContent {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.cartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.cartHeader h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin: 0;
+}
+
+.cartHeader button {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s;
+}
+
+.cartHeader button:hover {
+  color: #e53935;
+}
+
+.emptyCart {
+  text-align: center;
+  padding: 2rem 0;
+  color: #666;
+}
+
+.emptyCart p {
+  margin: 0.5rem 0;
+}
+
+.cartItems {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 50vh;
+  overflow-y: auto;
+  margin-bottom: 1.5rem;
+}
+
+.cartItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  position: relative;
+}
+
+.cartItemDetails {
+  flex: 2;
+}
+
+.cartItemDetails h3 {
+  margin: 0 0 0.3rem 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.cartItemDetails p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.cartItemQuantity {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.cartItemQuantity button {
+  background: #eee;
+  border: none;
+  border-radius: 4px;
+  width: 28px;
+  height: 28px;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cartItemQuantity button:hover:not(:disabled) {
+  background: #ddd;
+}
+
+.cartItemQuantity button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cartItemQuantity span {
+  font-size: 1rem;
+  width: 30px;
+  text-align: center;
+}
+
+.cartItemPrice {
+  flex: 1;
+  text-align: right;
+  font-weight: 600;
+  color: #333;
+}
+
+.removeItem {
+  background: none;
+  border: none;
+  color: #e53935;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  margin-left: 0.5rem;
+  transition: color 0.2s;
+}
+
+.removeItem:hover {
+  color: #c62828;
+}
+
+.cartSummary {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.cartTotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.cartActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.clearCartButton {
+  padding: 10px 20px;
+  background: #f8f9fa;
+  color: #666;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.clearCartButton:hover {
+  background: #eee;
+}
+
+.checkoutButton {
+  padding: 10px 20px;
+  background: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.checkoutButton:hover {
+  background: #0051b3;
+}
+
+@media (max-width: 768px) {
+  .cartContent {
+    width: 95%;
+    padding: 1.5rem;
+  }
+  
+  .cartItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+  
+  .cartItemQuantity {
+    justify-content: flex-start;
+  }
+  
+  .cartItemPrice {
+    text-align: left;
+  }
+  
+  .removeItem {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .cartActions {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .clearCartButton,
+  .checkoutButton {
+    width: 100%;
+  }
+}
+
+.priceInput {
+  width: 80px;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin: 0.3rem 0;
+  font-size: 0.9rem;
+}
+
+.priceInput:focus {
+  outline: none;
+  border-color: #0070f3;
+}
+
+.compareActions {
+  display: flex;
+  gap: 10px;
+}
+
+.buyNowCompareButton {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.buyNowCompareButton:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.tiresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.tireCard {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tireCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.tireImageContainer {
+  position: relative;
+  height: 200px;
+  background: #f5f5f5;
+}
+
+.tireImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.compareCheckbox {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 5px 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+}
+
+.tireInfo {
+  padding: 1.5rem;
+}
+
+.tireName {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+
+.tireSize {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.tirePrice {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #0070f3;
+  margin-bottom: 0.75rem;
+}
+
+.tireDescription {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.tireFeatures {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.featureTag {
+  background: #f0f7ff;
+  color: #0070f3;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.tireActions {
+  display: flex;
+  gap: 1rem;
+}
+
+.chatButton, .buyButton {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.chatButton {
+  background: #0070f3;
+  color: white;
+}
+
+.chatButton:hover {
+  background: #0052cc;
+}
+
+.buyButton {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.buyButton:hover {
+  background: #e0e0e0;
+}
+
+.compareBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+  padding: 1rem 2rem;
+  z-index: 100;
+}
+
+.compareBarContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.compareBarActions {
+  display: flex;
+  gap: 1rem;
+}
+
+.compareButton, .buySelectedButton {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.compareButton {
+  background: #0070f3;
+  color: white;
+}
+
+.compareButton:hover {
+  background: #0052cc;
+}
+
+.compareButton:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.buySelectedButton {
+  background: #2e7d32;
+  color: white;
+}
+
+.buySelectedButton:hover {
+  background: #1b5e20;
+}
+
+.chatModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.chatModalContent {
+  background: white;
+  width: 90%;
+  max-width: 800px;
+  height: 80vh;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.chatModalHeader {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+}
+
+.chatModalBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .tiresGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .tireActions {
+    flex-direction: column;
+  }
+  
+  .chatModalContent {
+    width: 95%;
+    height: 90vh;
+  }
+} 

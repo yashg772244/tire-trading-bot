@@ -1,129 +1,369 @@
-import React from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
+import styles from '../styles/Home.module.css';
+
+type QuantitiesType = {
+  [key: number]: number;
+};
 
 export default function Home() {
+  const router = useRouter();
+  const [searchType, setSearchType] = useState('vehicle');
+  const [vehicleMake, setVehicleMake] = useState('');
+  const [vehicleModel, setVehicleModel] = useState('');
+  const [vehicleYear, setVehicleYear] = useState('');
+  const [tireWidth, setTireWidth] = useState('');
+  const [tireAspect, setTireAspect] = useState('');
+  const [tireRim, setTireRim] = useState('');
+  const [quantities, setQuantities] = useState<QuantitiesType>({
+    1: 1,
+    2: 1,
+    3: 1
+  });
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (searchType === 'vehicle' && vehicleMake && vehicleModel && vehicleYear) {
+      router.push(`/vehicle/${vehicleMake}/${vehicleModel}/${vehicleYear}`);
+    } else if (searchType === 'size' && tireWidth && tireAspect && tireRim) {
+      router.push(`/tires/size?width=${tireWidth}&aspect=${tireAspect}&rim=${tireRim}`);
+    }
+  };
+
+  const updateQuantity = (id: number, change: number) => {
+    setQuantities(prev => {
+      const newQty = Math.max(1, prev[id] + change);
+      return { ...prev, [id]: newQty };
+    });
+  };
+
+  const addToCart = (id: number, name: string, brand: string, price: number) => {
+    // In a real application, this would add to cart state/localStorage
+    alert(`Added ${quantities[id]} ${brand} ${name} to cart!`);
+  };
+
+  const calculateDiscount = (price: number) => {
+    return (price * 0.95).toFixed(2);
+  };
+
+  const topBrands = [
+    { 
+      id: 'michelin', 
+      name: 'Michelin', 
+      logo: '/images/brands/michelin.png',
+      description: 'Premium performance and durability'
+    },
+    { 
+      id: 'bridgestone', 
+      name: 'Bridgestone', 
+      logo: '/images/brands/bridgestone.png',
+      description: 'Innovation for every driving condition'
+    },
+    { 
+      id: 'continental', 
+      name: 'Continental', 
+      logo: '/images/brands/continental.png',
+      description: 'German engineering for optimal safety'
+    },
+    { 
+      id: 'pirelli', 
+      name: 'Pirelli', 
+      logo: '/images/brands/pirelli.png',
+      description: 'Performance-focused tire technology'
+    }
+  ];
+
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center">
-            <div className="md:w-1/2 mb-8 md:mb-0">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                Find the Perfect Tires for Your Vehicle
-              </h1>
-              <p className="text-xl mb-8">
-                Premium tires at competitive prices with our AI-powered negotiation system.
+      <div className={styles.container}>
+        <main className={styles.main}>
+          <section className={styles.heroSection}>
+            <div className={styles.heroContent}>
+              <h1 className={styles.heroTitle}>Find Your Perfect Tires</h1>
+              <p className={styles.heroSubtitle}>
+                Premium tires for any vehicle, season, or driving style. Experience the difference quality makes.
               </p>
-              <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                <Link href="/vehicle-search">
-                  <span className="bg-white text-blue-700 font-semibold py-3 px-6 rounded-lg hover:bg-blue-50 transition duration-300 inline-block text-center">
-                    Search by Vehicle
-                  </span>
-                </Link>
-                <Link href="/brands">
-                  <span className="bg-transparent border-2 border-white text-white font-semibold py-3 px-6 rounded-lg hover:bg-white hover:text-blue-700 transition duration-300 inline-block text-center">
-                    Browse Brands
-                  </span>
-                </Link>
-              </div>
             </div>
-            <div className="md:w-1/2">
-              <div className="relative">
-                <img 
-                  src="/tire-hero.jpg" 
-                  alt="Premium Tires" 
-                  className="rounded-lg shadow-xl"
-                  width={600}
-                  height={400}
+          </section>
+
+          <section className={styles.searchSection}>
+            <div className={styles.searchTabs}>
+              <button 
+                className={`${styles.searchTab} ${searchType === 'vehicle' ? styles.activeTab : ''}`}
+                onClick={() => setSearchType('vehicle')}
+              >
+                Search by Vehicle
+              </button>
+              <button 
+                className={`${styles.searchTab} ${searchType === 'size' ? styles.activeTab : ''}`}
+                onClick={() => setSearchType('size')}
+              >
+                Search by Tire Size
+              </button>
+            </div>
+
+            <form className={styles.searchForm} onSubmit={handleSearch}>
+              {searchType === 'vehicle' ? (
+                <>
+                  <div className={styles.searchRow}>
+                    <div className={styles.formGroup}>
+                      <label htmlFor="make">Make</label>
+                      <select 
+                        id="make" 
+                        value={vehicleMake}
+                        onChange={(e) => setVehicleMake(e.target.value)}
+                        required
+                      >
+                        <option value="">Select Make</option>
+                        <option value="toyota">Toyota</option>
+                        <option value="honda">Honda</option>
+                        <option value="ford">Ford</option>
+                        <option value="chevrolet">Chevrolet</option>
+                        <option value="bmw">BMW</option>
+                      </select>
+                    </div>
+                    <div className={styles.formGroup}>
+                      <label htmlFor="model">Model</label>
+                      <select 
+                        id="model" 
+                        value={vehicleModel}
+                        onChange={(e) => setVehicleModel(e.target.value)}
+                        required
+                      >
+                        <option value="">Select Model</option>
+                        <option value="camry">Camry</option>
+                        <option value="corolla">Corolla</option>
+                        <option value="civic">Civic</option>
+                        <option value="accord">Accord</option>
+                        <option value="f150">F-150</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className={styles.searchRow}>
+                    <div className={styles.formGroup}>
+                      <label htmlFor="year">Year</label>
+                      <select 
+                        id="year"
+                        value={vehicleYear}
+                        onChange={(e) => setVehicleYear(e.target.value)}
+                        required
+                      >
+                        <option value="">Select Year</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                        <option value="2019">2019</option>
+                      </select>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className={styles.searchRow}>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="width">Width (mm)</label>
+                    <select 
+                      id="width"
+                      value={tireWidth}
+                      onChange={(e) => setTireWidth(e.target.value)}
+                      required
+                    >
+                      <option value="">Select Width</option>
+                      <option value="195">195</option>
+                      <option value="205">205</option>
+                      <option value="215">215</option>
+                      <option value="225">225</option>
+                      <option value="235">235</option>
+                    </select>
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="aspect">Aspect Ratio (%)</label>
+                    <select 
+                      id="aspect"
+                      value={tireAspect}
+                      onChange={(e) => setTireAspect(e.target.value)}
+                      required
+                    >
+                      <option value="">Select Aspect</option>
+                      <option value="45">45</option>
+                      <option value="50">50</option>
+                      <option value="55">55</option>
+                      <option value="60">60</option>
+                      <option value="65">65</option>
+                    </select>
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="rim">Rim Diameter (inches)</label>
+                    <select 
+                      id="rim"
+                      value={tireRim}
+                      onChange={(e) => setTireRim(e.target.value)}
+                      required
+                    >
+                      <option value="">Select Rim</option>
+                      <option value="16">16</option>
+                      <option value="17">17</option>
+                      <option value="18">18</option>
+                      <option value="19">19</option>
+                      <option value="20">20</option>
+                    </select>
+                  </div>
+                </div>
+              )}
+              <button type="submit" className={styles.searchButton}>
+                Find Tires
+              </button>
+            </form>
+          </section>
+
+          <section className={styles.brandsSection}>
+            <h2 className={styles.sectionTitle}>Top Tire Brands</h2>
+            <div className={styles.brandGrid}>
+              {topBrands.map((brand) => (
+                <Link href={`/brands/${brand.id}`} key={brand.id}>
+                  <a className={styles.brandCard}>
+                    <Image 
+                      src={brand.logo} 
+                      alt={`${brand.name} logo`} 
+                      width={120} 
+                      height={80}
+                      className={styles.brandLogo}
+                    />
+                    <h3 className={styles.brandName}>{brand.name}</h3>
+                    <p className={styles.brandDescription}>{brand.description}</p>
+                  </a>
+                </Link>
+              ))}
+            </div>
+          </section>
+
+          <section className={styles.featuredProducts}>
+            <h2 className={styles.sectionTitle}>Featured Tires</h2>
+            <div className={styles.productGrid}>
+              <div className={styles.productCard}>
+                <Image 
+                  src="/images/tires/tire-1.jpg"
+                  alt="Michelin Pilot Sport 4S"
+                  width={300}
+                  height={200}
+                  className={styles.productImage}
                 />
-                <div className="absolute -bottom-5 -right-5 bg-yellow-500 text-white px-4 py-2 rounded-lg shadow-lg">
-                  <span className="font-semibold">AI Price Negotiation</span>
+                <div className={styles.productInfo}>
+                  <h3 className={styles.productName}>Michelin Pilot Sport 4S</h3>
+                  <p className={styles.productBrand}>Michelin</p>
+                  <div className={styles.priceContainer}>
+                    <span className={styles.originalPrice}>$199.99</span>
+                    <span className={styles.discountedPrice}>${calculateDiscount(199.99)}</span>
+                  </div>
+                  <div className={styles.quantitySelector}>
+                    <div className={styles.quantityButton} onClick={() => updateQuantity(1, -1)}>-</div>
+                    <input 
+                      type="text" 
+                      className={styles.quantityInput} 
+                      value={quantities[1]} 
+                      readOnly 
+                    />
+                    <div className={styles.quantityButton} onClick={() => updateQuantity(1, 1)}>+</div>
+                  </div>
+                  <div className={styles.actionButtons}>
+                    <button 
+                      className={styles.productButton} 
+                      onClick={() => addToCart(1, "Pilot Sport 4S", "Michelin", 199.99)}
+                    >
+                      Add to Cart
+                    </button>
+                    <Link href="/tire/1">
+                      <a className={styles.viewDetailsLink}>View Details</a>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+              
+              <div className={styles.productCard}>
+                <Image 
+                  src="/images/tires/tire-2.jpg"
+                  alt="Bridgestone Potenza Sport"
+                  width={300}
+                  height={200}
+                  className={styles.productImage}
+                />
+                <div className={styles.productInfo}>
+                  <h3 className={styles.productName}>Bridgestone Potenza Sport</h3>
+                  <p className={styles.productBrand}>Bridgestone</p>
+                  <div className={styles.priceContainer}>
+                    <span className={styles.originalPrice}>$189.99</span>
+                    <span className={styles.discountedPrice}>${calculateDiscount(189.99)}</span>
+                  </div>
+                  <div className={styles.quantitySelector}>
+                    <div className={styles.quantityButton} onClick={() => updateQuantity(2, -1)}>-</div>
+                    <input 
+                      type="text" 
+                      className={styles.quantityInput} 
+                      value={quantities[2]} 
+                      readOnly 
+                    />
+                    <div className={styles.quantityButton} onClick={() => updateQuantity(2, 1)}>+</div>
+                  </div>
+                  <div className={styles.actionButtons}>
+                    <button 
+                      className={styles.productButton} 
+                      onClick={() => addToCart(2, "Potenza Sport", "Bridgestone", 189.99)}
+                    >
+                      Add to Cart
+                    </button>
+                    <Link href="/tire/3">
+                      <a className={styles.viewDetailsLink}>View Details</a>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+              
+              <div className={styles.productCard}>
+                <Image 
+                  src="/images/tires/tire-3.jpg"
+                  alt="Continental ExtremeContact DWS06"
+                  width={300}
+                  height={200}
+                  className={styles.productImage}
+                />
+                <div className={styles.productInfo}>
+                  <h3 className={styles.productName}>Continental ExtremeContact</h3>
+                  <p className={styles.productBrand}>Continental</p>
+                  <div className={styles.priceContainer}>
+                    <span className={styles.originalPrice}>$179.99</span>
+                    <span className={styles.discountedPrice}>${calculateDiscount(179.99)}</span>
+                  </div>
+                  <div className={styles.quantitySelector}>
+                    <div className={styles.quantityButton} onClick={() => updateQuantity(3, -1)}>-</div>
+                    <input 
+                      type="text" 
+                      className={styles.quantityInput} 
+                      value={quantities[3]} 
+                      readOnly 
+                    />
+                    <div className={styles.quantityButton} onClick={() => updateQuantity(3, 1)}>+</div>
+                  </div>
+                  <div className={styles.actionButtons}>
+                    <button 
+                      className={styles.productButton} 
+                      onClick={() => addToCart(3, "ExtremeContact", "Continental", 179.99)}
+                    >
+                      Add to Cart
+                    </button>
+                    <Link href="/tire/2">
+                      <a className={styles.viewDetailsLink}>View Details</a>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Brands */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Premium Tire Brands</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {['Michelin', 'Bridgestone', 'Continental', 'Pirelli'].map((brand) => (
-              <Link key={brand} href={`/brands/${brand.toLowerCase()}`}>
-                <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 flex flex-col items-center cursor-pointer">
-                  <img
-                    src={`/brands/${brand.toLowerCase()}.png`}
-                    alt={`${brand} Logo`}
-                    className="h-16 object-contain mb-4"
-                  />
-                  <span className="font-semibold text-lg">{brand}</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Why Choose Gilda Tyres?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="text-blue-600 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Quality Guaranteed</h3>
-              <p className="text-gray-600">
-                We only stock premium tires from trusted brands, ensuring safety and performance.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="text-blue-600 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Smart Pricing</h3>
-              <p className="text-gray-600">
-                Our AI-powered negotiation system ensures you get the best price tailored to your needs.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="text-blue-600 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Expert Advice</h3>
-              <p className="text-gray-600">
-                Our AI assistant provides personalized recommendations based on your driving needs.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="py-16 bg-blue-700 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6">Ready to find your perfect tires?</h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Start by entering your vehicle information and our system will recommend the best options.
-          </p>
-          <Link href="/vehicle-search">
-            <span className="bg-white text-blue-700 font-bold py-3 px-8 rounded-lg hover:bg-blue-50 transition duration-300 inline-block">
-              Get Started
-            </span>
-          </Link>
-        </div>
-      </section>
+          </section>
+        </main>
+      </div>
     </Layout>
   );
 } 

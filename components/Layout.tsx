@@ -19,6 +19,7 @@ const Layout: React.FC<LayoutProps> = ({
 }) => {
   const router = useRouter();
   const [cartItemCount, setCartItemCount] = useState(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   // Update the cart count from localStorage when component mounts and when route changes
   useEffect(() => {
@@ -49,9 +50,13 @@ const Layout: React.FC<LayoutProps> = ({
       router.events.off('routeChangeComplete', updateCartCount);
     };
   }, [router.events]);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
   
   return (
-    <div className="min-h-screen flex flex-col">
+    <div>
       <Head>
         <title>{title}</title>
         <meta charSet="utf-8" />
@@ -60,106 +65,147 @@ const Layout: React.FC<LayoutProps> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      <header className="bg-white shadow-md">
-        <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-          <div className="flex items-center">
-            <Link href="/">
-              <span className="text-2xl font-bold text-blue-600 cursor-pointer">Gilda Tyres</span>
-            </Link>
-          </div>
+      <style jsx global>{`
+        /* Global style overrides to ensure link colors are correct */
+        .header a {
+          color: white !important;
+          text-decoration: none;
+        }
+        .header a:visited {
+          color: white !important;
+        }
+        .header a:hover {
+          color: #FFD700 !important;
+        }
+        .header .logo a {
+          color: #FFD700 !important;
+        }
+        .header .activeLink a {
+          color: #FFD700 !important;
+        }
+        .footer a {
+          color: white !important;
+          text-decoration: none;
+        }
+        .footer a:hover {
+          color: #FFD700 !important;
+        }
+      `}</style>
+
+      <header className={styles.header}>
+        <div className={styles.headerContent}>
+          <Link href="/">
+            <a className={styles.logo} style={{color: '#FFD700', textDecoration: 'none'}}>Gilda Tyres</a>
+          </Link>
           
-          <nav className="hidden md:flex space-x-6">
-            <NavLink href="/" label="Home" currentPath={router.pathname} />
-            <NavLink href="/brands" label="Brands" currentPath={router.pathname} />
-            <NavLink href="/vehicle-search" label="Find by Vehicle" currentPath={router.pathname} />
-            <NavLink href="/tire-guide" label="Tire Guide" currentPath={router.pathname} />
-            <NavLink href="/contact" label="Contact" currentPath={router.pathname} />
+          <nav className={styles.nav}>
+            <Link href="/">
+              <a className={router.pathname === '/' ? styles.activeLink : styles.navLink} style={{color: router.pathname === '/' ? '#FFD700' : 'white', textDecoration: 'none'}}>Home</a>
+            </Link>
+            <Link href="/brands">
+              <a className={router.pathname.includes('/brands') ? styles.activeLink : styles.navLink} style={{color: router.pathname.includes('/brands') ? '#FFD700' : 'white', textDecoration: 'none'}}>Brands</a>
+            </Link>
+            <Link href="/vehicle">
+              <a className={router.pathname.includes('/vehicle') ? styles.activeLink : styles.navLink} style={{color: router.pathname.includes('/vehicle') ? '#FFD700' : 'white', textDecoration: 'none'}}>Vehicle Search</a>
+            </Link>
+            <Link href="/cart">
+              <a className={styles.cartIcon} style={{color: 'white', textDecoration: 'none'}}>
+                Cart
+                {cartItemCount > 0 && (
+                  <span className={styles.cartCount}>{cartItemCount}</span>
+                )}
+              </a>
+            </Link>
           </nav>
           
-          <div className="flex items-center space-x-4">
-            <Link href="/cart">
-              <span className="relative cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-600 hover:text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
-                  {cartItemCount}
-                </span>
-              </span>
-            </Link>
-            
-            <button className="block md:hidden">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-          </div>
+          <button className={styles.mobileMenuButton} onClick={toggleMobileMenu}>
+            ☰
+          </button>
         </div>
       </header>
       
-      <main className="flex-grow">
+      {isMobileMenuOpen && (
+        <div className={`${styles.mobileMenu} ${styles.open}`}>
+          <div className={styles.mobileMenuHeader}>
+            <span className={styles.logo}>Gilda Tyres</span>
+            <button className={styles.mobileMenuClose} onClick={toggleMobileMenu}>
+              ✕
+            </button>
+          </div>
+          
+          <nav className={styles.mobileNav}>
+            <Link href="/">
+              <a className={styles.mobileNavLink} onClick={toggleMobileMenu}>Home</a>
+            </Link>
+            <Link href="/brands">
+              <a className={styles.mobileNavLink} onClick={toggleMobileMenu}>Brands</a>
+            </Link>
+            <Link href="/vehicle">
+              <a className={styles.mobileNavLink} onClick={toggleMobileMenu}>Vehicle Search</a>
+            </Link>
+            <Link href="/cart">
+              <a className={styles.mobileNavLink} onClick={toggleMobileMenu}>Cart {cartItemCount > 0 && `(${cartItemCount})`}</a>
+            </Link>
+          </nav>
+        </div>
+      )}
+      
+      <main>
         {children}
       </main>
       
-      <footer className="bg-gray-800 text-white mt-auto">
-        <div className="container mx-auto px-4 py-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Gilda Tyres</h3>
-              <p className="text-gray-300">Your trusted partner for premium tires and exceptional service.</p>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-              <ul className="space-y-2">
-                <li><Link href="/about"><span className="text-gray-300 hover:text-white">About Us</span></Link></li>
-                <li><Link href="/faq"><span className="text-gray-300 hover:text-white">FAQ</span></Link></li>
-                <li><Link href="/shipping"><span className="text-gray-300 hover:text-white">Shipping</span></Link></li>
-                <li><Link href="/returns"><span className="text-gray-300 hover:text-white">Returns</span></Link></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Contact</h3>
-              <ul className="space-y-2 text-gray-300">
-                <li>123 Tire Street</li>
-                <li>New York, NY 10001</li>
-                <li>contact@gildatyres.com</li>
-                <li>(555) 123-4567</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Newsletter</h3>
-              <p className="text-gray-300 mb-2">Subscribe to receive updates on new products and special offers.</p>
-              <div className="flex">
-                <input type="email" placeholder="Your email" className="px-3 py-2 text-gray-800 rounded-l w-full" />
-                <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-r">Subscribe</button>
-              </div>
+      <footer className={styles.footer}>
+        <div className={styles.footerContent}>
+          <div className={styles.footerColumn}>
+            <h3>Gilda Tyres</h3>
+            <p>Your trusted partner for premium tires and exceptional service.</p>
+            <div className={styles.socialIcons}>
+              <span className={styles.socialIcon}>f</span>
+              <span className={styles.socialIcon}>t</span>
+              <span className={styles.socialIcon}>in</span>
+              <span className={styles.socialIcon}>ig</span>
             </div>
           </div>
-          <div className="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
-            <p>&copy; {new Date().getFullYear()} Gilda Tyres. All rights reserved.</p>
+          
+          <div className={styles.footerColumn}>
+            <h3>Quick Links</h3>
+            <Link href="/about">
+              <a className={styles.footerLink} style={{color: 'white', textDecoration: 'none'}}>About Us</a>
+            </Link>
+            <Link href="/faq">
+              <a className={styles.footerLink} style={{color: 'white', textDecoration: 'none'}}>FAQ</a>
+            </Link>
+            <Link href="/shipping">
+              <a className={styles.footerLink} style={{color: 'white', textDecoration: 'none'}}>Shipping</a>
+            </Link>
+            <Link href="/returns">
+              <a className={styles.footerLink} style={{color: 'white', textDecoration: 'none'}}>Returns</a>
+            </Link>
           </div>
+          
+          <div className={styles.footerColumn}>
+            <h3>Contact</h3>
+            <p>123 Tire Street</p>
+            <p>New York, NY 10001</p>
+            <p>contact@gildatyres.com</p>
+            <p>(555) 123-4567</p>
+          </div>
+          
+          <div className={styles.footerColumn}>
+            <h3>Newsletter</h3>
+            <p>Subscribe to receive updates on new products and special offers.</p>
+            <div className={styles.newsletterForm}>
+              <input type="email" placeholder="Your email" className={styles.newsletterInput} />
+              <button className={styles.newsletterButton}>Subscribe</button>
+            </div>
+          </div>
+        </div>
+        
+        <div className={styles.footerBottom}>
+          <p>&copy; {new Date().getFullYear()} Gilda Tyres. All rights reserved.</p>
         </div>
       </footer>
     </div>
-  );
-};
-
-const NavLink: React.FC<{ href: string; label: string; currentPath: string }> = ({ 
-  href, 
-  label, 
-  currentPath 
-}) => {
-  const isActive = currentPath === href || 
-    (href !== '/' && currentPath.startsWith(href));
-  
-  return (
-    <Link href={href}>
-      <span className={`${
-        isActive ? 'text-blue-600 font-semibold' : 'text-gray-600 hover:text-blue-600'
-      } cursor-pointer transition-colors`}>
-        {label}
-      </span>
-    </Link>
   );
 };
 
