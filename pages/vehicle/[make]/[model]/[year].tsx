@@ -144,7 +144,7 @@ export default function VehicleTires() {
       full_size: '225/45R17',
       base_price: 199.99,
       description: 'High-performance summer tire with excellent grip and handling',
-      image_url: '/images/tires/tire-1.jpg',
+      image_url: '/tires/michelin-pilot-sport-4s.jpg',
       features: JSON.stringify({ type: 'Summer' })
     },
     {
@@ -155,7 +155,7 @@ export default function VehicleTires() {
       full_size: '225/45R17',
       base_price: 179.99,
       description: 'All-season tire with excellent wet and dry performance',
-      image_url: '/images/tires/tire-2.jpg',
+      image_url: '/tires/continental-dws06.jpg',
       features: JSON.stringify({ type: 'All-Season' })
     },
     {
@@ -166,7 +166,7 @@ export default function VehicleTires() {
       full_size: '225/45R17',
       base_price: 189.99,
       description: 'Ultra-high performance tire with maximum grip and control',
-      image_url: '/images/tires/tire-3.jpg',
+      image_url: '/tires/bridgestone.webp',
       features: JSON.stringify({ type: 'Summer' })
     }
   ];
@@ -738,9 +738,9 @@ export default function VehicleTires() {
               {filteredTires.map((tire) => (
                 <div key={tire.id} className={styles.tireCard}>
                   <div className={styles.tireImageContainer}>
-                    {tire.id.includes('michelin') ? (
+                    {tire.brand.toLowerCase().includes('michelin') ? (
                       <Image 
-                        src="/images/tires/tire-1.jpg" 
+                        src="/tires/michelin-pilot-sport-4s.jpg" 
                         alt={`${tire.brand} ${tire.model}`}
                         width={300}
                         height={300}
@@ -753,9 +753,9 @@ export default function VehicleTires() {
                           left: 0
                         }}
                       />
-                    ) : tire.id.includes('continental') ? (
+                    ) : tire.brand.toLowerCase().includes('continental') ? (
                       <Image 
-                        src="/images/tires/tire-2.jpg" 
+                        src="/tires/continental-dws06.jpg" 
                         alt={`${tire.brand} ${tire.model}`}
                         width={300}
                         height={300}
@@ -768,9 +768,39 @@ export default function VehicleTires() {
                           left: 0
                         }}
                       />
-                    ) : tire.id.includes('bridgestone') ? (
+                    ) : tire.brand.toLowerCase().includes('bridgestone') ? (
                       <Image 
-                        src="/images/tires/tire-3.jpg" 
+                        src="/tires/bridgestone.webp" 
+                        alt={`${tire.brand} ${tire.model}`}
+                        width={300}
+                        height={300}
+                        style={{
+                          objectFit: 'contain',
+                          width: '100%',
+                          height: '100%',
+                          position: 'absolute',
+                          top: 0,
+                          left: 0
+                        }}
+                      />
+                    ) : tire.brand.toLowerCase().includes('pirelli') ? (
+                      <Image 
+                        src="/tires/Pirelli-Cintaurato-P7.jpg" 
+                        alt={`${tire.brand} ${tire.model}`}
+                        width={300}
+                        height={300}
+                        style={{
+                          objectFit: 'contain',
+                          width: '100%',
+                          height: '100%',
+                          position: 'absolute',
+                          top: 0,
+                          left: 0
+                        }}
+                      />
+                    ) : tire.brand.toLowerCase().includes('goodyear') ? (
+                      <Image 
+                        src="/tires/goodyear-nascar-225-60r16.webp" 
                         alt={`${tire.brand} ${tire.model}`}
                         width={300}
                         height={300}
@@ -785,7 +815,7 @@ export default function VehicleTires() {
                       />
                     ) : (
                       <Image 
-                        src="/images/tires/tire-placeholder.jpg" 
+                        src="/tires/michelin-pilot-sport-4s.jpg" 
                         alt={`${tire.brand} ${tire.model}`}
                         width={300}
                         height={300}
