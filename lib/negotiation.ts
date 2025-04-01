@@ -190,34 +190,34 @@ export function generateResponse(customerIntent: any, discountInfo: any, tireNam
   // Randomly select a template from the appropriate category
   const selectedTemplate = templateCategory[Math.floor(Math.random() * templateCategory.length)];
   
-  // Check if we should suggest buying more tires
+  // Check if we should suggest buying more tires - only for the immediate next tier
   let upsellSuggestion = '';
   
-  // Only suggest more tires if they're not already at max discount tier
-  if (quantity < 13) {
-    let nextTier, nextDiscount;
-    
-    if (quantity < 2) {
-      nextTier = 2;
-      nextDiscount = 8;
-    } else if (quantity < 4) {
-      nextTier = 4;
-      nextDiscount = 11;
-    } else if (quantity < 7) {
-      nextTier = 7;
-      nextDiscount = 15;
-    } else if (quantity < 10) {
-      nextTier = 10;
-      nextDiscount = 18;
-    } else if (quantity < 13) {
-      nextTier = 13;
-      nextDiscount = 20;
-    }
-    
-    if (nextTier && nextDiscount) {
-      const additionalTires = nextTier - quantity;
-      upsellSuggestion = ` By the way, if you purchase ${additionalTires} more tire${additionalTires > 1 ? 's' : ''} (total of ${nextTier}), I could offer you a ${nextDiscount}% discount instead!`;
-    }
+  // Find the immediate next tier based on current quantity
+  let nextTier = 0;
+  let nextDiscount = 0;
+  
+  if (quantity < 2) {
+    nextTier = 2;
+    nextDiscount = 8;
+  } else if (quantity >= 2 && quantity < 4) {
+    nextTier = 4;
+    nextDiscount = 11;
+  } else if (quantity >= 4 && quantity < 7) {
+    nextTier = 7;
+    nextDiscount = 15;
+  } else if (quantity >= 7 && quantity < 10) {
+    nextTier = 10;
+    nextDiscount = 18;
+  } else if (quantity >= 10 && quantity < 13) {
+    nextTier = 13;
+    nextDiscount = 20;
+  }
+  
+  // Only add upsell suggestion if there is a next tier
+  if (nextTier > 0) {
+    const additionalTires = nextTier - quantity;
+    upsellSuggestion = ` By the way, if you purchase ${additionalTires} more tire${additionalTires > 1 ? 's' : ''} (total of ${nextTier}), I could offer you a ${nextDiscount}% discount instead!`;
   }
   
   return selectedTemplate + upsellSuggestion;
