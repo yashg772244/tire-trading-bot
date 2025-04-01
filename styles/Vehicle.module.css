@@ -259,11 +259,12 @@
   position: relative;
   padding-top: 100%;
   width: 100%;
-  background-color: #f9f9f9;
+  background-color: white;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .tireImageContainer > div {
@@ -277,14 +278,11 @@
   justify-content: center;
 }
 
-.tireImage {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+.tireImageContainer img {
   object-fit: contain;
-  padding: 1rem;
+  max-width: 90%;
+  max-height: 90%;
+  opacity: 1 !important;
 }
 
 .tireInfo {

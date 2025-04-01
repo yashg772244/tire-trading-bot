@@ -777,11 +777,7 @@ export default function VehicleTires() {
                           alt={`${tire.brand} ${tire.model}`}
                           width={300}
                           height={300}
-                          style={{
-                            objectFit: 'contain',
-                            maxWidth: '90%',
-                            maxHeight: '90%'
-                          }}
+                          priority
                         />
                       ) : tire.brand.toLowerCase().includes('continental') ? (
                         <Image 
@@ -789,11 +785,7 @@ export default function VehicleTires() {
                           alt={`${tire.brand} ${tire.model}`}
                           width={300}
                           height={300}
-                          style={{
-                            objectFit: 'contain',
-                            maxWidth: '90%',
-                            maxHeight: '90%'
-                          }}
+                          priority
                         />
                       ) : tire.brand.toLowerCase().includes('bridgestone') ? (
                         <Image 
@@ -801,11 +793,7 @@ export default function VehicleTires() {
                           alt={`${tire.brand} ${tire.model}`}
                           width={300}
                           height={300}
-                          style={{
-                            objectFit: 'contain',
-                            maxWidth: '90%',
-                            maxHeight: '90%'
-                          }}
+                          priority
                         />
                       ) : tire.brand.toLowerCase().includes('pirelli') ? (
                         <Image 
@@ -813,11 +801,7 @@ export default function VehicleTires() {
                           alt={`${tire.brand} ${tire.model}`}
                           width={300}
                           height={300}
-                          style={{
-                            objectFit: 'contain',
-                            maxWidth: '90%',
-                            maxHeight: '90%'
-                          }}
+                          priority
                         />
                       ) : tire.brand.toLowerCase().includes('goodyear') ? (
                         <Image 
@@ -825,11 +809,7 @@ export default function VehicleTires() {
                           alt={`${tire.brand} ${tire.model}`}
                           width={300}
                           height={300}
-                          style={{
-                            objectFit: 'contain',
-                            maxWidth: '90%',
-                            maxHeight: '90%'
-                          }}
+                          priority
                         />
                       ) : (
                         <Image 
@@ -837,11 +817,7 @@ export default function VehicleTires() {
                           alt={`${tire.brand} ${tire.model}`}
                           width={300}
                           height={300}
-                          style={{
-                            objectFit: 'contain',
-                            maxWidth: '90%',
-                            maxHeight: '90%'
-                          }}
+                          priority
                         />
                       )}
                       <div className={styles.compareCheckbox}>
