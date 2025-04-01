@@ -744,8 +744,14 @@ export default function VehicleTires() {
                         alt={`${tire.brand} ${tire.model}`}
                         width={300}
                         height={300}
-                        layout="responsive"
-                        objectFit="contain"
+                        style={{
+                          objectFit: 'contain',
+                          width: '100%',
+                          height: '100%',
+                          position: 'absolute',
+                          top: 0,
+                          left: 0
+                        }}
                       />
                     ) : (
                       <Image 
@@ -753,8 +759,14 @@ export default function VehicleTires() {
                         alt={`${tire.brand} ${tire.model}`}
                         width={300}
                         height={300}
-                        layout="responsive"
-                        objectFit="contain"
+                        style={{
+                          objectFit: 'contain',
+                          width: '100%',
+                          height: '100%',
+                          position: 'absolute',
+                          top: 0,
+                          left: 0
+                        }}
                       />
                     )}
                     <div className={styles.compareCheckbox}>
