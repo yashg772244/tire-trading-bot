@@ -113,16 +113,50 @@ const ChatInterface: React.FC<ChatProps> = ({ tireId, tireName }) => {
     const cartItem = {
       id: tireId,
       name: tireName,
-      quantity: checkoutData.quantity,
+      quantity: checkoutData.quantity || 1, // Ensure we have a quantity with fallback
       price: checkoutData.pricePerTire,
+      offerPrice: checkoutData.pricePerTire, // Add the offer price for cart consistency
+      totalPrice: checkoutData.totalPrice, // Add the total price
       image: `/images/tires/${tireId}.jpg`
     };
     
-    // Add to local storage cart
-    const existingCart = localStorage.getItem('cart');
-    const cart = existingCart ? JSON.parse(existingCart) : [];
-    cart.push(cartItem);
-    localStorage.setItem('cart', JSON.stringify(cart));
+    // Update/add to local storage cart
+    let cart = [];
+    const existingCart = localStorage.getItem('tireCart');
+    
+    if (existingCart) {
+      try {
+        cart = JSON.parse(existingCart);
+        
+        // Check if this tire already exists in cart
+        const existingItemIndex = cart.findIndex((item: any) => item.id === tireId);
+        
+        if (existingItemIndex >= 0) {
+          // Update the existing item
+          cart[existingItemIndex] = {
+            ...cart[existingItemIndex],
+            quantity: checkoutData.quantity || 1,
+            price: checkoutData.pricePerTire,
+            offerPrice: checkoutData.pricePerTire,
+            totalPrice: checkoutData.totalPrice
+          };
+        } else {
+          // Add new item
+          cart.push(cartItem);
+        }
+      } catch (e) {
+        console.error('Error parsing cart:', e);
+        cart = [cartItem]; // Reset cart if there's an error
+      }
+    } else {
+      cart = [cartItem];
+    }
+    
+    // Save updated cart
+    localStorage.setItem('tireCart', JSON.stringify(cart));
+    
+    // Display confirmation
+    alert(`Added ${checkoutData.quantity} ${tireName} tire${checkoutData.quantity > 1 ? 's' : ''} to your cart!`);
     
     // Navigate to cart page
     router.push('/cart');

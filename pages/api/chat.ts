@@ -67,6 +67,23 @@ interface DiscountInfo {
   totalSavings: number;
 }
 
+interface ChatRequest {
+  message: string;
+  tireId: number;
+  selectedTire?: {
+    id: number;
+    name: string;
+    basePrice: number;
+    offer_price?: number;
+  };
+  quantity?: number;
+  sessionId?: string;
+  messages?: Array<{
+    sender: string;
+    text: string;
+  }>;
+}
+
 const userSessions: Record<string, ConversationState> = {};
 
 export default async function handler(
@@ -77,7 +94,14 @@ export default async function handler(
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  const { message, tireId, sessionId, messages = [] } = req.body;
+  const { 
+    message, 
+    tireId, 
+    selectedTire,
+    quantity = 1,
+    sessionId,
+    messages = [] 
+  } = req.body as ChatRequest;
 
   if (!message) {
     return res.status(400).json({ message: 'Message is required' });
@@ -92,7 +116,7 @@ export default async function handler(
     userSessions[sessionIdentifier] = {
       currentDiscount: 0,
       agreedPrice: null,
-      quantity: 1,
+      quantity: quantity || 1,
       checkoutReady: false,
       tireId: tire.id,
       tireName: tire.name,
@@ -101,6 +125,11 @@ export default async function handler(
       isReturningCustomer: false,
       isPromotionalPeriod: false
     };
+  } else {
+    // Update quantity if provided
+    if (quantity) {
+      userSessions[sessionIdentifier].quantity = quantity;
+    }
   }
   
   // Get the current state
@@ -108,15 +137,33 @@ export default async function handler(
   
   try {
     // First, analyze customer intent for quantity and checkout readiness
-    const intent = analyzeCustomerIntent(message) as CustomerIntent;
+    const intent = analyzeCustomerIntent(message);
     
-    // Update quantity if mentioned
-    if (intent.mentioningQuantity) {
+    // Update quantity if mentioned and greater than 0
+    if (intent.mentioningQuantity && intent.quantity > 0) {
       state.quantity = intent.quantity;
     }
     
+    // Extract quantity from the entire conversation if it exists
+    if (!intent.mentioningQuantity && !state.quantity) {
+      for (const msg of messages) {
+        if (msg.sender === 'user') {
+          const msgIntent = analyzeCustomerIntent(msg.text);
+          if (msgIntent.mentioningQuantity && msgIntent.quantity > 0) {
+            state.quantity = msgIntent.quantity;
+            break;
+          }
+        }
+      }
+    }
+    
+    // Default to 1 if we still don't have a quantity
+    if (!state.quantity) {
+      state.quantity = 1;
+    }
+    
     // Check for checkout intent
-    if (intent.readyToBuy) {
+    if (intent.readyToBuy || message.toLowerCase().includes('checkout') || message.toLowerCase().includes('proceed')) {
       state.checkoutReady = true;
       
       // Calculate final price with all discounts
@@ -127,21 +174,22 @@ export default async function handler(
         isPromotionalPeriod: state.isPromotionalPeriod,
         costPrice: state.costPrice,
         competitorPrice: null
-      }) as DiscountInfo;
+      });
       
       state.agreedPrice = discountInfo.finalPrice;
       
       const finalPrice = state.agreedPrice || state.basePrice;
+      const totalPrice = finalPrice * state.quantity;
       
       return res.status(200).json({ 
-        message: `Great! I'll set up your order for ${state.quantity} ${state.tireName} tires at $${finalPrice.toFixed(2)} each. Your total comes to $${(finalPrice * state.quantity).toFixed(2)}. You can proceed to checkout now.`,
+        message: `Great! I'll set up your order for ${state.quantity} ${state.tireName} tire${state.quantity > 1 ? 's' : ''} at $${finalPrice.toFixed(2)} each. Your total comes to $${totalPrice.toFixed(2)}. You can proceed to checkout now.`,
         action: {
           type: 'CHECKOUT',
           data: {
             tireId: state.tireId,
             quantity: state.quantity,
             pricePerTire: finalPrice,
-            totalPrice: finalPrice * state.quantity
+            totalPrice: totalPrice
           }
         }
       });
@@ -160,10 +208,18 @@ export default async function handler(
     });
     
     // Get tire info for the chat context
-    const tireInfo = getTireInfo(state.tireId);
+    const tireInfo = selectedTire || getTireInfo(state.tireId);
+    
+    // Update basePrice if selectedTire provides one
+    if (selectedTire?.basePrice) {
+      state.basePrice = selectedTire.basePrice;
+    }
     
     // Generate response from Gemini
-    const geminiResponse = await generateChatResponse(formattedMessages, tireInfo);
+    const geminiResponse = await generateChatResponse(formattedMessages, {
+      name: tireInfo.name,
+      basePrice: tireInfo.basePrice
+    });
     
     // If user is asking for a discount or mentioning a competitor, 
     // we should apply our discount logic
@@ -176,7 +232,7 @@ export default async function handler(
         isPromotionalPeriod: true, // Always enable promotional pricing when negotiating
         costPrice: state.costPrice,
         competitorPrice: null
-      }) as DiscountInfo;
+      });
       
       // Update the state with new discount information
       state.agreedPrice = discountInfo.finalPrice;
@@ -188,8 +244,36 @@ export default async function handler(
     console.error('Error in chat handler:', error);
     
     // Fallback to our rule-based response if Gemini API fails
-    const { response } = processMessage(message, state, messages);
-    res.status(200).json({ message: response });
+    // We need to create a similar format to what the client expects
+    try {
+      // Create formatted messages in the format that generateChatResponse expects
+      const formattedMessages = messages.map((msg: any) => ({
+        role: msg.sender === 'user' ? 'user' : 'assistant',
+        content: msg.text
+      }));
+      
+      // Add current message
+      formattedMessages.push({
+        role: 'user',
+        content: message
+      });
+      
+      // Get tire info
+      const tireInfo = selectedTire || getTireInfo(state.tireId);
+      
+      // Generate fallback response
+      const response = await generateChatResponse(formattedMessages, {
+        name: tireInfo.name,
+        basePrice: tireInfo.basePrice
+      });
+      
+      res.status(200).json({ message: response });
+    } catch (fallbackError) {
+      // If even the fallback fails, return a simple message
+      res.status(200).json({ 
+        message: `I apologize for the confusion. For ${state.quantity} tires, I can offer you our standard discount. Would you like to proceed with checkout?`
+      });
+    }
   }
 }
 

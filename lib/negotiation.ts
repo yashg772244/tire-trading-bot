@@ -11,7 +11,13 @@ export function analyzeCustomerIntent(message: string) {
     lowerMessage.includes('better price') || 
     lowerMessage.includes('lower price') ||
     lowerMessage.includes('deal') ||
-    lowerMessage.includes('offer');
+    lowerMessage.includes('offer') ||
+    lowerMessage.includes('dscont') || // Handle typos
+    lowerMessage.includes('more discount') ||
+    lowerMessage.includes('further discount') ||
+    lowerMessage.includes('better deal') ||
+    lowerMessage.includes('good price') ||
+    lowerMessage.includes('best price');
   
   // Check for competitor mentions
   const mentioningCompetitor = 
@@ -20,12 +26,55 @@ export function analyzeCustomerIntent(message: string) {
     lowerMessage.includes('somewhere else') ||
     lowerMessage.includes('tire kingdom') ||
     lowerMessage.includes('discount tire') ||
-    lowerMessage.includes('costco');
+    lowerMessage.includes('costco') ||
+    lowerMessage.includes('walmart') ||
+    lowerMessage.includes('amazon') ||
+    lowerMessage.includes('cheaper at') ||
+    lowerMessage.includes('less at') ||
+    lowerMessage.includes('better price at');
   
-  // Extract quantity mentions
-  const quantityMatch = lowerMessage.match(/\b(\d+)\s*(?:tire|tires|tyres?)\b/i);
-  const mentioningQuantity = !!quantityMatch;
-  const quantity = quantityMatch ? parseInt(quantityMatch[1]) : 1;
+  // Extract quantity mentions - support multiple formats
+  let quantity = 1;
+  let mentioningQuantity = false;
+  
+  // Method 1: Number followed by "tire/tires/tyres"
+  const tireQuantityMatch = lowerMessage.match(/\b(\d+)\s*(?:tire|tires|tyres?)\b/i);
+  if (tireQuantityMatch) {
+    quantity = parseInt(tireQuantityMatch[1]);
+    mentioningQuantity = true;
+  } 
+  // Method 2: Just a number (1-20 range to avoid confusion)
+  else if (/^\s*(\d{1,2})\s*$/.test(lowerMessage)) {
+    const numMatch = lowerMessage.match(/^\s*(\d{1,2})\s*$/);
+    if (numMatch) {
+      const parsedNum = parseInt(numMatch[1]);
+      // Only consider pure numbers between 1-20 as quantities
+      if (parsedNum >= 1 && parsedNum <= 20) {
+        quantity = parsedNum;
+        mentioningQuantity = true;
+      }
+    }
+  }
+  // Method 3: Text numbers
+  else {
+    const textNumbers: {[key: string]: number} = {
+      'one': 1, 'two': 2, 'three': 3, 'four': 4, 
+      'five': 5, 'six': 6, 'seven': 7, 'eight': 8,
+      'nine': 9, 'ten': 10, 'eleven': 11, 'twelve': 12,
+      'thirteen': 13, 'fourteen': 14, 'fifteen': 15,
+      'sixteen': 16, 'seventeen': 17, 'eighteen': 18,
+      'nineteen': 19, 'twenty': 20
+    };
+    
+    for (const [word, value] of Object.entries(textNumbers)) {
+      const regex = new RegExp(`\\b${word}\\s*(?:tire|tires|tyres?)?\\b`, 'i');
+      if (regex.test(lowerMessage)) {
+        quantity = value;
+        mentioningQuantity = true;
+        break;
+      }
+    }
+  }
   
   // Check if ready to buy
   const readyToBuy = 
@@ -34,7 +83,12 @@ export function analyzeCustomerIntent(message: string) {
     lowerMessage.includes('check out') ||
     lowerMessage.includes('checkout') ||
     lowerMessage.includes('add to cart') ||
-    lowerMessage.includes('buy it');
+    lowerMessage.includes('buy it') ||
+    lowerMessage.includes('proceed') ||
+    lowerMessage.includes('get it') ||
+    lowerMessage.includes('i\'ll take it') ||
+    lowerMessage.includes('i will take it') ||
+    lowerMessage.includes('sounds good');
     
   return {
     askingForDiscount,
