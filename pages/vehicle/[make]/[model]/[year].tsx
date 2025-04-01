@@ -385,8 +385,8 @@ export default function VehicleTires() {
   };
 
   const calculateOfferPrice = (basePrice: number) => {
-    // Example discount calculation - you can modify this logic
-    const discountPercent = Math.floor(Math.random() * 15) + 5; // Random discount between 5-20%
+    // Apply a fixed 15% discount
+    const discountPercent = 15;
     const discountAmount = (basePrice * discountPercent) / 100;
     return (basePrice - discountAmount).toFixed(2);
   };
@@ -738,20 +738,23 @@ export default function VehicleTires() {
               {filteredTires.map((tire) => (
                 <div key={tire.id} className={styles.tireCard}>
                   <div className={styles.tireImageContainer}>
-                    {tire.image_url && tire.image_url.startsWith('/') ? (
+                    {tire.image_url ? (
                       <Image 
-                        src={tire.image_url} 
+                        src={tire.image_url.startsWith('/') ? tire.image_url : `/images/tires/tire-placeholder.jpg`} 
                         alt={`${tire.brand} ${tire.model}`}
-                        className={styles.tireImage}
                         width={300}
                         height={300}
+                        layout="responsive"
                         objectFit="contain"
                       />
                     ) : (
-                      <img 
-                        src={"/images/tires/tire-placeholder.jpg"} 
-                        alt={`${tire.brand} ${tire.model}`} 
-                        className={styles.tireImage}
+                      <Image 
+                        src="/images/tires/tire-placeholder.jpg" 
+                        alt={`${tire.brand} ${tire.model}`}
+                        width={300}
+                        height={300}
+                        layout="responsive"
+                        objectFit="contain"
                       />
                     )}
                     <div className={styles.compareCheckbox}>
@@ -770,7 +773,7 @@ export default function VehicleTires() {
                     <div className={styles.priceContainer}>
                       <span className={styles.originalPrice}>${tire.base_price.toFixed(2)}</span>
                       <span className={styles.discountedPrice}>${offerPrices[tire.id] || calculateOfferPrice(tire.base_price)}</span>
-                      <span style={{marginLeft: '5px', fontSize: '0.8rem', color: '#e00000'}}>Save 5%</span>
+                      <span style={{marginLeft: '5px', fontSize: '0.8rem', color: '#e00000'}}>Save 15%</span>
                     </div>
                     <p className={styles.tireDescription}>{tire.description}</p>
                     {tire.features && (

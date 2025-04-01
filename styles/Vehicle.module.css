@@ -238,7 +238,7 @@
 .tiresGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
+  gap: 1.5rem;
   width: 100%;
 }
 
@@ -251,12 +251,13 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
+  max-width: 100%;
 }
 
 .tireImageContainer {
   position: relative;
-  padding-top: 75%;
+  padding-top: 60%;
   width: 100%;
   background-color: #f9f9f9;
 }
@@ -272,98 +273,100 @@
 }
 
 .tireInfo {
-  padding: 1.5rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
 .tireName {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  margin-bottom: 0.4rem;
   color: #222;
   font-weight: 600;
 }
 
 .tireSize {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #666;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
 .priceContainer {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .originalPrice {
   text-decoration: line-through;
   color: #999;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 .discountedPrice {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 600;
   color: #800000;
 }
 
 .tireDescription {
-  font-size: 0.9rem;
-  line-height: 1.5;
+  font-size: 0.85rem;
+  line-height: 1.4;
   color: #555;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   flex-grow: 1;
+  max-height: 4.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 
 .quantitySelector {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
   width: fit-content;
 }
 
 .quantityButton {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #f5f5f5;
   cursor: pointer;
   user-select: none;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   transition: background 0.2s;
 }
 
-.quantityButton:hover {
-  background: #e0e0e0;
-}
-
 .quantityInput {
-  width: 40px;
+  width: 35px;
   text-align: center;
   border: none;
-  font-size: 1rem;
-  padding: 0.5rem 0;
+  font-size: 0.9rem;
+  padding: 0.4rem 0;
 }
 
 .tireActions {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .chatButton, .addToCartButton, .buyButton {
-  padding: 0.75rem;
+  padding: 0.6rem 0.5rem;
   border: none;
   border-radius: 4px;
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   cursor: pointer;
   transition: background 0.2s, transform 0.1s;
   text-align: center;
@@ -376,7 +379,6 @@
 
 .chatButton:hover {
   background: #0052cc;
-  transform: translateY(-2px);
 }
 
 .addToCartButton {
@@ -386,7 +388,6 @@
 
 .addToCartButton:hover {
   background: #600000;
-  transform: translateY(-2px);
 }
 
 .buyButton {
@@ -396,13 +397,21 @@
 
 .buyButton:hover {
   background: #1b5e20;
-  transform: translateY(-2px);
 }
 
 @media (max-width: 1024px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
+  
+  .filterSection {
+    position: static;
+    margin-bottom: 1.5rem;
+  }
+  
   .tiresGrid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
+    gap: 1rem;
   }
 }
 
