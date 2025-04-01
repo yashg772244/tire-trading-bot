@@ -1,190 +1,156 @@
 import React, { useState, useRef, useEffect } from 'react';
-import styles from '../styles/ChatInterface.module.css';
+import styles from '@/styles/Chat.module.css';
 import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
 
-type Message = {
-  id: string;
-  sender: 'user' | 'assistant';
-  text: string;
-  timestamp: Date;
-};
+interface Message {
+  role: 'user' | 'bot';
+  content: string;
+  showCheckoutButton?: boolean;
+  checkoutData?: {
+    tireId: number;
+    quantity: number;
+    pricePerTire: number;
+    totalPrice: number;
+  }
+}
 
-type CheckoutData = {
-  tireId: number;
-  quantity: number;
-  pricePerTire: number;
-  totalPrice: number;
-};
-
-interface ChatInterfaceProps {
+interface ChatProps {
   tireId: number;
   tireName: string;
 }
 
-const ChatInterface: React.FC<ChatInterfaceProps> = ({ tireId, tireName }) => {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [sessionId, setSessionId] = useState('');
-  const [checkoutData, setCheckoutData] = useState<CheckoutData | null>(null);
-  
+const ChatInterface: React.FC<ChatProps> = ({ tireId, tireName }) => {
+  const [messages, setMessages] = useState<Message[]>([
+    { role: 'bot', content: `Hi! I'm your tire expert for the ${tireName}. How can I help you today?` }
+  ]);
+  const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  // Initialize session ID and welcome message
+  // Auto-scroll to bottom of messages
   useEffect(() => {
-    if (!sessionId) {
-      const newSessionId = `tire_${tireId}_${uuidv4()}`;
-      setSessionId(newSessionId);
-      
-      // Add welcome message
-      const welcomeMessage: Message = {
-        id: uuidv4(),
-        sender: 'assistant',
-        text: `Hi there! I'm your tire expert. How can I help you with the ${tireName} tires today?`,
-        timestamp: new Date()
-      };
-      
-      setMessages([welcomeMessage]);
-    }
-  }, [sessionId, tireId, tireName]);
-
-  // Scroll to bottom when messages change
-  useEffect(() => {
-    scrollToBottom();
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Handle form submission
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (input.trim() === '') return;
-    
-    // Add user message to state
-    const userMessage: Message = {
-      id: uuidv4(),
-      sender: 'user',
-      text: input,
-      timestamp: new Date()
-    };
-    
-    setMessages(prevMessages => [...prevMessages, userMessage]);
-    setInput('');
-    setLoading(true);
-    
+    if (!inputValue.trim()) return;
+
+    // Add user message to chat
+    const userMessage = { role: 'user' as const, content: inputValue };
+    setMessages(prev => [...prev, userMessage]);
+    setInputValue('');
+    setIsLoading(true);
+    setApiError(null);
+
     try {
-      // Make API request to chat endpoint
+      // Extract quantity from message if present
+      const quantityMatch = inputValue.toLowerCase().match(/(\d+)\s*(?:tire|tyre)s?/i);
+      const quantity = quantityMatch ? parseInt(quantityMatch[1]) : 1;
+
+      // Send message to backend for processing
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          message: input,
+          message: inputValue,
           tireId,
-          sessionId,
-          messages: messages
+          selectedTire: {
+            id: tireId,
+            name: tireName,
+            basePrice: 199.99 // This should be passed as prop in a real implementation
+          },
+          quantity,
+          messages: messages.map(msg => ({
+            sender: msg.role,
+            text: msg.content
+          }))
         }),
       });
-      
+
       if (!response.ok) {
-        throw new Error('Failed to send message');
+        throw new Error('Failed to get response from server');
       }
-      
+
       const data = await response.json();
-      
-      // Check if the response includes a checkout action
+
+      // Add bot response
       if (data.action && data.action.type === 'CHECKOUT') {
-        setCheckoutData(data.action.data);
+        setMessages(prev => [...prev, { 
+          role: 'bot', 
+          content: data.message,
+          showCheckoutButton: true,
+          checkoutData: data.action.data
+        }]);
+      } else {
+        setMessages(prev => [...prev, { 
+          role: 'bot', 
+          content: data.message 
+        }]);
       }
-      
-      // Add assistant response to state
-      const assistantMessage: Message = {
-        id: uuidv4(),
-        sender: 'assistant',
-        text: data.message,
-        timestamp: new Date()
-      };
-      
-      setMessages(prevMessages => [...prevMessages, assistantMessage]);
     } catch (error) {
-      console.error('Error sending message:', error);
-      
-      // Add error message
-      const errorMessage: Message = {
-        id: uuidv4(),
-        sender: 'assistant',
-        text: 'Sorry, I encountered an error. Please try again later.',
-        timestamp: new Date()
-      };
-      
-      setMessages(prevMessages => [...prevMessages, errorMessage]);
+      console.error('Error in chat:', error);
+      setApiError('Sorry, there was an error communicating with our server. Please try again in a moment.');
+      setMessages(prev => [...prev, { 
+        role: 'bot', 
+        content: 'Sorry, there was an error processing your request. Our team is working on it!' 
+      }]);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
   // Handle checkout
-  const handleCheckout = () => {
-    if (checkoutData) {
-      // Add the negotiated items to cart
-      const cartItem = {
-        id: tireId,
-        name: tireName,
-        quantity: checkoutData.quantity,
-        price: checkoutData.pricePerTire,
-        image: `/images/tires/${tireId}.jpg`
-      };
-      
-      // Get existing cart from localStorage or initialize empty array
-      const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
-      
-      // Check if the item already exists in cart
-      const existingItemIndex = existingCart.findIndex((item: any) => item.id === tireId);
-      
-      if (existingItemIndex !== -1) {
-        // Update the existing item
-        existingCart[existingItemIndex] = cartItem;
-      } else {
-        // Add new item
-        existingCart.push(cartItem);
-      }
-      
-      // Save back to localStorage
-      localStorage.setItem('cart', JSON.stringify(existingCart));
-      
-      // Navigate to cart page
-      router.push('/cart');
-    }
-  };
-
-  // Scroll to the bottom of the message list
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  const handleCheckout = (checkoutData?: Message['checkoutData']) => {
+    if (!checkoutData) return;
+    
+    // Add the negotiated items to cart
+    const cartItem = {
+      id: tireId,
+      name: tireName,
+      quantity: checkoutData.quantity,
+      price: checkoutData.pricePerTire,
+      image: `/images/tires/${tireId}.jpg`
+    };
+    
+    // Add to local storage cart
+    const existingCart = localStorage.getItem('cart');
+    const cart = existingCart ? JSON.parse(existingCart) : [];
+    cart.push(cartItem);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
+    // Navigate to cart page
+    router.push('/cart');
   };
 
   return (
     <div className={styles.chatContainer}>
-      <div className={styles.chatHeader}>
-        <h3>Chat with Tire Expert</h3>
-      </div>
-      
       <div className={styles.messagesContainer}>
-        {messages.map(message => (
+        {messages.map((message, index) => (
           <div 
-            key={message.id} 
-            className={`${styles.message} ${message.sender === 'user' ? styles.userMessage : styles.assistantMessage}`}
+            key={index} 
+            className={`${styles.message} ${
+              message.role === 'user' ? styles.userMessage : styles.botMessage
+            }`}
           >
-            <div className={styles.messageContent}>{message.text}</div>
-            <div className={styles.messageTime}>
-              {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-            </div>
+            <div className={styles.messageContent}>{message.content}</div>
+            {message.showCheckoutButton && message.checkoutData && (
+              <button 
+                className={styles.checkoutButton}
+                onClick={() => handleCheckout(message.checkoutData)}
+              >
+                Proceed to Checkout
+              </button>
+            )}
           </div>
         ))}
-        
-        {loading && (
-          <div className={`${styles.message} ${styles.assistantMessage}`}>
+        {isLoading && (
+          <div className={`${styles.message} ${styles.botMessage}`}>
             <div className={styles.typingIndicator}>
               <span></span>
               <span></span>
@@ -192,41 +158,28 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ tireId, tireName }) => {
             </div>
           </div>
         )}
-        
+        {apiError && (
+          <div className={styles.errorMessage}>
+            {apiError}
+          </div>
+        )}
         <div ref={messagesEndRef} />
       </div>
-      
-      {checkoutData && (
-        <div className={styles.checkoutContainer}>
-          <div className={styles.checkoutInfo}>
-            <p>Ready to purchase {checkoutData.quantity} x {tireName}</p>
-            <p>Price: ${checkoutData.pricePerTire.toFixed(2)} each</p>
-            <p className={styles.totalPrice}>Total: ${checkoutData.totalPrice.toFixed(2)}</p>
-          </div>
-          <button 
-            className={styles.checkoutButton}
-            onClick={handleCheckout}
-          >
-            Proceed to Checkout
-          </button>
-        </div>
-      )}
-      
-      <form className={styles.inputContainer} onSubmit={handleSubmit}>
+      <form onSubmit={handleSendMessage} className={styles.inputContainer}>
         <input
           type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type your message..."
-          disabled={loading}
-          className={styles.inputField}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          placeholder="Ask me about this tire..."
+          className={styles.chatInput}
+          disabled={isLoading}
         />
         <button 
           type="submit" 
-          disabled={loading || input.trim() === ''}
           className={styles.sendButton}
+          disabled={isLoading || !inputValue.trim()}
         >
-          Send
+          {isLoading ? '...' : 'Send'}
         </button>
       </form>
     </div>

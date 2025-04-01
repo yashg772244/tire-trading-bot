@@ -772,53 +772,71 @@ export default function VehicleTires() {
                   <div key={tire.id} className={styles.tireCard}>
                     <div className={styles.tireImageContainer}>
                       {tire.brand.toLowerCase().includes('michelin') ? (
-                        <Image 
-                          src="/tires/michelin-pilot-sport-4s.jpg" 
-                          alt={`${tire.brand} ${tire.model}`}
-                          width={300}
-                          height={300}
-                          priority
-                        />
+                        <div>
+                          <Image 
+                            src="/tires/michelin-pilot-sport-4s.jpg" 
+                            alt={`${tire.brand} ${tire.model}`}
+                            width={300}
+                            height={300}
+                            priority
+                            unoptimized
+                          />
+                        </div>
                       ) : tire.brand.toLowerCase().includes('continental') ? (
-                        <Image 
-                          src="/tires/continental-dws06.jpg" 
-                          alt={`${tire.brand} ${tire.model}`}
-                          width={300}
-                          height={300}
-                          priority
-                        />
+                        <div>
+                          <Image 
+                            src="/tires/continental-dws06.jpg" 
+                            alt={`${tire.brand} ${tire.model}`}
+                            width={300}
+                            height={300}
+                            priority
+                            unoptimized
+                          />
+                        </div>
                       ) : tire.brand.toLowerCase().includes('bridgestone') ? (
-                        <Image 
-                          src="/tires/bridgestone.webp" 
-                          alt={`${tire.brand} ${tire.model}`}
-                          width={300}
-                          height={300}
-                          priority
-                        />
+                        <div>
+                          <Image 
+                            src="/tires/bridgestone.webp" 
+                            alt={`${tire.brand} ${tire.model}`}
+                            width={300}
+                            height={300}
+                            priority
+                            unoptimized
+                          />
+                        </div>
                       ) : tire.brand.toLowerCase().includes('pirelli') ? (
-                        <Image 
-                          src="/tires/Pirelli-Cintaurato-P7.jpg" 
-                          alt={`${tire.brand} ${tire.model}`}
-                          width={300}
-                          height={300}
-                          priority
-                        />
+                        <div>
+                          <Image 
+                            src="/tires/Pirelli-Cintaurato-P7.jpg" 
+                            alt={`${tire.brand} ${tire.model}`}
+                            width={300}
+                            height={300}
+                            priority
+                            unoptimized
+                          />
+                        </div>
                       ) : tire.brand.toLowerCase().includes('goodyear') ? (
-                        <Image 
-                          src="/tires/goodyear-nascar-225-60r16.webp" 
-                          alt={`${tire.brand} ${tire.model}`}
-                          width={300}
-                          height={300}
-                          priority
-                        />
+                        <div>
+                          <Image 
+                            src="/tires/goodyear-nascar-225-60r16.webp" 
+                            alt={`${tire.brand} ${tire.model}`}
+                            width={300}
+                            height={300}
+                            priority
+                            unoptimized
+                          />
+                        </div>
                       ) : (
-                        <Image 
-                          src="/tires/michelin-pilot-sport-4s.jpg" 
-                          alt={`${tire.brand} ${tire.model}`}
-                          width={300}
-                          height={300}
-                          priority
-                        />
+                        <div>
+                          <Image 
+                            src="/tires/michelin-pilot-sport-4s.jpg" 
+                            alt={`${tire.brand} ${tire.model}`}
+                            width={300}
+                            height={300}
+                            priority
+                            unoptimized
+                          />
+                        </div>
                       )}
                       <div className={styles.compareCheckbox}>
                         <input
@@ -836,7 +854,7 @@ export default function VehicleTires() {
                       <div className={styles.priceContainer}>
                         <span className={styles.originalPrice}>${tire.base_price.toFixed(2)}</span>
                         <span className={styles.discountedPrice}>${discountedPrice}</span>
-                        <span style={{marginLeft: '5px', fontSize: '0.8rem', color: '#e00000'}}>Save {discountPercent}%</span>
+                        <span style={{marginLeft: '5px', fontSize: '0.8rem', color: '#e00000', fontWeight: '500'}}>Save {discountPercent}%</span>
                       </div>
                       <p className={styles.tireDescription}>{tire.description}</p>
                       {tire.features && (
