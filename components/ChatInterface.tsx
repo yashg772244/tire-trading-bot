@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import styles from '@/styles/Chat.module.css';
+import styles from '../styles/ChatInterface.module.css';
 import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
 
