@@ -29,11 +29,45 @@ const ChatInterface: React.FC<ChatProps> = ({ tireId, tireName }) => {
   const [apiError, setApiError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const [negotiatedDiscount, setNegotiatedDiscount] = useState<number | null>(null);
 
   // Auto-scroll to bottom of messages
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  // Add this effect to load any previously saved discount on mount
+  useEffect(() => {
+    // Check if we have a saved negotiated discount for this tire
+    const savedDiscounts = localStorage.getItem('negotiatedDiscounts');
+    if (savedDiscounts) {
+      try {
+        const discounts = JSON.parse(savedDiscounts);
+        if (discounts[tireId]) {
+          setNegotiatedDiscount(discounts[tireId].discountRate);
+        }
+      } catch (e) {
+        console.error('Error parsing saved discounts:', e);
+      }
+    }
+  }, [tireId]);
+
+  // Add this function to save negotiated discounts
+  const saveNegotiatedDiscount = (discount: number, price: number) => {
+    const savedDiscounts = localStorage.getItem('negotiatedDiscounts') || '{}';
+    try {
+      const discounts = JSON.parse(savedDiscounts);
+      discounts[tireId] = { 
+        discountRate: discount,
+        negotiatedPrice: price,
+        timestamp: new Date().toISOString()
+      };
+      localStorage.setItem('negotiatedDiscounts', JSON.stringify(discounts));
+      setNegotiatedDiscount(discount);
+    } catch (e) {
+      console.error('Error saving negotiated discount:', e);
+    }
+  };
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,6 +113,12 @@ const ChatInterface: React.FC<ChatProps> = ({ tireId, tireName }) => {
 
       const data = await response.json();
 
+      // Add handling for negotiation data in the response
+      if (data.negotiation) {
+        // Save the negotiated discount
+        saveNegotiatedDiscount(data.negotiation.discountRate, data.negotiation.finalPrice);
+      }
+
       // Add bot response
       if (data.action && data.action.type === 'CHECKOUT') {
         setMessages(prev => [...prev, { 
@@ -105,19 +145,25 @@ const ChatInterface: React.FC<ChatProps> = ({ tireId, tireName }) => {
     }
   };
 
-  // Handle checkout
+  // Modify the handleCheckout function
   const handleCheckout = (checkoutData?: Message['checkoutData']) => {
     if (!checkoutData) return;
+    
+    // Save the negotiated discount when adding to cart
+    const originalPrice = checkoutData.pricePerTire * (1 / 0.95); // Assuming 5% standard discount
+    const actualDiscount = (originalPrice - checkoutData.pricePerTire) / originalPrice;
+    saveNegotiatedDiscount(actualDiscount, checkoutData.pricePerTire);
     
     // Add the negotiated items to cart
     const cartItem = {
       id: tireId,
       name: tireName,
-      quantity: checkoutData.quantity || 1, // Ensure we have a quantity with fallback
+      quantity: checkoutData.quantity || 1,
       price: checkoutData.pricePerTire,
-      offerPrice: checkoutData.pricePerTire, // Add the offer price for cart consistency
-      totalPrice: checkoutData.totalPrice, // Add the total price
-      image: `/images/tires/${tireId}.jpg`
+      offerPrice: checkoutData.pricePerTire,
+      totalPrice: checkoutData.totalPrice,
+      image: `/tires/${tireName.toLowerCase().split(' ').join('-')}.jpg`,
+      negotiated: true
     };
     
     // Update/add to local storage cart
@@ -138,7 +184,8 @@ const ChatInterface: React.FC<ChatProps> = ({ tireId, tireName }) => {
             quantity: checkoutData.quantity || 1,
             price: checkoutData.pricePerTire,
             offerPrice: checkoutData.pricePerTire,
-            totalPrice: checkoutData.totalPrice
+            totalPrice: checkoutData.totalPrice,
+            negotiated: true
           };
         } else {
           // Add new item
@@ -156,7 +203,7 @@ const ChatInterface: React.FC<ChatProps> = ({ tireId, tireName }) => {
     localStorage.setItem('tireCart', JSON.stringify(cart));
     
     // Display confirmation
-    alert(`Added ${checkoutData.quantity} ${tireName} tire${checkoutData.quantity > 1 ? 's' : ''} to your cart!`);
+    alert(`Added ${checkoutData.quantity} ${tireName} tire${checkoutData.quantity > 1 ? 's' : ''} to your cart with your negotiated price!`);
     
     // Navigate to cart page
     router.push('/cart');

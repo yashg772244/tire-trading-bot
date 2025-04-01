@@ -237,6 +237,16 @@ export default async function handler(
       // Update the state with new discount information
       state.agreedPrice = discountInfo.finalPrice;
       state.currentDiscount = discountInfo.discountRate;
+      
+      // Add negotiation flag to the response
+      return res.status(200).json({ 
+        message: geminiResponse,
+        negotiation: {
+          discountRate: discountInfo.discountRate,
+          discountPercentage: discountInfo.discountPercentage,
+          finalPrice: discountInfo.finalPrice
+        }
+      });
     }
     
     res.status(200).json({ message: geminiResponse });
@@ -371,7 +381,12 @@ function processMessage(
     updatedState.currentDiscount = discountInfo.discountRate;
     
     // Generate a response using our templates
-    const botResponse = generateResponse(discountInfo, updatedState.tireName, updatedState.quantity);
+    const botResponse = generateResponse(
+      intent, 
+      discountInfo, 
+      updatedState.tireName, 
+      updatedState.quantity
+    );
     
     return {
       response: botResponse,

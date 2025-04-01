@@ -383,26 +383,13 @@ export default function VehicleTires() {
     }
   };
 
+  // Calculate discounted price (with fixed 5% discount regardless of quantity)
   const calculateOfferPrice = (basePrice: number, quantity: number = 1) => {
-    // Apply discount based on quantity tiers
-    let discountPercent;
-    
-    if (quantity >= 13) {
-      discountPercent = 20; // 20% for 13+ tires
-    } else if (quantity >= 10) {
-      discountPercent = 18; // 18% for 10-12 tires
-    } else if (quantity >= 7) {
-      discountPercent = 15; // 15% for 7-9 tires
-    } else if (quantity >= 4) {
-      discountPercent = 11; // 11% for 4-6 tires
-    } else if (quantity >= 2) {
-      discountPercent = 8;  // 8% for 2-3 tires
-    } else {
-      discountPercent = 5;  // 5% for 1 tire
-    }
-    
-    const discountAmount = (basePrice * discountPercent) / 100;
-    return (basePrice - discountAmount).toFixed(2);
+    // Fixed 5% discount, regardless of quantity
+    // Higher discounts are only available through chatbot negotiation
+    const discountRate = 0.05;
+    const discountedPrice = basePrice * (1 - discountRate);
+    return discountedPrice.toFixed(2);
   };
 
   const handleCompareToggle = (tire: Tire) => {
@@ -733,19 +720,7 @@ export default function VehicleTires() {
             <div className={styles.tiresGrid}>
               {filteredTires.map((tire) => {
                 const quantity = quantities[tire.id.toString()] || 1;
-                let discountPercent = 5; // Default 5% for 1 tire
-                
-                if (quantity >= 13) {
-                  discountPercent = 20;
-                } else if (quantity >= 10) {
-                  discountPercent = 18;
-                } else if (quantity >= 7) {
-                  discountPercent = 15;
-                } else if (quantity >= 4) {
-                  discountPercent = 11;
-                } else if (quantity >= 2) {
-                  discountPercent = 8;
-                }
+                const discountPercent = 5; // Fixed 5% discount - higher discounts only via chatbot
                 
                 const discountedPrice = calculateOfferPrice(tire.base_price, quantity);
                 
@@ -826,7 +801,9 @@ export default function VehicleTires() {
                       <div className={styles.priceContainer}>
                         <span className={styles.originalPrice}>${tire.base_price.toFixed(2)}</span>
                         <span className={styles.discountedPrice}>${discountedPrice}</span>
-                        <span style={{marginLeft: '5px', fontSize: '0.8rem', color: '#e00000', fontWeight: '500'}}>Save {discountPercent}%</span>
+                        <span style={{marginLeft: '5px', fontSize: '0.8rem', color: '#e00000', fontWeight: '500'}}>
+                          Standard 5% off
+                        </span>
                       </div>
                       <p className={styles.tireDescription}>{tire.description}</p>
                       {tire.features && (
