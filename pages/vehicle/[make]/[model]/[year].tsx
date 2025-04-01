@@ -612,7 +612,11 @@ export default function VehicleTires() {
               <div className={styles.tireInfo}>
                 <h2 className={styles.tireName}>{tire.brand} {tire.model}</h2>
                 <p className={styles.tireSize}>Size: {tire.full_size}</p>
-                <p className={styles.tirePrice}>${tire.base_price.toFixed(2)}</p>
+                <div className={styles.priceContainer}>
+                  <span className={styles.originalPrice}>${tire.base_price.toFixed(2)}</span>
+                  <span className={styles.discountedPrice}>${offerPrices[tire.id] || calculateOfferPrice(tire.base_price)}</span>
+                  <span style={{marginLeft: '5px', fontSize: '0.8rem', color: '#e00000'}}>Save 5%</span>
+                </div>
                 <p className={styles.tireDescription}>{tire.description}</p>
                 {tire.features && (
                   <div className={styles.tireFeatures}>
@@ -621,12 +625,38 @@ export default function VehicleTires() {
                     </span>
                   </div>
                 )}
+                <div className={styles.quantitySelector}>
+                  <div 
+                    className={styles.quantityButton} 
+                    onClick={() => handleQuantityChange(tire.id.toString(), (quantities[tire.id.toString()] || 1) - 1)}
+                  >
+                    -
+                  </div>
+                  <input 
+                    type="text" 
+                    className={styles.quantityInput}
+                    value={quantities[tire.id.toString()] || 1}
+                    readOnly
+                  />
+                  <div 
+                    className={styles.quantityButton}
+                    onClick={() => handleQuantityChange(tire.id.toString(), (quantities[tire.id.toString()] || 1) + 1)}
+                  >
+                    +
+                  </div>
+                </div>
                 <div className={styles.tireActions}>
                   <button 
                     className={styles.chatButton}
                     onClick={() => handleChatAboutTire(tire)}
                   >
                     Get Your Best Price
+                  </button>
+                  <button 
+                    className={styles.addToCartButton}
+                    onClick={() => handleAddToCart(tire)}
+                  >
+                    Add to Cart
                   </button>
                   <button 
                     className={styles.buyButton}

@@ -214,4 +214,260 @@
   .message {
     max-width: 90%;
   }
+}
+
+.originalPrice {
+  text-decoration: line-through;
+  color: #777;
+  margin-right: 10px;
+  font-size: 0.9rem;
+}
+
+.discountedPrice {
+  color: #e00000;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.priceContainer {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.quantitySelector {
+  display: flex;
+  align-items: center;
+  margin: 12px 0;
+}
+
+.quantityButton {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  user-select: none;
+}
+
+.quantityButton:hover {
+  background-color: #e0e0e0;
+}
+
+.quantityInput {
+  width: 40px;
+  height: 30px;
+  text-align: center;
+  border: 1px solid #ccc;
+  margin: 0 5px;
+}
+
+.tireActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.tiresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.tireCard {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tireCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.tireImageContainer {
+  position: relative;
+  padding-top: 75%;
+  width: 100%;
+  background-color: #f9f9f9;
+}
+
+.tireImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 1rem;
+}
+
+.compareCheckbox {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: white;
+  border-radius: 4px;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.compareCheckbox input {
+  margin-right: 5px;
+}
+
+.tireInfo {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tireName {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+
+.tireSize {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0 0 0.5rem;
+}
+
+.tireDescription {
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+  flex: 1;
+}
+
+.tireFeatures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 0.5rem 0;
+}
+
+.featureTag {
+  background-color: #f0f0f0;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.tireActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.chatButton, .buyButton {
+  padding: 0.6rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
+  flex: 1;
+  text-align: center;
+}
+
+.chatButton {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.buyButton, .addToCartButton {
+  background-color: #800000;
+  color: white;
+}
+
+.chatButton:hover {
+  background-color: #e0e0e0;
+}
+
+.buyButton:hover, .addToCartButton:hover {
+  background-color: #600000;
+}
+
+.compareBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+}
+
+.compareBarContent {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.compareBarActions {
+  display: flex;
+  gap: 1rem;
+}
+
+.compareButton, .buySelectedButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.compareButton {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.compareButton:disabled {
+  background-color: #e0e0e0;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.buySelectedButton {
+  background-color: #800000;
+  color: white;
+}
+
+.buySelectedButton:hover {
+  background-color: #600000;
+}
+
+.addToCartButton {
+  background-color: #800000;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+}
+
+.addToCartButton:hover {
+  background-color: #600000;
 } 
