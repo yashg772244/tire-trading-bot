@@ -384,9 +384,24 @@ export default function VehicleTires() {
     }
   };
 
-  const calculateOfferPrice = (basePrice: number) => {
-    // Apply a fixed 15% discount
-    const discountPercent = 15;
+  const calculateOfferPrice = (basePrice: number, quantity: number = 1) => {
+    // Apply discount based on quantity tiers
+    let discountPercent;
+    
+    if (quantity >= 13) {
+      discountPercent = 20; // 20% for 13+ tires
+    } else if (quantity >= 10) {
+      discountPercent = 18; // 18% for 10-12 tires
+    } else if (quantity >= 7) {
+      discountPercent = 15; // 15% for 7-9 tires
+    } else if (quantity >= 4) {
+      discountPercent = 11; // 11% for 4-6 tires
+    } else if (quantity >= 2) {
+      discountPercent = 8;  // 8% for 2-3 tires
+    } else {
+      discountPercent = 5;  // 5% for 1 tire
+    }
+    
     const discountAmount = (basePrice * discountPercent) / 100;
     return (basePrice - discountAmount).toFixed(2);
   };
@@ -430,7 +445,7 @@ export default function VehicleTires() {
     // Ensure quantity is a number
     const quantity = Number(quantities[tire.id] || 1);
     // Ensure offer price is a number
-    const offerPrice = Number(offerPrices[tire.id] || calculateOfferPrice(tire.base_price));
+    const offerPrice = Number(offerPrices[tire.id] || calculateOfferPrice(tire.base_price, quantity));
     
     // Check if this tire is already in the cart
     const existingItemIndex = cart.findIndex(item => item.id.toString() === tire.id.toString());
@@ -468,7 +483,7 @@ export default function VehicleTires() {
     // Ensure quantity is a number
     const quantity = Number(quantities[tire.id] || 1);
     // Ensure offer price is a number
-    const offerPrice = Number(offerPrices[tire.id] || calculateOfferPrice(tire.base_price));
+    const offerPrice = Number(offerPrices[tire.id] || calculateOfferPrice(tire.base_price, quantity));
     
     // Create params for checkout
     const params = new URLSearchParams();
@@ -735,169 +750,170 @@ export default function VehicleTires() {
           {/* Content Section */}
           <div className={styles.contentSection}>
             <div className={styles.tiresGrid}>
-              {filteredTires.map((tire) => (
-                <div key={tire.id} className={styles.tireCard}>
-                  <div className={styles.tireImageContainer}>
-                    {tire.brand.toLowerCase().includes('michelin') ? (
-                      <Image 
-                        src="/tires/michelin-pilot-sport-4s.jpg" 
-                        alt={`${tire.brand} ${tire.model}`}
-                        width={300}
-                        height={300}
-                        style={{
-                          objectFit: 'contain',
-                          width: '100%',
-                          height: '100%',
-                          position: 'absolute',
-                          top: 0,
-                          left: 0
-                        }}
-                      />
-                    ) : tire.brand.toLowerCase().includes('continental') ? (
-                      <Image 
-                        src="/tires/continental-dws06.jpg" 
-                        alt={`${tire.brand} ${tire.model}`}
-                        width={300}
-                        height={300}
-                        style={{
-                          objectFit: 'contain',
-                          width: '100%',
-                          height: '100%',
-                          position: 'absolute',
-                          top: 0,
-                          left: 0
-                        }}
-                      />
-                    ) : tire.brand.toLowerCase().includes('bridgestone') ? (
-                      <Image 
-                        src="/tires/bridgestone.webp" 
-                        alt={`${tire.brand} ${tire.model}`}
-                        width={300}
-                        height={300}
-                        style={{
-                          objectFit: 'contain',
-                          width: '100%',
-                          height: '100%',
-                          position: 'absolute',
-                          top: 0,
-                          left: 0
-                        }}
-                      />
-                    ) : tire.brand.toLowerCase().includes('pirelli') ? (
-                      <Image 
-                        src="/tires/Pirelli-Cintaurato-P7.jpg" 
-                        alt={`${tire.brand} ${tire.model}`}
-                        width={300}
-                        height={300}
-                        style={{
-                          objectFit: 'contain',
-                          width: '100%',
-                          height: '100%',
-                          position: 'absolute',
-                          top: 0,
-                          left: 0
-                        }}
-                      />
-                    ) : tire.brand.toLowerCase().includes('goodyear') ? (
-                      <Image 
-                        src="/tires/goodyear-nascar-225-60r16.webp" 
-                        alt={`${tire.brand} ${tire.model}`}
-                        width={300}
-                        height={300}
-                        style={{
-                          objectFit: 'contain',
-                          width: '100%',
-                          height: '100%',
-                          position: 'absolute',
-                          top: 0,
-                          left: 0
-                        }}
-                      />
-                    ) : (
-                      <Image 
-                        src="/tires/michelin-pilot-sport-4s.jpg" 
-                        alt={`${tire.brand} ${tire.model}`}
-                        width={300}
-                        height={300}
-                        style={{
-                          objectFit: 'contain',
-                          width: '100%',
-                          height: '100%',
-                          position: 'absolute',
-                          top: 0,
-                          left: 0
-                        }}
-                      />
-                    )}
-                    <div className={styles.compareCheckbox}>
-                      <input
-                        type="checkbox"
-                        id={`compare-${tire.id}`}
-                        checked={selectedTires.some(t => t.id === tire.id)}
-                        onChange={() => toggleTireSelection(tire)}
-                      />
-                      <label htmlFor={`compare-${tire.id}`}>Compare</label>
+              {filteredTires.map((tire) => {
+                const quantity = quantities[tire.id.toString()] || 1;
+                let discountPercent = 5; // Default 5% for 1 tire
+                
+                if (quantity >= 13) {
+                  discountPercent = 20;
+                } else if (quantity >= 10) {
+                  discountPercent = 18;
+                } else if (quantity >= 7) {
+                  discountPercent = 15;
+                } else if (quantity >= 4) {
+                  discountPercent = 11;
+                } else if (quantity >= 2) {
+                  discountPercent = 8;
+                }
+                
+                const discountedPrice = calculateOfferPrice(tire.base_price, quantity);
+                
+                return (
+                  <div key={tire.id} className={styles.tireCard}>
+                    <div className={styles.tireImageContainer}>
+                      {tire.brand.toLowerCase().includes('michelin') ? (
+                        <Image 
+                          src="/tires/michelin-pilot-sport-4s.jpg" 
+                          alt={`${tire.brand} ${tire.model}`}
+                          width={300}
+                          height={300}
+                          style={{
+                            objectFit: 'contain',
+                            maxWidth: '90%',
+                            maxHeight: '90%'
+                          }}
+                        />
+                      ) : tire.brand.toLowerCase().includes('continental') ? (
+                        <Image 
+                          src="/tires/continental-dws06.jpg" 
+                          alt={`${tire.brand} ${tire.model}`}
+                          width={300}
+                          height={300}
+                          style={{
+                            objectFit: 'contain',
+                            maxWidth: '90%',
+                            maxHeight: '90%'
+                          }}
+                        />
+                      ) : tire.brand.toLowerCase().includes('bridgestone') ? (
+                        <Image 
+                          src="/tires/bridgestone.webp" 
+                          alt={`${tire.brand} ${tire.model}`}
+                          width={300}
+                          height={300}
+                          style={{
+                            objectFit: 'contain',
+                            maxWidth: '90%',
+                            maxHeight: '90%'
+                          }}
+                        />
+                      ) : tire.brand.toLowerCase().includes('pirelli') ? (
+                        <Image 
+                          src="/tires/Pirelli-Cintaurato-P7.jpg" 
+                          alt={`${tire.brand} ${tire.model}`}
+                          width={300}
+                          height={300}
+                          style={{
+                            objectFit: 'contain',
+                            maxWidth: '90%',
+                            maxHeight: '90%'
+                          }}
+                        />
+                      ) : tire.brand.toLowerCase().includes('goodyear') ? (
+                        <Image 
+                          src="/tires/goodyear-nascar-225-60r16.webp" 
+                          alt={`${tire.brand} ${tire.model}`}
+                          width={300}
+                          height={300}
+                          style={{
+                            objectFit: 'contain',
+                            maxWidth: '90%',
+                            maxHeight: '90%'
+                          }}
+                        />
+                      ) : (
+                        <Image 
+                          src="/tires/michelin-pilot-sport-4s.jpg" 
+                          alt={`${tire.brand} ${tire.model}`}
+                          width={300}
+                          height={300}
+                          style={{
+                            objectFit: 'contain',
+                            maxWidth: '90%',
+                            maxHeight: '90%'
+                          }}
+                        />
+                      )}
+                      <div className={styles.compareCheckbox}>
+                        <input
+                          type="checkbox"
+                          id={`compare-${tire.id}`}
+                          checked={selectedTires.some(t => t.id === tire.id)}
+                          onChange={() => toggleTireSelection(tire)}
+                        />
+                        <label htmlFor={`compare-${tire.id}`}>Compare</label>
+                      </div>
+                    </div>
+                    <div className={styles.tireInfo}>
+                      <h2 className={styles.tireName}>{tire.brand} {tire.model}</h2>
+                      <p className={styles.tireSize}>Size: {tire.full_size}</p>
+                      <div className={styles.priceContainer}>
+                        <span className={styles.originalPrice}>${tire.base_price.toFixed(2)}</span>
+                        <span className={styles.discountedPrice}>${discountedPrice}</span>
+                        <span style={{marginLeft: '5px', fontSize: '0.8rem', color: '#e00000'}}>Save {discountPercent}%</span>
+                      </div>
+                      <p className={styles.tireDescription}>{tire.description}</p>
+                      {tire.features && (
+                        <div className={styles.tireFeatures}>
+                          <span className={styles.featureTag}>
+                            {JSON.parse(tire.features).type}
+                          </span>
+                        </div>
+                      )}
+                      <div className={styles.quantitySelector}>
+                        <div 
+                          className={styles.quantityButton} 
+                          onClick={() => handleQuantityChange(tire.id.toString(), (quantities[tire.id.toString()] || 1) - 1)}
+                        >
+                          -
+                        </div>
+                        <input 
+                          type="text" 
+                          className={styles.quantityInput}
+                          value={quantities[tire.id.toString()] || 1}
+                          readOnly
+                        />
+                        <div 
+                          className={styles.quantityButton}
+                          onClick={() => handleQuantityChange(tire.id.toString(), (quantities[tire.id.toString()] || 1) + 1)}
+                        >
+                          +
+                        </div>
+                      </div>
+                      <div className={styles.tireActions}>
+                        <button 
+                          className={styles.chatButton}
+                          onClick={() => handleChatAboutTire(tire)}
+                        >
+                          Get Your Best Price
+                        </button>
+                        <button 
+                          className={styles.addToCartButton}
+                          onClick={() => handleAddToCart(tire)}
+                        >
+                          Add to Cart
+                        </button>
+                        <button 
+                          className={styles.buyButton}
+                          onClick={() => handleBuyNow(tire)}
+                        >
+                          Buy Now
+                        </button>
+                      </div>
                     </div>
                   </div>
-                  <div className={styles.tireInfo}>
-                    <h2 className={styles.tireName}>{tire.brand} {tire.model}</h2>
-                    <p className={styles.tireSize}>Size: {tire.full_size}</p>
-                    <div className={styles.priceContainer}>
-                      <span className={styles.originalPrice}>${tire.base_price.toFixed(2)}</span>
-                      <span className={styles.discountedPrice}>${offerPrices[tire.id] || calculateOfferPrice(tire.base_price)}</span>
-                      <span style={{marginLeft: '5px', fontSize: '0.8rem', color: '#e00000'}}>Save 15%</span>
-                    </div>
-                    <p className={styles.tireDescription}>{tire.description}</p>
-                    {tire.features && (
-                      <div className={styles.tireFeatures}>
-                        <span className={styles.featureTag}>
-                          {JSON.parse(tire.features).type}
-                        </span>
-                      </div>
-                    )}
-                    <div className={styles.quantitySelector}>
-                      <div 
-                        className={styles.quantityButton} 
-                        onClick={() => handleQuantityChange(tire.id.toString(), (quantities[tire.id.toString()] || 1) - 1)}
-                      >
-                        -
-                      </div>
-                      <input 
-                        type="text" 
-                        className={styles.quantityInput}
-                        value={quantities[tire.id.toString()] || 1}
-                        readOnly
-                      />
-                      <div 
-                        className={styles.quantityButton}
-                        onClick={() => handleQuantityChange(tire.id.toString(), (quantities[tire.id.toString()] || 1) + 1)}
-                      >
-                        +
-                      </div>
-                    </div>
-                    <div className={styles.tireActions}>
-                      <button 
-                        className={styles.chatButton}
-                        onClick={() => handleChatAboutTire(tire)}
-                      >
-                        Get Your Best Price
-                      </button>
-                      <button 
-                        className={styles.addToCartButton}
-                        onClick={() => handleAddToCart(tire)}
-                      >
-                        Add to Cart
-                      </button>
-                      <button 
-                        className={styles.buyButton}
-                        onClick={() => handleBuyNow(tire)}
-                      >
-                        Buy Now
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
