@@ -98,7 +98,6 @@ export default function VehicleTires() {
   const [isLoading, setIsLoading] = useState(true);
   const [tires, setTires] = useState<Tire[]>([]);
   const [filteredTires, setFilteredTires] = useState<Tire[]>([]);
-  const [selectedTires, setSelectedTires] = useState<Tire[]>([]);
   const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([{ role: 'bot', content: `Hi! I'm your tire expert for your ${make} ${model}. How can I help you today?` }]);
@@ -106,7 +105,7 @@ export default function VehicleTires() {
   const [selectedTireForChat, setSelectedTireForChat] = useState<Tire | null>(null);
   const [offerPrices, setOfferPrices] = useState<{ [key: string]: number }>({});
   const [checkoutData, setCheckoutData] = useState<any>(null);
-  const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
+  const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItemCount, setCartItemCount] = useState(0);
@@ -407,16 +406,7 @@ export default function VehicleTires() {
   };
 
   const handleCompareToggle = (tire: Tire) => {
-    setSelectedTires(prev => {
-      const isSelected = prev.some(t => t.id === tire.id);
-      if (isSelected) {
-        return prev.filter(t => t.id !== tire.id);
-      }
-      if (prev.length < 3) {
-        return [...prev, tire];
-      }
-      return prev;
-    });
+    // This function is no longer used
   };
 
   const handleCompareTires = () => {
@@ -583,15 +573,6 @@ export default function VehicleTires() {
 
     // Redirect to checkout page
     router.push(`/checkout?${params.toString()}`);
-  };
-
-  // Toggle tire selection for comparison
-  const toggleTireSelection = (tire: Tire) => {
-    if (selectedTires.some(t => t.id === tire.id)) {
-      setSelectedTires(selectedTires.filter(t => t.id !== tire.id));
-    } else {
-      setSelectedTires([...selectedTires, tire]);
-    }
   };
 
   // Start chatting about a specific tire
@@ -838,15 +819,6 @@ export default function VehicleTires() {
                           />
                         </div>
                       )}
-                      <div className={styles.compareCheckbox}>
-                        <input
-                          type="checkbox"
-                          id={`compare-${tire.id}`}
-                          checked={selectedTires.some(t => t.id === tire.id)}
-                          onChange={() => toggleTireSelection(tire)}
-                        />
-                        <label htmlFor={`compare-${tire.id}`}>Compare</label>
-                      </div>
                     </div>
                     <div className={styles.tireInfo}>
                       <h2 className={styles.tireName}>{tire.brand} {tire.model}</h2>
@@ -911,41 +883,6 @@ export default function VehicleTires() {
             </div>
           </div>
         </div>
-
-        {selectedTires.length > 0 && (
-          <div className={styles.compareBar}>
-            <div className={styles.compareBarContent}>
-              <span>
-                {selectedTires.length} {selectedTires.length === 1 ? 'tire' : 'tires'} selected
-              </span>
-              <div className={styles.compareBarActions}>
-                <button 
-                  className={styles.compareButton}
-                  disabled={selectedTires.length < 2}
-                >
-                  Compare
-                </button>
-                {selectedTires.length === 1 && (
-                  <button 
-                    className={styles.buySelectedButton}
-                    onClick={() => {
-                      router.push({
-                        pathname: '/checkout',
-                        query: { 
-                          tireId: selectedTires[0].id,
-                          name: `${selectedTires[0].brand} ${selectedTires[0].model}`,
-                          price: selectedTires[0].base_price
-                        },
-                      });
-                    }}
-                  >
-                    Buy Now
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
 
         {showChat && activeTire && (
           <div className={styles.chatModal}>

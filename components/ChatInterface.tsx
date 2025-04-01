@@ -135,7 +135,7 @@ const ChatInterface: React.FC<ChatProps> = ({ tireId, tireName }) => {
           <div 
             key={index} 
             className={`${styles.message} ${
-              message.role === 'user' ? styles.userMessage : styles.botMessage
+              message.role === 'user' ? styles.userMessage : styles.assistantMessage
             }`}
           >
             <div className={styles.messageContent}>{message.content}</div>
@@ -150,7 +150,7 @@ const ChatInterface: React.FC<ChatProps> = ({ tireId, tireName }) => {
           </div>
         ))}
         {isLoading && (
-          <div className={`${styles.message} ${styles.botMessage}`}>
+          <div className={`${styles.message} ${styles.assistantMessage}`}>
             <div className={styles.typingIndicator}>
               <span></span>
               <span></span>
@@ -171,7 +171,7 @@ const ChatInterface: React.FC<ChatProps> = ({ tireId, tireName }) => {
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="Ask me about this tire..."
-          className={styles.chatInput}
+          className={styles.inputField}
           disabled={isLoading}
         />
         <button 
