@@ -250,6 +250,31 @@ export default function VehicleTires() {
         return offerPrice >= filters.price.min && offerPrice <= filters.price.max;
       });
       
+      // Filter by features
+      const hasSelectedFeatures = Object.values(filters.features).some(value => value);
+      if (hasSelectedFeatures && filteredResults.length > 0) {
+        filteredResults = filteredResults.filter(tire => {
+          if (!tire.features) return false;
+          
+          try {
+            const tireFeatures = JSON.parse(tire.features);
+            const type = tireFeatures.type?.toLowerCase() || '';
+            
+            // Check if any selected feature matches
+            if (filters.features.allSeason && type.includes('all-season')) return true;
+            if (filters.features.winterRated && type.includes('winter')) return true;
+            if (filters.features.performanceRated && type.includes('performance')) return true;
+            if (filters.features.runFlat && type.includes('run')) return true;
+            
+            // If features are selected but this tire doesn't match any, filter it out
+            return false;
+          } catch (e) {
+            // If JSON parsing fails, keep the tire in the results
+            return true;
+          }
+        });
+      }
+      
       // Set the filtered tires
       setFilteredTires(filteredResults);
     } else {
@@ -590,84 +615,216 @@ export default function VehicleTires() {
           </p>
         </div>
 
-        <div className={styles.tiresGrid}>
-          {filteredTires.map((tire) => (
-            <div key={tire.id} className={styles.tireCard}>
-              <div className={styles.tireImageContainer}>
-                <img 
-                  src={tire.image_url} 
-                  alt={`${tire.brand} ${tire.model}`} 
-                  className={styles.tireImage}
-                />
-                <div className={styles.compareCheckbox}>
+        <div className={styles.main}>
+          {/* Filter Section */}
+          <div className={styles.filterSection}>
+            <h2>Filter Options</h2>
+            
+            <div className={styles.filterGroup}>
+              <h3>Brand</h3>
+              {Object.keys(filters.brands).map((brand) => (
+                <div key={brand} className={styles.filterOption}>
                   <input
                     type="checkbox"
-                    id={`compare-${tire.id}`}
-                    checked={selectedTires.some(t => t.id === tire.id)}
-                    onChange={() => toggleTireSelection(tire)}
+                    id={`brand-${brand}`}
+                    checked={filters.brands[brand]}
+                    onChange={() => handleBrandFilterChange(brand)}
                   />
-                  <label htmlFor={`compare-${tire.id}`}>Compare</label>
+                  <label htmlFor={`brand-${brand}`}>
+                    {brand.charAt(0).toUpperCase() + brand.slice(1)}
+                  </label>
                 </div>
+              ))}
+            </div>
+
+            <div className={styles.filterGroup}>
+              <h3>Price Range</h3>
+              <div className={styles.priceSlider}>
+                <label htmlFor="min-price">Min: ${filters.price.min}</label>
+                <input
+                  type="range"
+                  id="min-price"
+                  min="0"
+                  max="500"
+                  step="10"
+                  value={filters.price.min}
+                  onChange={(e) => handlePriceFilterChange(Number(e.target.value), filters.price.max)}
+                  className={styles.priceInput}
+                />
               </div>
-              <div className={styles.tireInfo}>
-                <h2 className={styles.tireName}>{tire.brand} {tire.model}</h2>
-                <p className={styles.tireSize}>Size: {tire.full_size}</p>
-                <div className={styles.priceContainer}>
-                  <span className={styles.originalPrice}>${tire.base_price.toFixed(2)}</span>
-                  <span className={styles.discountedPrice}>${offerPrices[tire.id] || calculateOfferPrice(tire.base_price)}</span>
-                  <span style={{marginLeft: '5px', fontSize: '0.8rem', color: '#e00000'}}>Save 5%</span>
-                </div>
-                <p className={styles.tireDescription}>{tire.description}</p>
-                {tire.features && (
-                  <div className={styles.tireFeatures}>
-                    <span className={styles.featureTag}>
-                      {JSON.parse(tire.features).type}
-                    </span>
-                  </div>
-                )}
-                <div className={styles.quantitySelector}>
-                  <div 
-                    className={styles.quantityButton} 
-                    onClick={() => handleQuantityChange(tire.id.toString(), (quantities[tire.id.toString()] || 1) - 1)}
-                  >
-                    -
-                  </div>
-                  <input 
-                    type="text" 
-                    className={styles.quantityInput}
-                    value={quantities[tire.id.toString()] || 1}
-                    readOnly
-                  />
-                  <div 
-                    className={styles.quantityButton}
-                    onClick={() => handleQuantityChange(tire.id.toString(), (quantities[tire.id.toString()] || 1) + 1)}
-                  >
-                    +
-                  </div>
-                </div>
-                <div className={styles.tireActions}>
-                  <button 
-                    className={styles.chatButton}
-                    onClick={() => handleChatAboutTire(tire)}
-                  >
-                    Get Your Best Price
-                  </button>
-                  <button 
-                    className={styles.addToCartButton}
-                    onClick={() => handleAddToCart(tire)}
-                  >
-                    Add to Cart
-                  </button>
-                  <button 
-                    className={styles.buyButton}
-                    onClick={() => handleBuyNow(tire)}
-                  >
-                    Buy Now
-                  </button>
-                </div>
+              <div className={styles.priceSlider}>
+                <label htmlFor="max-price">Max: ${filters.price.max}</label>
+                <input
+                  type="range"
+                  id="max-price"
+                  min="100"
+                  max="1000"
+                  step="10"
+                  value={filters.price.max}
+                  onChange={(e) => handlePriceFilterChange(filters.price.min, Number(e.target.value))}
+                  className={styles.priceInput}
+                />
               </div>
             </div>
-          ))}
+
+            <div className={styles.filterGroup}>
+              <h3>Features</h3>
+              <div className={styles.filterOption}>
+                <input
+                  type="checkbox"
+                  id="all-season"
+                  checked={filters.features.allSeason}
+                  onChange={() => setFilters({
+                    ...filters,
+                    features: {
+                      ...filters.features,
+                      allSeason: !filters.features.allSeason
+                    }
+                  })}
+                />
+                <label htmlFor="all-season">All Season</label>
+              </div>
+              <div className={styles.filterOption}>
+                <input
+                  type="checkbox"
+                  id="winter-rated"
+                  checked={filters.features.winterRated}
+                  onChange={() => setFilters({
+                    ...filters,
+                    features: {
+                      ...filters.features,
+                      winterRated: !filters.features.winterRated
+                    }
+                  })}
+                />
+                <label htmlFor="winter-rated">Winter Rated</label>
+              </div>
+              <div className={styles.filterOption}>
+                <input
+                  type="checkbox"
+                  id="run-flat"
+                  checked={filters.features.runFlat}
+                  onChange={() => setFilters({
+                    ...filters,
+                    features: {
+                      ...filters.features,
+                      runFlat: !filters.features.runFlat
+                    }
+                  })}
+                />
+                <label htmlFor="run-flat">Run Flat</label>
+              </div>
+              <div className={styles.filterOption}>
+                <input
+                  type="checkbox"
+                  id="performance"
+                  checked={filters.features.performanceRated}
+                  onChange={() => setFilters({
+                    ...filters,
+                    features: {
+                      ...filters.features,
+                      performanceRated: !filters.features.performanceRated
+                    }
+                  })}
+                />
+                <label htmlFor="performance">Performance</label>
+              </div>
+            </div>
+          </div>
+
+          {/* Content Section */}
+          <div className={styles.contentSection}>
+            <div className={styles.tiresGrid}>
+              {filteredTires.map((tire) => (
+                <div key={tire.id} className={styles.tireCard}>
+                  <div className={styles.tireImageContainer}>
+                    {tire.image_url && tire.image_url.startsWith('/') ? (
+                      <Image 
+                        src={tire.image_url} 
+                        alt={`${tire.brand} ${tire.model}`}
+                        className={styles.tireImage}
+                        width={300}
+                        height={300}
+                        objectFit="contain"
+                      />
+                    ) : (
+                      <img 
+                        src={"/images/tires/tire-placeholder.jpg"} 
+                        alt={`${tire.brand} ${tire.model}`} 
+                        className={styles.tireImage}
+                      />
+                    )}
+                    <div className={styles.compareCheckbox}>
+                      <input
+                        type="checkbox"
+                        id={`compare-${tire.id}`}
+                        checked={selectedTires.some(t => t.id === tire.id)}
+                        onChange={() => toggleTireSelection(tire)}
+                      />
+                      <label htmlFor={`compare-${tire.id}`}>Compare</label>
+                    </div>
+                  </div>
+                  <div className={styles.tireInfo}>
+                    <h2 className={styles.tireName}>{tire.brand} {tire.model}</h2>
+                    <p className={styles.tireSize}>Size: {tire.full_size}</p>
+                    <div className={styles.priceContainer}>
+                      <span className={styles.originalPrice}>${tire.base_price.toFixed(2)}</span>
+                      <span className={styles.discountedPrice}>${offerPrices[tire.id] || calculateOfferPrice(tire.base_price)}</span>
+                      <span style={{marginLeft: '5px', fontSize: '0.8rem', color: '#e00000'}}>Save 5%</span>
+                    </div>
+                    <p className={styles.tireDescription}>{tire.description}</p>
+                    {tire.features && (
+                      <div className={styles.tireFeatures}>
+                        <span className={styles.featureTag}>
+                          {JSON.parse(tire.features).type}
+                        </span>
+                      </div>
+                    )}
+                    <div className={styles.quantitySelector}>
+                      <div 
+                        className={styles.quantityButton} 
+                        onClick={() => handleQuantityChange(tire.id.toString(), (quantities[tire.id.toString()] || 1) - 1)}
+                      >
+                        -
+                      </div>
+                      <input 
+                        type="text" 
+                        className={styles.quantityInput}
+                        value={quantities[tire.id.toString()] || 1}
+                        readOnly
+                      />
+                      <div 
+                        className={styles.quantityButton}
+                        onClick={() => handleQuantityChange(tire.id.toString(), (quantities[tire.id.toString()] || 1) + 1)}
+                      >
+                        +
+                      </div>
+                    </div>
+                    <div className={styles.tireActions}>
+                      <button 
+                        className={styles.chatButton}
+                        onClick={() => handleChatAboutTire(tire)}
+                      >
+                        Get Your Best Price
+                      </button>
+                      <button 
+                        className={styles.addToCartButton}
+                        onClick={() => handleAddToCart(tire)}
+                      >
+                        Add to Cart
+                      </button>
+                      <button 
+                        className={styles.buyButton}
+                        onClick={() => handleBuyNow(tire)}
+                      >
+                        Buy Now
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {selectedTires.length > 0 && (
