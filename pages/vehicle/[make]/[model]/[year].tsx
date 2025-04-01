@@ -738,9 +738,39 @@ export default function VehicleTires() {
               {filteredTires.map((tire) => (
                 <div key={tire.id} className={styles.tireCard}>
                   <div className={styles.tireImageContainer}>
-                    {tire.image_url ? (
+                    {tire.id.includes('michelin') ? (
                       <Image 
-                        src={tire.image_url.startsWith('/') ? tire.image_url : `/images/tires/tire-placeholder.jpg`} 
+                        src="/images/tires/tire-1.jpg" 
+                        alt={`${tire.brand} ${tire.model}`}
+                        width={300}
+                        height={300}
+                        style={{
+                          objectFit: 'contain',
+                          width: '100%',
+                          height: '100%',
+                          position: 'absolute',
+                          top: 0,
+                          left: 0
+                        }}
+                      />
+                    ) : tire.id.includes('continental') ? (
+                      <Image 
+                        src="/images/tires/tire-2.jpg" 
+                        alt={`${tire.brand} ${tire.model}`}
+                        width={300}
+                        height={300}
+                        style={{
+                          objectFit: 'contain',
+                          width: '100%',
+                          height: '100%',
+                          position: 'absolute',
+                          top: 0,
+                          left: 0
+                        }}
+                      />
+                    ) : tire.id.includes('bridgestone') ? (
+                      <Image 
+                        src="/images/tires/tire-3.jpg" 
                         alt={`${tire.brand} ${tire.model}`}
                         width={300}
                         height={300}
