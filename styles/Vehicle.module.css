@@ -238,7 +238,7 @@
 .tiresGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+  gap: 1.5rem;
   width: 100%;
 }
 
@@ -257,9 +257,10 @@
 
 .tireImageContainer {
   position: relative;
-  padding-top: 55%;
+  padding-top: 80%;
   width: 100%;
   background-color: #f9f9f9;
+  overflow: hidden;
 }
 
 .tireImage {
@@ -273,7 +274,7 @@
 }
 
 .tireInfo {
-  padding: 0.8rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -1129,11 +1130,13 @@
 }
 
 .featureTag {
-  background: #f0f7ff;
-  color: #0070f3;
-  padding: 0.3rem 0.6rem;
+  display: inline-block;
+  background-color: #f0f0f0;
+  color: #555;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
   border-radius: 4px;
-  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
 }
 
 .tireActions {
