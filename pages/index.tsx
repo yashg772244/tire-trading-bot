@@ -203,20 +203,18 @@ export default function Home() {
             <h2 className={styles.sectionTitle}>Top Tire Brands</h2>
             <div className={styles.brandGrid}>
               {topBrands.map((brand) => (
-                <Link href={`/brands/${brand.id}`} key={brand.id}>
-                  <a className={styles.brandCard}>
-                    <div className={styles.brandLogoContainer}>
-                      <Image 
-                        src={brand.logo} 
-                        alt={`${brand.name} logo`} 
-                        width={120} 
-                        height={80}
-                        className={styles.brandLogo}
-                      />
-                    </div>
-                    <h3 className={styles.brandName}>{brand.name}</h3>
-                    <p className={styles.brandDescription}>{brand.description}</p>
-                  </a>
+                <Link href={`/brands/${brand.id}`} key={brand.id} className={styles.brandCard}>
+                  <div className={styles.brandLogoContainer}>
+                    <Image 
+                      src={brand.logo} 
+                      alt={`${brand.name} logo`} 
+                      width={120} 
+                      height={80}
+                      className={styles.brandLogo}
+                    />
+                  </div>
+                  <h3 className={styles.brandName}>{brand.name}</h3>
+                  <p className={styles.brandDescription}>{brand.description}</p>
                 </Link>
               ))}
             </div>
