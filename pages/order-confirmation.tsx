@@ -84,8 +84,8 @@ export default function OrderConfirmation() {
           <div className={styles.errorMessage}>
             <h1>Order Details Not Found</h1>
             <p>We couldn't find your order details. Please check your email for confirmation.</p>
-            <Link href="/">
-              <a className={styles.returnButton}>Return to Home</a>
+            <Link href="/" className={styles.returnButton}>
+              Return to Home
             </Link>
           </div>
         </div>
@@ -191,8 +191,8 @@ export default function OrderConfirmation() {
           </div>
           
           <div className={styles.actions}>
-            <Link href="/">
-              <a className={styles.primaryButton}>Continue Shopping</a>
+            <Link href="/" className={styles.primaryButton}>
+              Continue Shopping
             </Link>
             <button className={styles.secondaryButton} onClick={() => window.print()}>
               Print Receipt

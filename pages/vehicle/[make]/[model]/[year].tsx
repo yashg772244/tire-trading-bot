@@ -554,10 +554,12 @@ export default function VehicleTires() {
 
       <div className={styles.container}>
         <div className={styles.header}>
-          <Link href="/vehicle">
-            <a className={styles.backLink}>← Back to Vehicle Search</a>
+          <Link href="/vehicle" className={styles.backLink}>
+            ← Back to vehicle search
           </Link>
-          <h1 className={styles.title}>Tires for {formattedYear} {formattedMake} {formattedModel}</h1>
+          <h1 className={styles.title}>
+            {make} {model} ({year}) Tires
+          </h1>
           <p className={styles.description}>
             We found {tires.length} tire options that are perfect for your vehicle
           </p>

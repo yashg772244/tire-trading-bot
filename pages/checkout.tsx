@@ -256,8 +256,8 @@ export default function Checkout() {
     <Layout title="Checkout - Gilda Tyres">
       <div className={styles.container}>
         <div className={styles.header}>
-          <Link href="/cart">
-            <a className={styles.backLink}>← Back to cart</a>
+          <Link href="/cart" className={styles.backLink}>
+            ← Back to cart
           </Link>
           <h1 className={styles.title}>Checkout</h1>
         </div>

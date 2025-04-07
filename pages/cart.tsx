@@ -105,8 +105,8 @@ export default function Cart() {
     <Layout>
       <div className={styles.container}>
         <div className={styles.header}>
-          <Link href="/">
-            <a className={styles.backLink}>← Back to shopping</a>
+          <Link href="/" className={styles.backLink}>
+            ← Back to shopping
           </Link>
           <h1 className={styles.title}>Your Cart</h1>
         </div>
@@ -115,8 +115,8 @@ export default function Cart() {
           <div className={styles.emptyCart}>
             <h2>Your cart is empty</h2>
             <p>You haven't added any tires to your cart yet.</p>
-            <Link href="/">
-              <a className={styles.shopButton}>Start Shopping</a>
+            <Link href="/" className={styles.shopButton}>
+              Start Shopping
             </Link>
           </div>
         ) : (

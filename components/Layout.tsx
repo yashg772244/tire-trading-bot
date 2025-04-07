@@ -94,27 +94,41 @@ const Layout: React.FC<LayoutProps> = ({
 
       <header className={styles.header}>
         <div className={styles.headerContent}>
-          <Link href="/">
-            <a className={styles.logo} style={{color: '#FFD700', textDecoration: 'none'}}>Gilda Tyres</a>
+          <Link href="/" className={styles.logo} style={{color: '#FFD700', textDecoration: 'none'}}>
+            Gilda Tyres
           </Link>
           
           <nav className={styles.nav}>
-            <Link href="/">
-              <a className={router.pathname === '/' ? styles.activeLink : styles.navLink} style={{color: router.pathname === '/' ? '#FFD700' : 'white', textDecoration: 'none'}}>Home</a>
+            <Link 
+              href="/" 
+              className={router.pathname === '/' ? styles.activeLink : styles.navLink} 
+              style={{color: router.pathname === '/' ? '#FFD700' : 'white', textDecoration: 'none'}}
+            >
+              Home
             </Link>
-            <Link href="/brands">
-              <a className={router.pathname.includes('/brands') ? styles.activeLink : styles.navLink} style={{color: router.pathname.includes('/brands') ? '#FFD700' : 'white', textDecoration: 'none'}}>Brands</a>
+            <Link 
+              href="/brands" 
+              className={router.pathname.includes('/brands') ? styles.activeLink : styles.navLink} 
+              style={{color: router.pathname.includes('/brands') ? '#FFD700' : 'white', textDecoration: 'none'}}
+            >
+              Brands
             </Link>
-            <Link href="/vehicle">
-              <a className={router.pathname.includes('/vehicle') ? styles.activeLink : styles.navLink} style={{color: router.pathname.includes('/vehicle') ? '#FFD700' : 'white', textDecoration: 'none'}}>Vehicle Search</a>
+            <Link 
+              href="/vehicle" 
+              className={router.pathname.includes('/vehicle') ? styles.activeLink : styles.navLink} 
+              style={{color: router.pathname.includes('/vehicle') ? '#FFD700' : 'white', textDecoration: 'none'}}
+            >
+              Vehicle Search
             </Link>
-            <Link href="/cart">
-              <a className={styles.cartIcon} style={{color: 'white', textDecoration: 'none'}}>
-                Cart
-                {cartItemCount > 0 && (
-                  <span className={styles.cartCount}>{cartItemCount}</span>
-                )}
-              </a>
+            <Link 
+              href="/cart" 
+              className={styles.cartIcon} 
+              style={{color: 'white', textDecoration: 'none'}}
+            >
+              Cart
+              {cartItemCount > 0 && (
+                <span className={styles.cartCount}>{cartItemCount}</span>
+              )}
             </Link>
           </nav>
           
@@ -134,17 +148,33 @@ const Layout: React.FC<LayoutProps> = ({
           </div>
           
           <nav className={styles.mobileNav}>
-            <Link href="/">
-              <a className={styles.mobileNavLink} onClick={toggleMobileMenu}>Home</a>
+            <Link 
+              href="/" 
+              className={styles.mobileNavLink} 
+              onClick={toggleMobileMenu}
+            >
+              Home
             </Link>
-            <Link href="/brands">
-              <a className={styles.mobileNavLink} onClick={toggleMobileMenu}>Brands</a>
+            <Link 
+              href="/brands" 
+              className={styles.mobileNavLink} 
+              onClick={toggleMobileMenu}
+            >
+              Brands
             </Link>
-            <Link href="/vehicle">
-              <a className={styles.mobileNavLink} onClick={toggleMobileMenu}>Vehicle Search</a>
+            <Link 
+              href="/vehicle" 
+              className={styles.mobileNavLink} 
+              onClick={toggleMobileMenu}
+            >
+              Vehicle Search
             </Link>
-            <Link href="/cart">
-              <a className={styles.mobileNavLink} onClick={toggleMobileMenu}>Cart {cartItemCount > 0 && `(${cartItemCount})`}</a>
+            <Link 
+              href="/cart" 
+              className={styles.mobileNavLink} 
+              onClick={toggleMobileMenu}
+            >
+              Cart {cartItemCount > 0 && `(${cartItemCount})`}
             </Link>
           </nav>
         </div>
@@ -169,17 +199,33 @@ const Layout: React.FC<LayoutProps> = ({
           
           <div className={styles.footerColumn}>
             <h3>Quick Links</h3>
-            <Link href="/about">
-              <a className={styles.footerLink} style={{color: 'white', textDecoration: 'none'}}>About Us</a>
+            <Link 
+              href="/about" 
+              className={styles.footerLink} 
+              style={{color: 'white', textDecoration: 'none'}}
+            >
+              About Us
             </Link>
-            <Link href="/faq">
-              <a className={styles.footerLink} style={{color: 'white', textDecoration: 'none'}}>FAQ</a>
+            <Link 
+              href="/faq" 
+              className={styles.footerLink} 
+              style={{color: 'white', textDecoration: 'none'}}
+            >
+              FAQ
             </Link>
-            <Link href="/shipping">
-              <a className={styles.footerLink} style={{color: 'white', textDecoration: 'none'}}>Shipping</a>
+            <Link 
+              href="/shipping" 
+              className={styles.footerLink} 
+              style={{color: 'white', textDecoration: 'none'}}
+            >
+              Shipping
             </Link>
-            <Link href="/returns">
-              <a className={styles.footerLink} style={{color: 'white', textDecoration: 'none'}}>Returns</a>
+            <Link 
+              href="/returns" 
+              className={styles.footerLink} 
+              style={{color: 'white', textDecoration: 'none'}}
+            >
+              Returns
             </Link>
           </div>
           

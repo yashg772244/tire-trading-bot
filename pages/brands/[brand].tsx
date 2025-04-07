@@ -246,8 +246,8 @@ export default function BrandPage() {
         </Head>
 
         <main className={styles.main}>
-          <Link href="/">
-            <a className={styles.backLink}>← Back to Home</a>
+          <Link href="/" className={styles.backLink}>
+            ← Back to Home
           </Link>
 
           <h1 className={styles.title}>{formattedBrand} Tires</h1>
@@ -262,17 +262,17 @@ export default function BrandPage() {
                       src={(() => {
                         switch(tire.brand.toLowerCase()) {
                           case 'michelin':
-                            return '/images/tires/tire-1.jpg';
+                            return '/data/Tyre.webp';
                           case 'continental':
-                            return '/images/tires/tire-3.jpg';
+                            return '/data/Tyre2.webp';
                           case 'bridgestone':
-                            return '/images/tires/tire-2.jpg';
+                            return '/data/Tyre3.webp';
                           case 'goodyear':
-                            return '/images/tires/tire-1.jpg';
+                            return '/data/Tyre4.webp';
                           case 'pirelli':
-                            return '/images/tires/tire-2.jpg';
+                            return '/data/Tyre5.webp';
                           default:
-                            return '/images/tires/tire-3.jpg';
+                            return '/data/Tyre.webp';
                         }
                       })()}
                       alt={`${tire.brand} ${tire.model}`}
