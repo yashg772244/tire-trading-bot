@@ -26,15 +26,6 @@ const tireNegotiationData = {
   } as Record<number, number>
 };
 
-// Simple response templates
-const responseTemplates = [
-  "I can offer you a {discount}% discount on the {tireName}, bringing the price down to ${discountedPrice} per tire. This is a special offer for today.",
-  "Based on your interest in the {tireName}, I can offer a price of ${discountedPrice} per tire, which includes a {discount}% discount from our regular price.",
-  "For the {tireName}, our regular price is ${originalPrice}, but I can offer you a special deal at ${discountedPrice} per tire, which is a {discount}% discount.",
-  "I'd be happy to offer you a deal on the {tireName}. How about ${discountedPrice} per tire? That's {discount}% off our standard price.",
-  "We value your business, so for the {tireName}, I can offer a {discount}% discount, making it just ${discountedPrice} per tire instead of ${originalPrice}."
-];
-
 interface ConversationState {
   currentDiscount: number;
   agreedPrice: number | null;
@@ -224,27 +215,44 @@ export default async function handler(
     // If user is asking for a discount or mentioning a competitor, 
     // we should apply our discount logic
     if (intent.askingForDiscount || intent.mentioningCompetitor) {
-      // Calculate a discount
-      const discountInfo = calculateMaxDiscount({
-        basePrice: state.basePrice,
-        quantity: state.quantity,
-        isReturningCustomer: state.isReturningCustomer,
-        isPromotionalPeriod: true, // Always enable promotional pricing when negotiating
-        costPrice: state.costPrice,
-        competitorPrice: null
-      });
+      // Calculate base discount based on quantity
+      let baseDiscount = 0.05; // Default 5% for 1-3 tires
+      if (state.quantity >= 4) {
+        baseDiscount = 0.10; // 10% for 4 tires
+      }
+      if (state.quantity >= 5) {
+        baseDiscount = 0.15; // 15% for 5+ tires
+      }
+
+      // Calculate additional discount based on context
+      let additionalDiscount = 0;
+      if (intent.mentioningCompetitor) {
+        additionalDiscount = 0.05; // 5% for competitor mention
+      }
+      if (state.isReturningCustomer) {
+        additionalDiscount = Math.max(additionalDiscount, 0.05); // 5% for returning customer
+      }
+      if (state.isPromotionalPeriod) {
+        additionalDiscount = Math.max(additionalDiscount, 0.05); // 5% for promotional period
+      }
+
+      // Calculate final discount (capped at 25%)
+      const totalDiscount = Math.min(baseDiscount + additionalDiscount, 0.25);
+      
+      // Calculate final price
+      const finalPrice = state.basePrice * (1 - totalDiscount);
       
       // Update the state with new discount information
-      state.agreedPrice = discountInfo.finalPrice;
-      state.currentDiscount = discountInfo.discountRate;
+      state.agreedPrice = finalPrice;
+      state.currentDiscount = totalDiscount;
       
       // Add negotiation flag to the response
       return res.status(200).json({ 
         message: geminiResponse,
         negotiation: {
-          discountRate: discountInfo.discountRate,
-          discountPercentage: discountInfo.discountPercentage,
-          finalPrice: discountInfo.finalPrice
+          discountRate: totalDiscount,
+          discountPercentage: Math.round(totalDiscount * 100),
+          finalPrice: finalPrice
         }
       });
     }
@@ -315,113 +323,5 @@ function getTireInfo(tireId: number) {
     name: tireNames[tireId] || defaultTire.name,
     basePrice: tireNegotiationData.prices[tireId],
     costPrice: tireNegotiationData.costs[tireId] || (tireNegotiationData.prices[tireId] * 0.6) // default to 60% of price if no cost defined
-  };
-}
-
-// Generate response based on user message and conversation state (fallback method)
-function processMessage(
-  userMessage: string, 
-  state: ConversationState,
-  previousMessages: Array<{role: string, content: string}> = []
-): { response: string; updatedState: ConversationState; checkout: boolean } {
-  const updatedState = { ...state };
-  let checkout = false;
-  
-  // Analyze customer intent
-  const intent = analyzeCustomerIntent(userMessage) as CustomerIntent;
-  
-  // Update quantity if mentioned
-  if (intent.mentioningQuantity) {
-    updatedState.quantity = intent.quantity;
-  }
-  
-  // Check for checkout intent
-  if (intent.readyToBuy) {
-    updatedState.checkoutReady = true;
-    checkout = true;
-    
-    // Calculate final price with all discounts
-    const discountInfo = calculateMaxDiscount({
-      basePrice: updatedState.basePrice,
-      quantity: updatedState.quantity,
-      isReturningCustomer: updatedState.isReturningCustomer,
-      isPromotionalPeriod: updatedState.isPromotionalPeriod,
-      costPrice: updatedState.costPrice,
-      competitorPrice: null
-    }) as DiscountInfo;
-    
-    updatedState.agreedPrice = discountInfo.finalPrice;
-    
-    const finalPrice = updatedState.agreedPrice || updatedState.basePrice;
-    
-    return {
-      response: `Great! I'll set up your order for ${updatedState.quantity} ${updatedState.tireName} tires at $${finalPrice.toFixed(2)} each. Your total comes to $${(finalPrice * updatedState.quantity).toFixed(2)}. You can proceed to checkout now.`,
-      updatedState,
-      checkout
-    };
-  }
-  
-  // If asking for a discount or mentioning competitor
-  if (intent.askingForDiscount || intent.mentioningCompetitor) {
-    // We'll use isPromotionalPeriod for this negotiation only
-    const isPromotionalPeriod = true;
-    
-    // Calculate a new discount based on the conversation context
-    const discountInfo = calculateMaxDiscount({
-      basePrice: updatedState.basePrice,
-      quantity: updatedState.quantity,
-      isReturningCustomer: updatedState.isReturningCustomer,
-      isPromotionalPeriod,
-      costPrice: updatedState.costPrice,
-      competitorPrice: null
-    }) as DiscountInfo;
-    
-    // Update the state with the new agreed price
-    updatedState.agreedPrice = discountInfo.finalPrice;
-    updatedState.currentDiscount = discountInfo.discountRate;
-    
-    // Generate a response using our templates
-    const botResponse = generateResponse(
-      intent, 
-      discountInfo, 
-      updatedState.tireName, 
-      updatedState.quantity
-    );
-    
-    return {
-      response: botResponse,
-      updatedState,
-      checkout
-    };
-  }
-  
-  // Handle greeting or initial message
-  if (userMessage.toLowerCase().includes('hello') || 
-      userMessage.toLowerCase().includes('hi') || 
-      userMessage.toLowerCase().includes('hey') || 
-      userMessage.length < 10) {
-    return {
-      response: `Hello! I'd be happy to help you with the ${updatedState.tireName}. Our price is $${updatedState.basePrice.toFixed(2)} per tire, but I may be able to offer you a special deal. What are you looking for?`,
-      updatedState,
-      checkout
-    };
-  }
-  
-  // Handle price inquiry
-  if (userMessage.toLowerCase().includes('price') || 
-      userMessage.toLowerCase().includes('cost') || 
-      userMessage.toLowerCase().includes('how much')) {
-    return {
-      response: `The ${updatedState.tireName} is priced at $${updatedState.basePrice.toFixed(2)} per tire. I can offer discounts based on quantity and special promotions. How many tires are you interested in?`,
-      updatedState,
-      checkout
-    };
-  }
-  
-  // Default response when nothing specific is detected
-  return {
-    response: `I understand you're interested in the ${updatedState.tireName}. These are high-quality tires priced at $${updatedState.basePrice.toFixed(2)} each. Let me know if you have any specific questions about pricing, features, or if you're looking for a special deal.`,
-    updatedState,
-    checkout
   };
 } 

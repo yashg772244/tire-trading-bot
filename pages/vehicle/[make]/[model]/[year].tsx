@@ -38,21 +38,10 @@ interface CartItem {
 }
 
 interface Filters {
-  brands: {
-    [key: string]: boolean;
-  };
-  price: {
-    min: number;
-    max: number;
-  };
-  features: {
-    allSeason: boolean;
-    winterRated: boolean;
-    runFlat: boolean;
-    performanceRated: boolean;
-    lowNoise: boolean;
-    fuelEfficient: boolean;
-  };
+  brand: string[];
+  size: string[];
+  priceRange: [number, number];
+  performance: string[];
 }
 
 // Component to render checkout button in chat
@@ -98,7 +87,6 @@ export default function VehicleTires() {
   const [isLoading, setIsLoading] = useState(true);
   const [tires, setTires] = useState<Tire[]>([]);
   const [filteredTires, setFilteredTires] = useState<Tire[]>([]);
-  const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([{ role: 'bot', content: `Hi! I'm your tire expert for your ${make} ${model}. How can I help you today?` }]);
   const [currentMessage, setCurrentMessage] = useState('');
@@ -107,28 +95,12 @@ export default function VehicleTires() {
   const [checkoutData, setCheckoutData] = useState<any>(null);
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItemCount, setCartItemCount] = useState(0);
   const [filters, setFilters] = useState<Filters>({
-    brands: {
-      michelin: false,
-      bridgestone: false,
-      continental: false,
-      goodyear: false,
-      pirelli: false
-    },
-    price: {
-      min: 0,
-      max: 1000
-    },
-    features: {
-      allSeason: false,
-      winterRated: false,
-      runFlat: false,
-      performanceRated: false,
-      lowNoise: false,
-      fuelEfficient: false
-    }
+    brand: [],
+    size: [],
+    priceRange: [0, 1000],
+    performance: []
   });
   const [activeTire, setActiveTire] = useState<Tire | null>(null);
   const [showChat, setShowChat] = useState(false);
@@ -238,7 +210,7 @@ export default function VehicleTires() {
       let filteredResults = [...tires];
       
       // Filter by brands
-      const selectedBrands = Object.keys(filters.brands).filter(brand => filters.brands[brand]);
+      const selectedBrands = filters.brand;
       if (selectedBrands.length > 0) {
         filteredResults = filteredResults.filter(tire => selectedBrands.includes(tire.brand.toLowerCase()));
       }
@@ -246,11 +218,11 @@ export default function VehicleTires() {
       // Filter by price range
       filteredResults = filteredResults.filter(tire => {
         const offerPrice = Number(offerPrices[tire.id] || calculateOfferPrice(tire.base_price));
-        return offerPrice >= filters.price.min && offerPrice <= filters.price.max;
+        return offerPrice >= filters.priceRange[0] && offerPrice <= filters.priceRange[1];
       });
       
       // Filter by features
-      const hasSelectedFeatures = Object.values(filters.features).some(value => value);
+      const hasSelectedFeatures = filters.performance.length > 0;
       if (hasSelectedFeatures && filteredResults.length > 0) {
         filteredResults = filteredResults.filter(tire => {
           if (!tire.features) return false;
@@ -260,10 +232,7 @@ export default function VehicleTires() {
             const type = tireFeatures.type?.toLowerCase() || '';
             
             // Check if any selected feature matches
-            if (filters.features.allSeason && type.includes('all-season')) return true;
-            if (filters.features.winterRated && type.includes('winter')) return true;
-            if (filters.features.performanceRated && type.includes('performance')) return true;
-            if (filters.features.runFlat && type.includes('run')) return true;
+            if (filters.performance.includes(type)) return true;
             
             // If features are selected but this tire doesn't match any, filter it out
             return false;
@@ -392,14 +361,6 @@ export default function VehicleTires() {
     return discountedPrice.toFixed(2);
   };
 
-  const handleCompareToggle = (tire: Tire) => {
-    // This function is no longer used
-  };
-
-  const handleCompareTires = () => {
-    setIsCompareModalOpen(true);
-  };
-
   const handleNegotiatePrice = (tire: Tire) => {
     setSelectedTireForChat(tire);
     setIsChatOpen(true);
@@ -519,19 +480,23 @@ export default function VehicleTires() {
 
   // Add filter handling functions
   const handleBrandFilterChange = (brand: string) => {
-    setFilters(prev => ({
-      ...prev,
-      brands: {
-        ...prev.brands,
-        [brand]: !prev.brands[brand]
-      }
-    }));
+    if (filters.brand.includes(brand)) {
+      setFilters(prev => ({
+        ...prev,
+        brand: prev.brand.filter(b => b !== brand)
+      }));
+    } else {
+      setFilters(prev => ({
+        ...prev,
+        brand: [...prev.brand, brand]
+      }));
+    }
   };
 
   const handlePriceFilterChange = (min: number, max: number) => {
     setFilters(prev => ({
       ...prev,
-      price: { min, max }
+      priceRange: [min, max]
     }));
   };
 
@@ -605,12 +570,12 @@ export default function VehicleTires() {
             
             <div className={styles.filterGroup}>
               <h3>Brand</h3>
-              {Object.keys(filters.brands).map((brand) => (
+              {Object.keys(filters.brand).map((brand) => (
                 <div key={brand} className={styles.filterOption}>
                   <input
                     type="checkbox"
                     id={`brand-${brand}`}
-                    checked={filters.brands[brand]}
+                    checked={filters.brand.includes(brand)}
                     onChange={() => handleBrandFilterChange(brand)}
                   />
                   <label htmlFor={`brand-${brand}`}>
@@ -623,28 +588,28 @@ export default function VehicleTires() {
             <div className={styles.filterGroup}>
               <h3>Price Range</h3>
               <div className={styles.priceSlider}>
-                <label htmlFor="min-price">Min: ${filters.price.min}</label>
+                <label htmlFor="min-price">Min: ${filters.priceRange[0]}</label>
                 <input
                   type="range"
                   id="min-price"
                   min="0"
                   max="500"
                   step="10"
-                  value={filters.price.min}
-                  onChange={(e) => handlePriceFilterChange(Number(e.target.value), filters.price.max)}
+                  value={filters.priceRange[0]}
+                  onChange={(e) => handlePriceFilterChange(Number(e.target.value), filters.priceRange[1])}
                   className={styles.priceInput}
                 />
               </div>
               <div className={styles.priceSlider}>
-                <label htmlFor="max-price">Max: ${filters.price.max}</label>
+                <label htmlFor="max-price">Max: ${filters.priceRange[1]}</label>
                 <input
                   type="range"
                   id="max-price"
                   min="100"
                   max="1000"
                   step="10"
-                  value={filters.price.max}
-                  onChange={(e) => handlePriceFilterChange(filters.price.min, Number(e.target.value))}
+                  value={filters.priceRange[1]}
+                  onChange={(e) => handlePriceFilterChange(filters.priceRange[0], Number(e.target.value))}
                   className={styles.priceInput}
                 />
               </div>
@@ -652,66 +617,22 @@ export default function VehicleTires() {
 
             <div className={styles.filterGroup}>
               <h3>Features</h3>
-              <div className={styles.filterOption}>
-                <input
-                  type="checkbox"
-                  id="all-season"
-                  checked={filters.features.allSeason}
-                  onChange={() => setFilters({
-                    ...filters,
-                    features: {
-                      ...filters.features,
-                      allSeason: !filters.features.allSeason
-                    }
-                  })}
-                />
-                <label htmlFor="all-season">All Season</label>
-              </div>
-              <div className={styles.filterOption}>
-                <input
-                  type="checkbox"
-                  id="winter-rated"
-                  checked={filters.features.winterRated}
-                  onChange={() => setFilters({
-                    ...filters,
-                    features: {
-                      ...filters.features,
-                      winterRated: !filters.features.winterRated
-                    }
-                  })}
-                />
-                <label htmlFor="winter-rated">Winter Rated</label>
-              </div>
-              <div className={styles.filterOption}>
-                <input
-                  type="checkbox"
-                  id="run-flat"
-                  checked={filters.features.runFlat}
-                  onChange={() => setFilters({
-                    ...filters,
-                    features: {
-                      ...filters.features,
-                      runFlat: !filters.features.runFlat
-                    }
-                  })}
-                />
-                <label htmlFor="run-flat">Run Flat</label>
-              </div>
-              <div className={styles.filterOption}>
-                <input
-                  type="checkbox"
-                  id="performance"
-                  checked={filters.features.performanceRated}
-                  onChange={() => setFilters({
-                    ...filters,
-                    features: {
-                      ...filters.features,
-                      performanceRated: !filters.features.performanceRated
-                    }
-                  })}
-                />
-                <label htmlFor="performance">Performance</label>
-              </div>
+              {Object.keys(filters.performance).map((feature) => (
+                <div key={feature} className={styles.filterOption}>
+                  <input
+                    type="checkbox"
+                    id={`feature-${feature}`}
+                    checked={filters.performance.includes(feature)}
+                    onChange={() => setFilters({
+                      ...filters,
+                      performance: filters.performance.includes(feature)
+                        ? filters.performance.filter(f => f !== feature)
+                        : [...filters.performance, feature]
+                    })}
+                  />
+                  <label htmlFor={`feature-${feature}`}>{feature.charAt(0).toUpperCase() + feature.slice(1)}</label>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -883,84 +804,6 @@ export default function VehicleTires() {
           </div>
         )}
       </div>
-
-      {/* Cart Modal */}
-      {isCartOpen && (
-        <div className={styles.cartModal}>
-          <div className={styles.cartContent}>
-            <div className={styles.cartHeader}>
-              <h2>Your Cart</h2>
-              <button onClick={() => setIsCartOpen(false)}>×</button>
-            </div>
-            
-            {cart.length === 0 ? (
-              <div className={styles.emptyCart}>
-                <p>Your cart is empty.</p>
-                <p>Add some tires to get started!</p>
-              </div>
-            ) : (
-              <>
-                <div className={styles.cartItems}>
-                  {cart.map(item => (
-                    <div key={item.id} className={styles.cartItem}>
-                      <div className={styles.cartItemDetails}>
-                        <h3>{item.brand} {item.model}</h3>
-                        <p>${item.offerPrice.toFixed(2)} per tire</p>
-                      </div>
-                      
-                      <div className={styles.cartItemQuantity}>
-                        <button 
-                          onClick={() => updateCartItemQuantity(item.id, item.quantity - 1)}
-                          disabled={item.quantity <= 1}
-                        >
-                          -
-                        </button>
-                        <span>{item.quantity}</span>
-                        <button onClick={() => updateCartItemQuantity(item.id, item.quantity + 1)}>
-                          +
-                        </button>
-                      </div>
-                      
-                      <div className={styles.cartItemPrice}>
-                        ${item.totalPrice.toFixed(2)}
-                      </div>
-                      
-                      <button 
-                        className={styles.removeItem}
-                        onClick={() => removeFromCart(item.id)}
-                      >
-                        ×
-                      </button>
-                    </div>
-                  ))}
-                </div>
-                
-                <div className={styles.cartSummary}>
-                  <div className={styles.cartTotal}>
-                    <span>Total:</span>
-                    <span>${cart.reduce((sum, item) => sum + item.totalPrice, 0).toFixed(2)}</span>
-                  </div>
-                  
-                  <div className={styles.cartActions}>
-                    <button 
-                      className={styles.clearCartButton}
-                      onClick={clearCart}
-                    >
-                      Clear Cart
-                    </button>
-                    <Link 
-                      href="/cart"
-                      className={styles.checkoutButton}
-                    >
-                      View Cart
-                    </Link>
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
     </Layout>
   );
 } 

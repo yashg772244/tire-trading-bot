@@ -18,11 +18,6 @@ export default function Home() {
   const [tireWidth, setTireWidth] = useState('');
   const [tireAspect, setTireAspect] = useState('');
   const [tireRim, setTireRim] = useState('');
-  const [quantities, setQuantities] = useState<QuantitiesType>({
-    1: 1,
-    2: 1,
-    3: 1
-  });
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,45 +29,29 @@ export default function Home() {
     }
   };
 
-  const updateQuantity = (id: number, change: number) => {
-    setQuantities(prev => {
-      const newQty = Math.max(1, prev[id] + change);
-      return { ...prev, [id]: newQty };
-    });
-  };
-
-  const addToCart = (id: number, name: string, brand: string, price: number) => {
-    // In a real application, this would add to cart state/localStorage
-    alert(`Added ${quantities[id]} ${brand} ${name} to cart!`);
-  };
-
-  const calculateDiscount = (price: number) => {
-    return (price * 0.95).toFixed(2);
-  };
-
   const topBrands = [
     { 
       id: 'michelin', 
       name: 'Michelin', 
-      logo: '/images/brands/michelin.png',
+      logo: '/brands/michelin.png',
       description: 'Premium performance and durability'
     },
     { 
       id: 'bridgestone', 
       name: 'Bridgestone', 
-      logo: '/images/brands/bridgestone.png',
+      logo: '/brands/bridgestone.jpg',
       description: 'Innovation for every driving condition'
     },
     { 
       id: 'continental', 
       name: 'Continental', 
-      logo: '/images/brands/continental.png',
+      logo: '/brands/continental.png',
       description: 'German engineering for optimal safety'
     },
     { 
       id: 'pirelli', 
       name: 'Pirelli', 
-      logo: '/images/brands/pirelli.png',
+      logo: '/brands/pirelli.png',
       description: 'Performance-focused tire technology'
     }
   ];
@@ -226,140 +205,20 @@ export default function Home() {
               {topBrands.map((brand) => (
                 <Link href={`/brands/${brand.id}`} key={brand.id}>
                   <a className={styles.brandCard}>
-                    <Image 
-                      src={brand.logo} 
-                      alt={`${brand.name} logo`} 
-                      width={120} 
-                      height={80}
-                      className={styles.brandLogo}
-                    />
+                    <div className={styles.brandLogoContainer}>
+                      <Image 
+                        src={brand.logo} 
+                        alt={`${brand.name} logo`} 
+                        width={120} 
+                        height={80}
+                        className={styles.brandLogo}
+                      />
+                    </div>
                     <h3 className={styles.brandName}>{brand.name}</h3>
                     <p className={styles.brandDescription}>{brand.description}</p>
                   </a>
                 </Link>
               ))}
-            </div>
-          </section>
-
-          <section className={styles.featuredProducts}>
-            <h2 className={styles.sectionTitle}>Featured Tires</h2>
-            <div className={styles.productGrid}>
-              <div className={styles.productCard}>
-                <Image 
-                  src="/images/tires/tire-1.jpg"
-                  alt="Michelin Pilot Sport 4S"
-                  width={300}
-                  height={200}
-                  className={styles.productImage}
-                />
-                <div className={styles.productInfo}>
-                  <h3 className={styles.productName}>Michelin Pilot Sport 4S</h3>
-                  <p className={styles.productBrand}>Michelin</p>
-                  <div className={styles.priceContainer}>
-                    <span className={styles.originalPrice}>$199.99</span>
-                    <span className={styles.discountedPrice}>${calculateDiscount(199.99)}</span>
-                  </div>
-                  <div className={styles.quantitySelector}>
-                    <div className={styles.quantityButton} onClick={() => updateQuantity(1, -1)}>-</div>
-                    <input 
-                      type="text" 
-                      className={styles.quantityInput} 
-                      value={quantities[1]} 
-                      readOnly 
-                    />
-                    <div className={styles.quantityButton} onClick={() => updateQuantity(1, 1)}>+</div>
-                  </div>
-                  <div className={styles.actionButtons}>
-                    <button 
-                      className={styles.productButton} 
-                      onClick={() => addToCart(1, "Pilot Sport 4S", "Michelin", 199.99)}
-                    >
-                      Add to Cart
-                    </button>
-                    <Link href="/tire/1">
-                      <a className={styles.viewDetailsLink}>View Details</a>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              
-              <div className={styles.productCard}>
-                <Image 
-                  src="/images/tires/tire-2.jpg"
-                  alt="Bridgestone Potenza Sport"
-                  width={300}
-                  height={200}
-                  className={styles.productImage}
-                />
-                <div className={styles.productInfo}>
-                  <h3 className={styles.productName}>Bridgestone Potenza Sport</h3>
-                  <p className={styles.productBrand}>Bridgestone</p>
-                  <div className={styles.priceContainer}>
-                    <span className={styles.originalPrice}>$189.99</span>
-                    <span className={styles.discountedPrice}>${calculateDiscount(189.99)}</span>
-                  </div>
-                  <div className={styles.quantitySelector}>
-                    <div className={styles.quantityButton} onClick={() => updateQuantity(2, -1)}>-</div>
-                    <input 
-                      type="text" 
-                      className={styles.quantityInput} 
-                      value={quantities[2]} 
-                      readOnly 
-                    />
-                    <div className={styles.quantityButton} onClick={() => updateQuantity(2, 1)}>+</div>
-                  </div>
-                  <div className={styles.actionButtons}>
-                    <button 
-                      className={styles.productButton} 
-                      onClick={() => addToCart(2, "Potenza Sport", "Bridgestone", 189.99)}
-                    >
-                      Add to Cart
-                    </button>
-                    <Link href="/tire/3">
-                      <a className={styles.viewDetailsLink}>View Details</a>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              
-              <div className={styles.productCard}>
-                <Image 
-                  src="/images/tires/tire-3.jpg"
-                  alt="Continental ExtremeContact DWS06"
-                  width={300}
-                  height={200}
-                  className={styles.productImage}
-                />
-                <div className={styles.productInfo}>
-                  <h3 className={styles.productName}>Continental ExtremeContact</h3>
-                  <p className={styles.productBrand}>Continental</p>
-                  <div className={styles.priceContainer}>
-                    <span className={styles.originalPrice}>$179.99</span>
-                    <span className={styles.discountedPrice}>${calculateDiscount(179.99)}</span>
-                  </div>
-                  <div className={styles.quantitySelector}>
-                    <div className={styles.quantityButton} onClick={() => updateQuantity(3, -1)}>-</div>
-                    <input 
-                      type="text" 
-                      className={styles.quantityInput} 
-                      value={quantities[3]} 
-                      readOnly 
-                    />
-                    <div className={styles.quantityButton} onClick={() => updateQuantity(3, 1)}>+</div>
-                  </div>
-                  <div className={styles.actionButtons}>
-                    <button 
-                      className={styles.productButton} 
-                      onClick={() => addToCart(3, "ExtremeContact", "Continental", 179.99)}
-                    >
-                      Add to Cart
-                    </button>
-                    <Link href="/tire/2">
-                      <a className={styles.viewDetailsLink}>View Details</a>
-                    </Link>
-                  </div>
-                </div>
-              </div>
             </div>
           </section>
         </main>
