@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import styles from '@/styles/Vehicle.module.css';
 import Layout from '@/components/Layout';
-import ChatInterface from '@/components/ChatInterface';
+import CursorChatInterface from '@/components/CursorChatInterface';
 
 interface ChatMessage {
   role: 'user' | 'bot';
@@ -23,7 +23,7 @@ interface Tire {
   base_price: number;
   description: string;
   image_url: string;
-  features: string;
+  features: string[];
 }
 
 interface CartItem {
@@ -105,40 +105,62 @@ export default function VehicleTires() {
   const [activeTire, setActiveTire] = useState<Tire | null>(null);
   const [showChat, setShowChat] = useState(false);
 
-  // Sample tires data to use as a fallback
-  const sampleTires = [
+  // Sample tire data for fallback
+  const sampleTires: Tire[] = [
     {
-      id: 'michelin-pilot',
-      brand: 'Michelin',
+      id: 'michelin-pilot-sport-4s',
+      brand: 'michelin',
       model: 'Pilot Sport 4S',
-      size: '225/45R17',
-      full_size: '225/45R17',
-      base_price: 199.99,
+      size: '225/45R18',
+      full_size: '225/45R18 95Y',
+      base_price: 299.99,
       description: 'High-performance summer tire with excellent grip and handling',
       image_url: '/tires/michelin-pilot-sport-4s.jpg',
-      features: JSON.stringify({ type: 'Summer' })
+      features: ['summer', 'performance', 'grip']
     },
     {
-      id: 'continental-extreme',
-      brand: 'Continental',
-      model: 'ExtremeContact DWS06',
-      size: '225/45R17',
-      full_size: '225/45R17',
-      base_price: 179.99,
+      id: 'continental-dws06',
+      brand: 'continental',
+      model: 'ExtremeContact DWS06 Plus',
+      size: '225/45R18',
+      full_size: '225/45R18 95V',
+      base_price: 249.99,
       description: 'All-season tire with excellent wet and dry performance',
       image_url: '/tires/continental-dws06.jpg',
-      features: JSON.stringify({ type: 'All-Season' })
+      features: ['all-season', 'performance', 'wet']
     },
     {
       id: 'bridgestone-potenza',
-      brand: 'Bridgestone',
+      brand: 'bridgestone',
       model: 'Potenza Sport',
-      size: '225/45R17',
-      full_size: '225/45R17',
-      base_price: 189.99,
-      description: 'Ultra-high performance tire with maximum grip and control',
+      size: '225/45R18',
+      full_size: '225/45R18 95Y',
+      base_price: 279.99,
+      description: 'Sport performance tire with responsive handling',
       image_url: '/tires/bridgestone.webp',
-      features: JSON.stringify({ type: 'Summer' })
+      features: ['summer', 'performance', 'handling']
+    },
+    {
+      id: 'pirelli-p7',
+      brand: 'pirelli',
+      model: 'Cinturato P7',
+      size: '225/45R18',
+      full_size: '225/45R18 95V',
+      base_price: 259.99,
+      description: 'All-season tire with balanced performance',
+      image_url: '/tires/Pirelli-Cintaurato-P7.jpg',
+      features: ['all-season', 'comfort', 'efficiency']
+    },
+    {
+      id: 'goodyear-eagle-f1',
+      brand: 'goodyear',
+      model: 'Eagle F1 Asymmetric 6',
+      size: '225/45R18',
+      full_size: '225/45R18 95Y',
+      base_price: 289.99,
+      description: 'Ultra-high performance summer tire',
+      image_url: '/tires/goodyear-nascar-225-60r16.webp',
+      features: ['summer', 'performance', 'grip']
     }
   ];
 
@@ -148,16 +170,27 @@ export default function VehicleTires() {
       
       // Fetch tires from the API based on vehicle details
       fetch(`/api/vehicle-tires/${make}/${model}/${year}`)
-        .then(response => response.json())
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
         .then(data => {
-          // The API now returns tires in a "tires" property
-          const tireData = data.tires || data;
+          console.log('API response:', data);
+          
+          // The API returns tires in a "tires" property
+          const tireData = data.tires || [];
           
           if (Array.isArray(tireData) && tireData.length > 0) {
             setTires(tireData);
+            // Initialize filtered tires with all tires
+            setFilteredTires(tireData);
           } else {
             // Use sample data as fallback
+            console.log('Using sample tires as fallback');
             setTires(sampleTires);
+            setFilteredTires(sampleTires);
           }
           setIsLoading(false);
         })
@@ -165,6 +198,7 @@ export default function VehicleTires() {
           console.error('Error fetching tires:', error);
           // Use sample data as fallback
           setTires(sampleTires);
+          setFilteredTires(sampleTires);
           setIsLoading(false);
         });
     }
@@ -175,7 +209,7 @@ export default function VehicleTires() {
     if (tires.length > 0) {
       const prices: { [key: string]: number } = {};
       tires.forEach(tire => {
-        const discountPercent = 15; // Fixed 15% discount
+        const discountPercent = 5; // Fixed 5% discount
         const discountAmount = (tire.base_price * discountPercent) / 100;
         prices[tire.id.toString()] = Number((tire.base_price - discountAmount).toFixed(2));
       });
@@ -204,52 +238,45 @@ export default function VehicleTires() {
     setCartItemCount(totalItems);
   }, [cart]);
 
+  // Apply filters whenever filters or tires change
+  useEffect(() => {
+    let filtered = [...tires];
+    
+    // Apply brand filter
+    if (filters.brand.length > 0) {
+      filtered = filtered.filter(tire => 
+        filters.brand.includes(tire.brand.toLowerCase())
+      );
+    }
+    
+    // Apply price range filter
+    filtered = filtered.filter(tire => 
+      tire.base_price >= filters.priceRange[0] && 
+      tire.base_price <= filters.priceRange[1]
+    );
+    
+    // Apply performance/feature filter
+    if (filters.performance.length > 0) {
+      filtered = filtered.filter(tire => 
+        tire.features.some((feature: string) => 
+          filters.performance.includes(feature.toLowerCase())
+        )
+      );
+    }
+    
+    setFilteredTires(filtered);
+  }, [filters, tires]);
+
+  // Initialize quantities with 1 for each tire when tires are loaded
   useEffect(() => {
     if (tires.length > 0) {
-      // Create an array of filtered tires
-      let filteredResults = [...tires];
-      
-      // Filter by brands
-      const selectedBrands = filters.brand;
-      if (selectedBrands.length > 0) {
-        filteredResults = filteredResults.filter(tire => selectedBrands.includes(tire.brand.toLowerCase()));
-      }
-      
-      // Filter by price range
-      filteredResults = filteredResults.filter(tire => {
-        const offerPrice = Number(offerPrices[tire.id] || calculateOfferPrice(tire.base_price));
-        return offerPrice >= filters.priceRange[0] && offerPrice <= filters.priceRange[1];
+      const initialQuantities: Record<string, number> = {};
+      tires.forEach(tire => {
+        initialQuantities[tire.id] = 1;
       });
-      
-      // Filter by features
-      const hasSelectedFeatures = filters.performance.length > 0;
-      if (hasSelectedFeatures && filteredResults.length > 0) {
-        filteredResults = filteredResults.filter(tire => {
-          if (!tire.features) return false;
-          
-          try {
-            const tireFeatures = JSON.parse(tire.features);
-            const type = tireFeatures.type?.toLowerCase() || '';
-            
-            // Check if any selected feature matches
-            if (filters.performance.includes(type)) return true;
-            
-            // If features are selected but this tire doesn't match any, filter it out
-            return false;
-          } catch (e) {
-            // If JSON parsing fails, keep the tire in the results
-            return true;
-          }
-        });
-      }
-      
-      // Set the filtered tires
-      setFilteredTires(filteredResults);
-    } else {
-      // If no tires are loaded yet, set empty array
-      setFilteredTires([]);
+      setQuantities(initialQuantities);
     }
-  }, [tires, filters, offerPrices]);
+  }, [tires]);
 
   const handleChatSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -373,67 +400,48 @@ export default function VehicleTires() {
   };
 
   const handleQuantityChange = (tireId: string, value: number) => {
+    // Ensure quantity is between 1 and 99
+    const safeValue = Math.max(1, Math.min(99, value));
+    
     setQuantities({
       ...quantities,
-      [tireId]: Math.max(1, value)
+      [tireId]: safeValue
     });
   };
 
-  const handleAddToCart = (tire: Tire) => {
-    // Ensure quantity is a number
-    const quantity = Number(quantities[tire.id] || 1);
-    // Ensure offer price is a number
-    const offerPrice = Number(offerPrices[tire.id] || calculateOfferPrice(tire.base_price, quantity));
+  const handleAddToCart = (tire: Tire, quantity: number) => {
+    const pricePerTire = offerPrices[tire.id] || tire.base_price;
+    const totalPrice = pricePerTire * quantity;
+    const mountingPrice = quantity * 25; // $25 per tire for mounting
     
-    // Check if this tire is already in the cart
-    const existingItemIndex = cart.findIndex(item => item.id.toString() === tire.id.toString());
+    // Show a message that the item was added to cart
+    alert(`Added ${quantity} ${tire.brand} ${tire.model} tire${quantity > 1 ? 's' : ''} to cart. Redirecting to checkout...`);
     
-    if (existingItemIndex >= 0) {
-      // Update existing item
-      const updatedCart = [...cart];
-      const newQuantity = Number(updatedCart[existingItemIndex].quantity) + quantity;
-      updatedCart[existingItemIndex] = {
-        ...updatedCart[existingItemIndex],
-        quantity: newQuantity,
-        totalPrice: newQuantity * offerPrice
-      };
-      setCart(updatedCart);
-    } else {
-      // Add new item
-      const newItem: CartItem = {
-        id: Number(tire.id),
-        brand: tire.brand,
-        model: tire.model,
-        price: Number(tire.base_price),
-        offerPrice: offerPrice,
-        quantity: quantity,
-        totalPrice: quantity * offerPrice
-      };
-      setCart([...cart, newItem]);
-    }
+    // Create checkout URL with data as query params
+    const params = new URLSearchParams();
+    params.append('tireId', tire.id);
+    params.append('quantity', quantity.toString());
+    params.append('pricePerTire', pricePerTire.toString());
+    params.append('totalPrice', totalPrice.toString());
+    params.append('mountingPrice', mountingPrice.toString());
     
-    // Show a confirmation message
-    alert(`Added ${quantity} ${tire.brand} ${tire.model} tire${quantity > 1 ? 's' : ''} to your cart!`);
+    // Redirect to checkout page
+    router.push(`/checkout?${params.toString()}`);
   };
 
-  // New function to handle direct checkout
-  const handleBuyNow = (tire: Tire) => {
-    // Ensure quantity is a number
-    const quantity = Number(quantities[tire.id] || 1);
-    // Ensure offer price is a number
-    const offerPrice = Number(offerPrices[tire.id] || calculateOfferPrice(tire.base_price, quantity));
+  // Add this function to handle direct checkout from tire card
+  const handleBuyNow = (tire: Tire, quantity: number) => {
+    const pricePerTire = offerPrices[tire.id] || tire.base_price;
+    const totalPrice = pricePerTire * quantity;
+    const mountingPrice = quantity * 25; // $25 per tire for mounting
     
-    // Create params for checkout
+    // Create checkout URL with data as query params
     const params = new URLSearchParams();
-    params.append('tireId', tire.id.toString());
+    params.append('tireId', tire.id);
     params.append('quantity', quantity.toString());
-    params.append('pricePerTire', offerPrice.toString());
-    params.append('totalPrice', (quantity * offerPrice).toString());
-    
-    // Add the current URL as a referrer parameter
-    if (typeof window !== 'undefined') {
-      params.append('referrer', encodeURIComponent(window.location.href));
-    }
+    params.append('pricePerTire', pricePerTire.toString());
+    params.append('totalPrice', totalPrice.toString());
+    params.append('mountingPrice', mountingPrice.toString());
     
     // Redirect to checkout page
     router.push(`/checkout?${params.toString()}`);
@@ -501,26 +509,27 @@ export default function VehicleTires() {
   };
 
   // Add this function to handle checkout
-  const handleCheckoutFromChat = (checkoutData: any) => {
+  const handleCheckoutFromChat = (tireId: string, quantity: number, pricePerTire: number, totalPrice: number, additionalServices?: boolean, servicesPrice?: number) => {
     // Create checkout URL with data as query params
     const params = new URLSearchParams();
-    params.append('tireId', checkoutData.tireId.toString());
-    params.append('quantity', checkoutData.quantity.toString());
-    params.append('pricePerTire', checkoutData.pricePerTire.toString());
-    params.append('totalPrice', checkoutData.totalPrice.toString());
+    params.append('tireId', tireId);
+    params.append('quantity', quantity.toString());
+    params.append('pricePerTire', pricePerTire.toString());
+    params.append('totalPrice', totalPrice.toString());
     
-    if (checkoutData.additionalServices) {
+    // Add mounting price (default to $25 per tire)
+    const mountingPrice = quantity * 25;
+    params.append('mountingPrice', mountingPrice.toString());
+    
+    if (additionalServices) {
       params.append('additionalServices', 'true');
-      params.append('servicesPrice', checkoutData.servicesPrice.toString());
-      
-      // Calculate total price including services
-      const totalWithServices = checkoutData.totalPrice + checkoutData.servicesPrice;
-      params.append('totalWithServices', totalWithServices.toString());
-    }
-
-    // Add the current URL as a referrer parameter
-    if (typeof window !== 'undefined') {
-      params.append('referrer', encodeURIComponent(window.location.href));
+      if (servicesPrice) {
+        params.append('servicesPrice', servicesPrice.toString());
+        
+        // Calculate total price including services
+        const totalWithServices = totalPrice + servicesPrice;
+        params.append('totalWithServices', totalWithServices.toString());
+      }
     }
 
     // Redirect to checkout page
@@ -558,10 +567,10 @@ export default function VehicleTires() {
             ← Back to vehicle search
           </Link>
           <h1 className={styles.title}>
-            {make} {model} ({year}) Tires
+            {formattedMake} {formattedModel} ({formattedYear}) Tires
           </h1>
           <p className={styles.description}>
-            We found {tires.length} tire options that are perfect for your vehicle
+            We found {filteredTires.length} tire options that are perfect for your vehicle
           </p>
         </div>
 
@@ -572,16 +581,16 @@ export default function VehicleTires() {
             
             <div className={styles.filterGroup}>
               <h3>Brand</h3>
-              {Object.keys(filters.brand).map((brand) => (
+              {['Michelin', 'Continental', 'Bridgestone', 'Pirelli', 'Goodyear'].map((brand) => (
                 <div key={brand} className={styles.filterOption}>
                   <input
                     type="checkbox"
                     id={`brand-${brand}`}
-                    checked={filters.brand.includes(brand)}
-                    onChange={() => handleBrandFilterChange(brand)}
+                    checked={filters.brand.includes(brand.toLowerCase())}
+                    onChange={() => handleBrandFilterChange(brand.toLowerCase())}
                   />
                   <label htmlFor={`brand-${brand}`}>
-                    {brand.charAt(0).toUpperCase() + brand.slice(1)}
+                    {brand}
                   </label>
                 </div>
               ))}
@@ -619,168 +628,120 @@ export default function VehicleTires() {
 
             <div className={styles.filterGroup}>
               <h3>Features</h3>
-              {Object.keys(filters.performance).map((feature) => (
+              {['Summer', 'All-Season', 'Winter'].map((feature) => (
                 <div key={feature} className={styles.filterOption}>
                   <input
                     type="checkbox"
                     id={`feature-${feature}`}
-                    checked={filters.performance.includes(feature)}
+                    checked={filters.performance.includes(feature.toLowerCase())}
                     onChange={() => setFilters({
                       ...filters,
-                      performance: filters.performance.includes(feature)
-                        ? filters.performance.filter(f => f !== feature)
-                        : [...filters.performance, feature]
+                      performance: filters.performance.includes(feature.toLowerCase())
+                        ? filters.performance.filter(f => f !== feature.toLowerCase())
+                        : [...filters.performance, feature.toLowerCase()]
                     })}
                   />
-                  <label htmlFor={`feature-${feature}`}>{feature.charAt(0).toUpperCase() + feature.slice(1)}</label>
+                  <label htmlFor={`feature-${feature}`}>{feature}</label>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Content Section */}
-          <div className={styles.contentSection}>
-            <div className={styles.tiresGrid}>
-              {filteredTires.map((tire) => {
-                const quantity = quantities[tire.id.toString()] || 1;
-                const discountPercent = 5; // Fixed 5% discount - higher discounts only via chatbot
-                
-                const discountedPrice = calculateOfferPrice(tire.base_price, quantity);
-                
-                return (
-                  <div key={tire.id} className={styles.tireCard}>
-                    <div className={styles.tireImageContainer}>
-                      {tire.brand.toLowerCase().includes('michelin') ? (
-                        <div>
-                          <Image 
-                            src="/tires/michelin-pilot-sport-4s.jpg" 
-                            alt={`${tire.brand} ${tire.model}`}
-                            width={300}
-                            height={300}
-                            priority
-                            unoptimized
-                          />
-                        </div>
-                      ) : tire.brand.toLowerCase().includes('continental') ? (
-                        <div>
-                          <Image 
-                            src="/tires/continental-dws06.jpg" 
-                            alt={`${tire.brand} ${tire.model}`}
-                            width={300}
-                            height={300}
-                            priority
-                            unoptimized
-                          />
-                        </div>
-                      ) : tire.brand.toLowerCase().includes('bridgestone') ? (
-                        <div>
-                          <Image 
-                            src="/tires/bridgestone.webp" 
-                            alt={`${tire.brand} ${tire.model}`}
-                            width={300}
-                            height={300}
-                            priority
-                            unoptimized
-                          />
-                        </div>
-                      ) : tire.brand.toLowerCase().includes('pirelli') ? (
-                        <div>
-                          <Image 
-                            src="/tires/Pirelli-Cintaurato-P7.jpg" 
-                            alt={`${tire.brand} ${tire.model}`}
-                            width={300}
-                            height={300}
-                            priority
-                            unoptimized
-                          />
-                        </div>
-                      ) : tire.brand.toLowerCase().includes('goodyear') ? (
-                        <div>
-                          <Image 
-                            src="/tires/goodyear-nascar-225-60r16.webp" 
-                            alt={`${tire.brand} ${tire.model}`}
-                            width={300}
-                            height={300}
-                            priority
-                            unoptimized
-                          />
-                        </div>
-                      ) : (
-                        <div>
-                          <Image 
-                            src="/tires/michelin-pilot-sport-4s.jpg" 
-                            alt={`${tire.brand} ${tire.model}`}
-                            width={300}
-                            height={300}
-                            priority
-                            unoptimized
-                          />
-                        </div>
-                      )}
-                    </div>
-                    <div className={styles.tireInfo}>
-                      <h2 className={styles.tireName}>{tire.brand} {tire.model}</h2>
-                      <p className={styles.tireSize}>Size: {tire.full_size}</p>
-                      <div className={styles.priceContainer}>
-                        <span className={styles.originalPrice}>${tire.base_price.toFixed(2)}</span>
-                        <span className={styles.discountedPrice}>${discountedPrice}</span>
-                        <span style={{marginLeft: '5px', fontSize: '0.8rem', color: '#e00000', fontWeight: '500'}}>
-                          Standard 5% off
-                        </span>
-                      </div>
-                      <p className={styles.tireDescription}>{tire.description}</p>
-                      {tire.features && (
-                        <div className={styles.tireFeatures}>
-                          <span className={styles.featureTag}>
-                            {JSON.parse(tire.features).type}
-                          </span>
-                        </div>
-                      )}
-                      <div className={styles.quantitySelector}>
-                        <div 
-                          className={styles.quantityButton} 
-                          onClick={() => handleQuantityChange(tire.id.toString(), (quantities[tire.id.toString()] || 1) - 1)}
+          {/* Tire Listings */}
+          <div className={styles.tireListings}>
+            {isLoading ? (
+              <div className={styles.loading}>Loading tire options...</div>
+            ) : filteredTires.length === 0 ? (
+              <div className={styles.noResults}>
+                No tires found matching your criteria. Try adjusting your filters.
+              </div>
+            ) : (
+              filteredTires.map((tire) => (
+                <div key={tire.id} className={styles.tireCard}>
+                  <div className={styles.tireImage}>
+                    <Image
+                      src={tire.image_url}
+                      alt={`${tire.brand} ${tire.model}`}
+                      width={300}
+                      height={300}
+                      className={styles.tireImage}
+                    />
+                  </div>
+                  <div className={styles.tireInfo}>
+                    <h3>{tire.brand} {tire.model}</h3>
+                    <p className={styles.tireSize}>{tire.full_size}</p>
+                    <p className={styles.tirePrice}>
+                      <span className={styles.originalPrice}>${tire.base_price}</span>
+                      <span className={styles.discountedPrice}>
+                        ${offerPrices[tire.id] || (tire.base_price * 0.95).toFixed(2)}
+                      </span>
+                    </p>
+                    
+                    <div className={styles.quantityWrapper}>
+                      <span className={styles.quantityLabel}>Quantity:</span>
+                      <div className={styles.quantityControl}>
+                        <button
+                          className={styles.quantityButton}
+                          onClick={() => handleQuantityChange(tire.id, (quantities[tire.id] || 1) - 1)}
+                          disabled={(quantities[tire.id] || 1) <= 1}
+                          aria-label="Decrease quantity"
                         >
                           -
-                        </div>
-                        <input 
-                          type="text" 
+                        </button>
+                        <input
+                          type="number"
+                          min="1"
+                          max="99"
+                          value={quantities[tire.id] || 1}
+                          onChange={(e) => handleQuantityChange(tire.id, parseInt(e.target.value) || 1)}
                           className={styles.quantityInput}
-                          value={quantities[tire.id.toString()] || 1}
-                          readOnly
+                          aria-label="Tire quantity"
                         />
-                        <div 
+                        <button
                           className={styles.quantityButton}
-                          onClick={() => handleQuantityChange(tire.id.toString(), (quantities[tire.id.toString()] || 1) + 1)}
+                          onClick={() => handleQuantityChange(tire.id, (quantities[tire.id] || 1) + 1)}
+                          aria-label="Increase quantity"
                         >
                           +
-                        </div>
+                        </button>
                       </div>
-                      <div className={styles.tireActions}>
-                        <button 
-                          className={styles.chatButton}
-                          onClick={() => handleChatAboutTire(tire)}
-                        >
-                          Get Your Best Price
-                        </button>
-                        <button 
+                    </div>
+                    
+                    <p className={styles.tireDescription}>{tire.description}</p>
+                    <div className={styles.tireFeatures}>
+                      {tire.features.map((feature: string, index: number) => (
+                        <span key={index} className={styles.featureTag}>
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
+                    <div className={styles.tireActions}>
+                      <button
+                        className={styles.chatButton}
+                        onClick={() => handleChatAboutTire(tire)}
+                      >
+                        Chat about this tire
+                      </button>
+                      
+                      <div className={styles.actionButtons}>
+                        <button
                           className={styles.addToCartButton}
-                          onClick={() => handleAddToCart(tire)}
+                          onClick={() => handleAddToCart(tire, quantities[tire.id] || 1)}
                         >
-                          Add to Cart
+                          Add to Cart ({quantities[tire.id] || 1})
                         </button>
-                        <button 
-                          className={styles.buyButton}
-                          onClick={() => handleBuyNow(tire)}
+                        <button
+                          className={styles.buyNowButton}
+                          onClick={() => handleBuyNow(tire, quantities[tire.id] || 1)}
                         >
                           Buy Now
                         </button>
                       </div>
                     </div>
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
 
@@ -797,7 +758,7 @@ export default function VehicleTires() {
                 </button>
               </div>
               <div className={styles.chatModalBody}>
-                <ChatInterface 
+                <CursorChatInterface 
                   tireId={parseInt(activeTire.id.split('-')[1] || '1')} 
                   tireName={`${activeTire.brand} ${activeTire.model}`} 
                 />
